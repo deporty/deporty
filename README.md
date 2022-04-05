@@ -1,1 +1,1 @@
-# sport-tournament
+# sports-tournament
