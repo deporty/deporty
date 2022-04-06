@@ -1,9 +1,52 @@
 <div class="container">
-  <div class="row">Panel de búsqueda</div>
+  <form [formGroup]="formGroup">
+    <div class="row">
+      <mat-form-field class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12">
+        <mat-label>Nombre</mat-label>
+        <mat-icon matSuffix>person</mat-icon>
+        <input matInput formControlName="name" />
+      </mat-form-field>
+
+      <mat-form-field class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12">
+        <mat-label>Apellidos</mat-label>
+        <mat-icon matSuffix>short_text</mat-icon>
+        <input matInput formControlName="name" />
+      </mat-form-field>
+
+      <mat-form-field class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12">
+        <mat-label>Cédula</mat-label>
+        <mat-icon matSuffix>fingerprint</mat-icon>
+        <input matInput formControlName="name" />
+      </mat-form-field>
+    </div>
+  </form>
   <div class="row">
-    <span *ngFor="let player of players | async">
-      {{ player.name }}
-      {{ player.lastName }}
-    </span>
+    <div class="col">
+      <table width="500px">
+        <tr>
+          <th>Cédula</th>
+          <th>Nombre</th>
+          <th>Apellidos</th>
+        </tr>
+
+        <tr *ngFor="let player of players | async">
+          <td>{{ player.id }}</td>
+          <td>{{ player.name }}</td>
+          <td>{{ player.lastName }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <button
+        mat-button
+        mat-raised-button
+        (click)="createUser()"
+        color="primary"
+      >
+        Crear jugador
+      </button>
+    </div>
   </div>
 </div>
