@@ -1,7 +1,19 @@
-<p>home works!</p>
-adfadfadfadasdf
-adfadfadfadasdfasfd
-<a href="f
-
-
-"></a>
+<div class="container">
+  <h1>Marchagas</h1>
+  <div class="row">
+    <div class="col-3" *ngFor="let module of modules" >
+      <mat-card (click)="goModule(module.route)" class="example-card">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title>{{ module.name }}</mat-card-title>
+        </mat-card-header>
+        <img mat-card-image [src]="module.img" alt="Photo of a Shiba Inu" />
+        <mat-card-content>
+          <p>
+            {{ module.description }}
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

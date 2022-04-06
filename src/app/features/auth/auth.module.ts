@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CoreModule } from 'src/app/core/core.module';
+import { IsUserLoggedInUsecase } from './domain/usecases/is-user-logged-in/is-user-logged-in.usecase';
 
 @NgModule({
   declarations: [LoginComponent],
@@ -32,6 +33,7 @@ import { CoreModule } from 'src/app/core/core.module';
   ],
   providers: [
     LoginUserUsecase,
+    IsUserLoggedInUsecase,
     { provide: AuthenticationRepository, useClass: AuthenticationService },
   ],
   exports: [RouterModule],
