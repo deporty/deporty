@@ -36,6 +36,7 @@ export class LoginUserUsecase {
         .login(credentials.email, credentials.password)
         .subscribe((token) => {
           if (token) {
+            console.log(token);
             this.tokenService.saveToken(token);
             observer.next(token);
             observer.complete();
