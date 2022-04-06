@@ -16,7 +16,8 @@ const firebaseConfig = {
   measurementId: 'G-JMZ3ERQHMX',
 };
 
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
 // const analytics = getAnalytics(app);
 
 export function init(): Promise<any> {
@@ -26,7 +27,6 @@ export function init(): Promise<any> {
   });
 }
 
-const db = getFirestore(app);
 
 async function getCities(db: Firestore) {
   const citiesCol = collection(db, 'cities');

@@ -1,1 +1,9 @@
-<p>players-summary-list works!</p>
+<div class="container">
+  <div class="row">Panel de búsqueda</div>
+  <div class="row">
+    <span *ngFor="let player of players | async">
+      {{ player.name }}
+      {{ player.lastName }}
+    </span>
+  </div>
+</div>
