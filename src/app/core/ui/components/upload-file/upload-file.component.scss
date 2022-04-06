@@ -1,0 +1,336 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,400i,700");
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: Roboto, sans-serif;
+  background: #eceffc;
+}
+
+.upload {
+  --btn-color: #3bafda;
+  --progress-color: #2d334c;
+  --ease-in-out-quartic: cubic-bezier(0.77, 0, 0.175, 1);
+
+  position: relative;
+  display: flex;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 1.7px 1.4px rgba(0, 0, 0, 0.02),
+    0 4px 3.3px rgba(0, 0, 0, 0.028), 0 7.5px 6.3px rgba(0, 0, 0, 0.035),
+    0 13.4px 11.2px rgba(0, 0, 0, 0.042), 0 25.1px 20.9px rgba(0, 0, 0, 0.05),
+    0 60px 50px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+  transform: rotate(0);
+
+  &__info {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    margin-right: 40px;
+  }
+
+  &__filename {
+    padding-left: 8px;
+  }
+
+  &__button {
+    position: relative;
+    padding: 16px;
+    margin: 0;
+    font-size: 100%;
+    font-family: inherit;
+    color: white;
+    background: none;
+    border: none;
+    border-radius: inherit;
+    outline: none;
+    cursor: pointer;
+    transform: scale(0.9);
+
+    &::before {
+      position: absolute;
+      content: "";
+      z-index: -1;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--btn-color);
+      border-radius: inherit;
+      transform-origin: right;
+    }
+  }
+
+  &__hint {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    color: white;
+    transform: translateY(100%);
+  }
+
+  &__progress {
+    position: absolute;
+    content: "";
+    top: 90%;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    color: white;
+    background: var(--progress-color);
+    transform: scaleX(0);
+    transform-origin: left;
+
+    .check {
+      stroke-dasharray: 16px;
+      stroke-dashoffset: 16px;
+      margin-right: 6px;
+    }
+  }
+
+  &.uploading {
+    .upload__button {
+      animation: expand 0.3s forwards;
+
+      &::before {
+        animation: fill-left 1.2s 0.4s var(--ease-in-out-quartic) forwards;
+      }
+    }
+
+    .upload__info > *,
+    .upload__button__text {
+      animation: fade-up-out 0.4s 0.4s forwards;
+    }
+
+    .upload__hint {
+      animation: fade-up-in 0.4s 0.8s forwards;
+    }
+
+    .upload__progress {
+      animation: fill-right 2s 1s var(--ease-in-out-quartic) forwards;
+    }
+  }
+
+  &.uploaded {
+    .upload__progress {
+      animation: slide-up 1s var(--ease-in-out-quartic) forwards;
+
+      .check {
+        animation: stroke-in 0.6s 0.4s var(--ease-in-out-quartic) forwards;
+      }
+    }
+  }
+
+  &.uploaded-after {
+    .upload__info {
+      animation: slide-down-info 1s var(--ease-in-out-quartic) forwards;
+    }
+
+    .upload__button {
+      animation: slide-down-button 1s var(--ease-in-out-quartic) forwards;
+    }
+
+    .upload__progress {
+      animation: slide-down-progress 1s var(--ease-in-out-quartic) forwards;
+    }
+  }
+}
+
+@keyframes expand {
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes fill-left {
+  to {
+    transform: scale(4, 1.2);
+  }
+}
+
+@keyframes fade-up-out {
+  to {
+    opacity: 0;
+    transform: translateY(-40%);
+  }
+}
+
+@keyframes fade-up-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fill-right {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: scaleX(1) translateY(0);
+  }
+
+  to {
+    transform: scaleX(1) translateY(-90%);
+  }
+}
+
+@keyframes stroke-in {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes slide-down-info {
+  from {
+    transform: translateY(-100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-down-button {
+  from {
+    transform: scale(0.9) translateY(-100%);
+  }
+
+  to {
+    transform: scale(0.9) translateY(0);
+  }
+}
+
+@keyframes slide-down-progress {
+  from {
+    transform: scaleX(1) translateY(-90%);
+  }
+
+  to {
+    transform: scaleX(1) translateY(10%);
+  }
+}
+// --------------------------------------------
+
+
+
+[type="file"] {
+  height: 0;
+  overflow: hidden;
+  width: 0;
+}
+
+[type="file"] + label {
+  background: #f15d22;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: 'Rubik', sans-serif;
+  font-size: inherit;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  outline: none;
+  padding: 1rem 50px;
+  position: relative;
+  transition: all 0.3s;
+  vertical-align: middle;
+  
+  &:hover {
+    background-color: darken(#f15d22, 10%);
+  }
+  
+  &.btn-1 {
+    background-color: #f79159;
+    box-shadow: 0 6px darken(#f79159, 10%);
+    transition: none;
+
+    &:hover {
+      box-shadow: 0 4px darken(#f79159, 10%);
+      top: 2px;
+    }
+  }
+  
+  &.btn-2 {
+    background-color: #99c793;
+    border-radius: 50px;
+    overflow: hidden;
+    
+    &::before {
+      color: #fff;
+      content: "\f382";
+      font-family: "Font Awesome 5 Pro";
+      font-size: 100%;
+      height: 100%;
+      right: 130%;
+      line-height: 3.3;
+      position: absolute;
+      top: 0px;
+      transition: all 0.3s;
+    }
+
+    &:hover {
+      background-color: darken(#99c793, 30%);
+        
+      &::before {
+        right: 75%;
+      }
+    }
+  }
+  
+  &.btn-3 {
+    background-color: #ee6d9e;
+    border-radius: 0;
+    overflow: hidden;
+    
+    span {
+      display: inline-block;
+      height: 100%;
+      transition: all 0.3s;
+      width: 100%;
+    }
+    
+    &::before {
+      color: #fff;
+      content: "\f382";
+      font-family: "Font Awesome 5 Pro";
+      font-size: 130%;
+      height: 100%;
+      left: 0;
+      line-height: 2.6;
+      position: absolute;
+      top: -180%;
+      transition: all 0.3s;
+      width: 100%;
+    }
+
+    &:hover {
+      background-color: darken(#ee6d9e, 30%);
+      
+      span {
+        transform: translateY(300%);
+      }
+        
+      &::before {
+        top: 0;
+      }
+    }
+  }
+}
+
+// 

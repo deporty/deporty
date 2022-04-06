@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { PlayersRoutingModule } from 'src/app/features/players/players-routing.module';
 
 @Component({
@@ -34,10 +35,10 @@ export class HomeComponent implements OnInit {
       route: 'players',
     },
   ];
-  constructor() {}
+  constructor(private router: Router) {}
 
-  goModule(route: string){
-
+  goModule(route: string) {
+    this.router.navigate([route]);
   }
   ngOnInit(): void {}
 }
