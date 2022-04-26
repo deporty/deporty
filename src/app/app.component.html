@@ -1,2 +1,32 @@
-<router-outlet>
-</router-outlet>
+<mat-drawer-container class="h-100" autosize>
+  <!-- <mat-sidenav position="start">Start</mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet> </router-outlet>
+  </mat-sidenav-content> -->
+
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+    <img width="150px" src="assets/brand/deporty-isologotipo.png" alt="" />
+    <mat-list role="list">
+      <mat-list-item class="app-item" [routerLink]="['./players']"
+        >Jugadores</mat-list-item
+      >
+      <mat-list-item class="app-item" [routerLink]="['./teams']"
+        >Equipos</mat-list-item
+      >
+      <mat-list-item class="app-item" [routerLink]="['./tournaments']"
+        >Torneos</mat-list-item
+      >
+    </mat-list>
+  </mat-drawer>
+  <mat-toolbar color="primary">
+    <button
+      mat-icon-button
+      (click)="drawer.toggle()"
+      aria-label="Example icon-button with menu icon"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Deporty</span>
+  </mat-toolbar>
+  <router-outlet> </router-outlet>
+</mat-drawer-container>

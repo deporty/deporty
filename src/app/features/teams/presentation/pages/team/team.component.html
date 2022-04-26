@@ -1,0 +1,8 @@
+<ul></ul>
+<aside *ngIf="selectedMember" class="c"></aside>
+
+<div class="row">
+  <div *ngFor="let player of team.players" class="col-lg-3 my-3">
+    <app-player-card [player]="player"></app-player-card>
+  </div>
+</div>

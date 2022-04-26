@@ -1,3 +1,4 @@
+import { getAnalytics } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
 import {
   getFirestore,
@@ -7,18 +8,18 @@ import {
 } from 'firebase/firestore/lite';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyD7o9ylz719_5yNonHvoFWQhMJ1ZOoNH5c',
-  authDomain: 'sports-tournament-13ff7.firebaseapp.com',
-  projectId: 'sports-tournament-13ff7',
-  storageBucket: 'sports-tournament-13ff7.appspot.com',
-  messagingSenderId: '762903484984',
-  appId: '1:762903484984:web:c6b87a2820d05ba41464cd',
-  measurementId: 'G-JMZ3ERQHMX',
+  apiKey: "AIzaSyCmfXDNcDTHtWgc8DnieEk0MS6KUogR-Rc",
+  authDomain: "deporty-app.firebaseapp.com",
+  projectId: "deporty-app",
+  storageBucket: "deporty-app.appspot.com",
+  messagingSenderId: "861456172435",
+  appId: "1:861456172435:web:edaf5251b6866e8fe8d466",
+  measurementId: "G-NLEM82Z201"
 };
 
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
-// const analytics = getAnalytics(app);
+export const analytics = getAnalytics(app);
 
 export function init(): Promise<any> {
   return new Promise((resolve, reject) => {

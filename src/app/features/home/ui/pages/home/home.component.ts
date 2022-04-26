@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
       description:
         'Aquí podrá crear, editar y ver equipos, al igual que sus integrantes y demás información.',
       img: 'https://firebasestorage.googleapis.com/v0/b/sports-tournament-13ff7.appspot.com/o/general%2Fhome%2Fteams-module.png?alt=media&token=390c6032-aca7-49b8-bd6d-d310e8154cff',
-      route: 'players',
+      route: 'teams',
     },
 
     {
