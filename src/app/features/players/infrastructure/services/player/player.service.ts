@@ -3,7 +3,7 @@ import { collection, getDocs } from 'firebase/firestore/lite';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { db } from 'src/app/init-app';
-import { PlayerRepository } from '../../../domain/repository/player.repository';
+import { PlayerRepository } from '../../../domain/adapters/player.repository';
 import { PlayerMapper } from '../../mappers/player.mapper';
 
 @Injectable()
