@@ -1,21 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CurrentTournamentComponent } from './ui/pages/current-tournament/current-tournament.component';
-import { TournamentListComponent } from './ui/pages/tournament-list/tournament-list.component';
-import { CreateTournamentComponent } from './ui/pages/create-tournament/create-tournament.component';
-import { EditTournamentComponent } from './ui/pages/edit-tournament/edit-tournament.component';
 
-
+import { TournamentsRoutingModule } from './tournaments-routing.module';
+import { PagesModule } from './presentation/pages/pages.module';
+import { UsecasesModule } from './usecases/usecases.module';
+import { InfrastructureModule } from './infrastructure/infrastructure.module';
 
 @NgModule({
-  declarations: [
-    CurrentTournamentComponent,
-    TournamentListComponent,
-    CreateTournamentComponent,
-    EditTournamentComponent
-  ],
+  declarations: [],
   imports: [
-    CommonModule
-  ]
+    CommonModule,
+    TournamentsRoutingModule,
+    PagesModule,
+    UsecasesModule,
+    InfrastructureModule
+  ],
 })
-export class TournamentsModule { }
+export class TournamentsModule {}

@@ -5,6 +5,7 @@ export class TeamMapper {
   fromJson(obj: any): ITeamModel {
     return {
       name: obj['name'],
+      id: obj['id'],
       athem: obj['athem'],
       members: obj['members'],
       shield: obj['shield'],

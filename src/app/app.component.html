@@ -5,7 +5,7 @@
   </mat-sidenav-content> -->
 
   <mat-drawer #drawer class="example-sidenav" mode="side">
-    <img width="150px" src="assets/brand/deporty-isologotipo.png" alt="" />
+    <img width="200px" src="assets/brand/deporty-isologotipo.jpg" alt="" />
     <mat-list role="list">
       <mat-list-item class="app-item" [routerLink]="['./players']"
         >Jugadores</mat-list-item
@@ -15,6 +15,9 @@
       >
       <mat-list-item class="app-item" [routerLink]="['./tournaments']"
         >Torneos</mat-list-item
+      >
+      <mat-list-item class="app-item" [routerLink]="['./tournaments']"
+        >Tiendas Deportivas</mat-list-item
       >
     </mat-list>
   </mat-drawer>
@@ -27,6 +30,24 @@
       <mat-icon>menu</mat-icon>
     </button>
     <span>Deporty</span>
+    <!-- col-xl-11 col-lg-10 col-md-10 col-sm-10 col-xs-10  -->
+    <!-- col-xl-1 col-lg-2 col-md-2 col-sm-2 col-xs-2  -->
   </mat-toolbar>
-  <router-outlet> </router-outlet>
+  <div class="d-flex app-container">
+    <div class="app-main-container">
+      <div class="container-fluid">
+
+        <div class="row no-gutters">
+          <router-outlet> </router-outlet>
+        </div>
+      </div>
+      <div class="row no-gutters ad-footer">
+        <img src="./assets/ads/xl.png" alt="" srcset="" />
+      </div>
+    </div>
+
+    <aside class="ad-aside">
+      <img src="./assets/ad-vertical.jpg" width="100%" alt="" srcset="" />
+    </aside>
+  </div>
 </mat-drawer-container>

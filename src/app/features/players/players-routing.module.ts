@@ -1,18 +1,18 @@
 import { Component, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { PlayersSummaryListComponent } from './presentation/pages/players-summary-list/players-summary-list.component';
 import { CreatePlayerComponent } from './presentation/pages/create-player/create-player.component';
+import { ViewAllComponent } from './presentation/pages/view-all/view-all.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: PlayersSummaryListComponent,
+    component: ViewAllComponent,
   },
 
   {
-    path: PlayersSummaryListComponent.route,
-    component: PlayersSummaryListComponent,
+    path: ViewAllComponent.route,
+    component: ViewAllComponent,
   },
   {
     path: CreatePlayerComponent.route,

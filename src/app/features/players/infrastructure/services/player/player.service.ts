@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { collection, getDocs } from 'firebase/firestore/lite';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { db } from 'src/app/init-app';
+import { firestore } from 'src/app/init-app';
 import { PlayerRepository } from '../../../domain/adapters/player.repository';
 import { PlayerMapper } from '../../mappers/player.mapper';
 
@@ -13,7 +13,7 @@ export class PlayerService extends PlayerRepository {
     super();
   }
   public getAllSummaryPlayers(): Observable<any> {
-    const citiesCol = collection(db, PlayerService.collection);
+    const citiesCol = collection(firestore, PlayerService.collection);
 
     return from(getDocs(citiesCol)).pipe(
       map((citySnapshot) => {

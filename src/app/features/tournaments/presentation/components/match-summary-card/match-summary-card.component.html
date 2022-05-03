@@ -1,0 +1,9 @@
+<div class="d-flex">
+  <app-team-summary-card [team]="match.teamA"> </app-team-summary-card>
+  <strong class="mx-2" *ngIf="match.score">{{ match.score.teamA }}</strong>
+</div>
+<span> v </span>
+<div class="d-flex">
+  <strong class="mx-2" *ngIf="match.score">{{ match.score.teamB }}</strong>
+  <app-team-summary-card [team]="match.teamB"> </app-team-summary-card>
+</div>

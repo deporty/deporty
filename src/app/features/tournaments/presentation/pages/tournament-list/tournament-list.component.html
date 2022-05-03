@@ -1,0 +1,11 @@
+<div class="container py-3 px-3" *ngIf="tournaments">
+  <div class="row">
+    <div class="col-4" *ngFor="let tournament of tournaments">
+      <app-tournament-card
+        [tournament]="tournament"
+        (click)="goToTournamentDetail(tournament.id)"
+      >
+      </app-tournament-card>
+    </div>
+  </div>
+</div>

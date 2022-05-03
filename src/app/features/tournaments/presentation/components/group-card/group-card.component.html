@@ -1,0 +1,28 @@
+
+<div class="row d-flex">
+  <section class="col-6" *ngIf="group && group.teams">
+    <strong mat-subheader>Equipos</strong>
+
+    <mat-list>
+      <mat-list-item *ngFor="let team of group.teams">
+        <app-team-summary-card [team]="team"> </app-team-summary-card>
+      </mat-list-item>
+    </mat-list>
+  </section>
+
+  <section class="col-6" *ngIf="group && group.matches && group.matches.length > 0">
+    <strong mat-subheader>Partidos</strong>
+
+    <mat-list>
+      <mat-list-item *ngFor="let match of group.matches">
+        <app-match-summary-card [match]="match"> </app-match-summary-card>
+      </mat-list-item>
+    </mat-list>
+  </section>
+
+</div>
+<div class="row">
+  <app-position-table-card class="mt-5" [results]="results">
+
+  </app-position-table-card>
+</div>

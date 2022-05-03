@@ -18,7 +18,7 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
+export const firestore = getFirestore(app);
 export const analytics = getAnalytics(app);
 
 export function init(): Promise<any> {
@@ -28,10 +28,3 @@ export function init(): Promise<any> {
   });
 }
 
-
-async function getCities(db: Firestore) {
-  const citiesCol = collection(db, 'cities');
-  const citySnapshot = await getDocs(citiesCol);
-  const cityList = citySnapshot.docs.map((doc) => doc.data());
-  return cityList;
-}

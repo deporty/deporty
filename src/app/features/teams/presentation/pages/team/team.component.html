@@ -1,8 +1,19 @@
-<ul></ul>
-<aside *ngIf="selectedMember" class="c"></aside>
-
-<div class="row">
-  <div *ngFor="let player of team.players" class="col-lg-3 my-3">
-    <app-player-card [player]="player"></app-player-card>
+<div class="row d-flex">
+  <div class="col-4">
+    <app-team-card [team]="team"> </app-team-card>
   </div>
+  <div class="col-8">
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. In cum similique
+      suscipit aut alias itaque laudantium repellat dolore quae, ducimus,
+      consequuntur tempore aliquid animi ea architecto accusantium corrupti
+      magnam id.
+    </p>
+  </div>
+</div>
+
+<h2>Jugadores</h2>
+
+<div class="players">
+  <app-players-summary-list [players]="team.players"></app-players-summary-list>
 </div>

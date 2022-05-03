@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit, Optional } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IPlayerModel } from '../../../models/player.model';
 
 @Component({
@@ -8,7 +9,12 @@ import { IPlayerModel } from '../../../models/player.model';
 })
 export class PlayerCardComponent implements OnInit {
   @Input() player!: IPlayerModel;
-  constructor() {}
+  constructor(@Inject(MAT_DIALOG_DATA) @Optional() public data: IPlayerModel) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.data, this.player)
+    if (this.data && !this.player) {
+      this.player = this.data;
+    }
+  }
 }

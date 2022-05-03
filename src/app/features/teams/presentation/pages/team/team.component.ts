@@ -14,7 +14,10 @@ export class TeamComponent implements OnInit {
   selectedMember: any;
 
   team = {
+    id: '1',
+    name: 'Cucos F.C.',
     'technical stuff': {},
+    shield: 'https://firebasestorage.googleapis.com/v0/b/deporty-app.appspot.com/o/teams%2FghgnWGJjSe4mjLBo7MXL%2Fbrand%2Fshield.png?alt=media&token=d8e7b496-50fa-404e-bd35-c645ffa90952',
     players: [
       {
         name: 'Simón Osorio Castaño',
