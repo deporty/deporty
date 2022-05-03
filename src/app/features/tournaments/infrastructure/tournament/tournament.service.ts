@@ -20,7 +20,6 @@ import { map } from 'rxjs/operators';
 import { firestore } from 'src/app/init-app';
 import { TournamentAdapter } from '../../adapters/tournament.adapter';
 import { IFixtureStageModel } from '../../models/fixture-stage.model';
-import { IFixtureModel } from '../../models/fixture.model';
 import { IMatchModel } from '../../models/match.model';
 import { ITournamentModel } from '../../models/tournament.model';
 import { FixtureStageMapper } from './fixture-stage.mapper';
