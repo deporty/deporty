@@ -4,12 +4,42 @@ import { PlayerCardComponent } from './player-card/player-card.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatBadgeModule } from '@angular/material/badge';
+import { PlayersTableComponent } from './players-table/players-table.component';
+import { PlayersSummaryListComponent } from './players-summary-list/players-summary-list.component';
+import { MatIconModule } from '@angular/material/icon';
+import { CoreModule } from 'src/app/core/core.module';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSortModule } from '@angular/material/sort';
+import { MatListModule } from '@angular/material/list';
+import { MatDialogModule } from '@angular/material/dialog';
 
-const COMPONENTS = [PlayerCardComponent];
+const COMPONENTS = [
+  PlayerCardComponent,
+  PlayersSummaryListComponent,
+  PlayersTableComponent,
+];
 
 @NgModule({
   declarations: [...COMPONENTS],
   exports: [...COMPONENTS],
-  imports: [CommonModule, MatButtonModule, MatCardModule, MatBadgeModule],
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatCardModule,
+    MatBadgeModule,
+    MatIconModule,
+    MatListModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatDialogModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatSortModule,
+    MatButtonModule,
+    MatIconModule,
+    CoreModule,
+  ],
 })
 export class ComponentsModule {}

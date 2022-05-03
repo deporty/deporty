@@ -1,17 +1,18 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CreatePlayerComponent } from './create-player/create-player.component';
-import { PlayersSummaryListComponent } from './players-summary-list/players-summary-list.component';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
+import { MatSortModule } from '@angular/material/sort';
 import { CoreModule } from 'src/app/core/core.module';
 import { ComponentsModule } from '../components/components.module';
+import { CreatePlayerComponent } from './create-player/create-player.component';
+import { ViewAllComponent } from './view-all/view-all.component';
 
-const COMPONENTS = [CreatePlayerComponent, PlayersSummaryListComponent];
+const COMPONENTS = [CreatePlayerComponent, ViewAllComponent];
 
 @NgModule({
   declarations: [...COMPONENTS],
@@ -20,12 +21,14 @@ const COMPONENTS = [CreatePlayerComponent, PlayersSummaryListComponent];
     CommonModule,
     MatInputModule,
     MatFormFieldModule,
+    MatDialogModule,
     ReactiveFormsModule,
     FormsModule,
     MatSortModule,
     MatButtonModule,
     MatIconModule,
     CoreModule,
+    ComponentsModule,
   ],
 })
 export class PagesModule {}

@@ -1,0 +1,22 @@
+<mat-card>
+  <img
+    mat-card-image
+    src="{{
+      tournament.flayer ||
+        'https://firebasestorage.googleapis.com/v0/b/deporty-app.appspot.com/o/default-pictures%2Fdefault-player-profile.png?alt=media&token=fa007b78-7fc5-41cd-a14a-cae5c7d9fd88'
+    }}"
+    class="card-img-top"
+    alt="   {{ tournament.name }}"
+  />
+  <mat-card-content>
+    <h5 class="card-title text-center">
+      <button mat-button mat-raised-button color="primary">
+        {{ tournament.name }}
+      </button>
+    </h5>
+    <p class="text-center">
+      <!-- {{ tournament.startsDate}} -->
+    </p>
+   
+  </mat-card-content>
+</mat-card>

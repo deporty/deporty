@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <table width="500px">
+        <tr>
+          <th>Cédula</th>
+          <th>Nombre</th>
+          <th>Apellidos</th>
+          <th>Acciones</th>
+        </tr>
+
+        <tr *ngFor="let player of players">
+          <td>{{ player.id }}</td>
+          <td>{{ player.name }}</td>
+          <td>{{ player.lastName }}</td>
+          <td>
+            <mat-icon (click)="onSelectedPlayer.emit(player)" size="small"> open_in_full </mat-icon>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

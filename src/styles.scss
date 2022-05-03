@@ -18,7 +18,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$candy-app-primary: mat-palette($mat-orange, A200, A200, A100);
+$candy-app-primary: mat-palette($mat-red, A200, A300, A400);
 $candy-app-accent:  mat-palette($mat-pink, A100, A100, A400);
 
 // The warn palette is optional (defaults to red).
@@ -38,3 +38,16 @@ $candy-app-theme: mat-light-theme((
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($candy-app-theme);
+
+
+*::-webkit-scrollbar {
+  width: 9px; /* width of the entire scrollbar */
+}
+*::-webkit-scrollbar-track {
+  background: rgb(220, 220, 220); /* color of the tracking area */
+}
+*::-webkit-scrollbar-thumb {
+  background-color: rgb(196, 196, 196); /* color of the scroll thumb */
+  border-radius: 10px; /* roundness of the scroll thumb */
+  border: 3px solid rgb(196, 196, 196); /* creates padding around scroll thumb */
+}

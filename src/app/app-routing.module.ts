@@ -6,6 +6,7 @@ import { AuthModule } from './features/auth/auth.module';
 import { HomeRoutingModule } from './features/home/home-routing.module';
 import { PlayersRoutingModule } from './features/players/players-routing.module';
 import { TeamsRoutingModule } from './features/teams/teams-routing.module';
+import { TournamentsRoutingModule } from './features/tournaments/tournaments-routing.module';
 
 const routes: Routes = [
   {
@@ -37,6 +38,15 @@ const routes: Routes = [
       import('./features/teams/teams.module').then((m) => m.TeamsModule),
     canLoad: [IsLoggedInGuard],
   },
+
+  {
+    path: TournamentsRoutingModule.route,
+    loadChildren: () =>
+      import('./features/tournaments/tournaments.module').then((m) => m.TournamentsModule),
+    canLoad: [IsLoggedInGuard],
+  },
+
+  
 ];
 
 @NgModule({
