@@ -29,6 +29,7 @@ import { TournamentMapper } from './tournament.mapper';
 
 @Injectable()
 export class TournamentService extends TournamentAdapter {
+  
   static collection = 'tournaments';
   private collectionRef: CollectionReference<DocumentData>;
   constructor(
@@ -104,5 +105,9 @@ export class TournamentService extends TournamentAdapter {
         });
       })
     );
+  }
+
+  getGroupsMatchesByTournamentId(tournamentId: string, stageIndex: number, groupIndex: number): Observable<IMatchModel[]> {
+    throw new Error('Method not implemented.');
   }
 }

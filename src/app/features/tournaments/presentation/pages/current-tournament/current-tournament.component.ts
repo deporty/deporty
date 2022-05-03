@@ -12,6 +12,9 @@ import { TournamentListComponent } from '../tournament-list/tournament-list.comp
 })
 export class CurrentTournamentComponent implements OnInit {
   static route = 'current-tournament';
+
+  body: any;
+
   tournament!: ITournamentModel;
   $tournament!: Observable<ITournamentModel | null>;
   $tournamentSubscription!: Subscription;
@@ -20,7 +23,51 @@ export class CurrentTournamentComponent implements OnInit {
     private getCurrentTournamentUsecase: GetCurrentTournamentUsecase,
     private activatedRoute: ActivatedRoute,
     private router: Router
-  ) {}
+  ) {
+    this.body = {
+      children: [
+        {
+          component: 'app-header',
+          data: {
+            title: 'Partido preparatorio o partido clandestino',
+            subtitle: '02-02-2022',
+          },
+          children: [],
+        },
+        {
+          component: 'app-paragraph',
+          data: {
+            text: `
+                  Anoche varios jugadores titulares y suplentes de CUCOS F.C. jugaron un partido en el 
+                  centro deportivo Terminal de manizales, con el equipo del capitán Vásquez y su combo. Se comenta
+                  que el partido pudo no ser oficial porque su técnico no se encontraba en el banquillo, lo que 
+                  genera muchas dudas entre los aficionados.
+                  `,
+            img: 'assets/general.png',
+            'img-position': 'left',
+            subtitle: '',
+          },
+          children: [],
+        },
+
+        {
+          component: 'app-paragraph',
+          data: {
+            text: `
+                 Se comenta que el jugador titular "Mono" y el jugador suplente "Leche"
+                 salieron del partido lesionados; los que compromete su participación en las proximas fechas 
+                 oficiales.
+                  `,
+            'img-position': 'left',
+            title: 'Ganaron pero a qué costo',
+          },
+          children: [],
+        },
+
+       
+      ],
+    };
+  }
 
   ngOnInit(): void {
     this.$tournament = this.getCurrentTournamentUsecase.call('marchagas');

@@ -1,4 +1,7 @@
 :host{
     display: flex;
     flex-direction: column;
+    .position-table{
+        overflow-x: auto;
+    }
 }

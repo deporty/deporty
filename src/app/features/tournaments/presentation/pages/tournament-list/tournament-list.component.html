@@ -1,6 +1,6 @@
 <div class="container py-3 px-3" *ngIf="tournaments">
   <div class="row">
-    <div class="col-4" *ngFor="let tournament of tournaments">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2" *ngFor="let tournament of tournaments">
       <app-tournament-card
         [tournament]="tournament"
         (click)="goToTournamentDetail(tournament.id)"
