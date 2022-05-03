@@ -1,6 +1,6 @@
 
 <div class="row d-flex">
-  <section class="col-6" *ngIf="group && group.teams">
+  <section class="col-xs-12 col-sm-6 col-md-8 col-lg-6 col-xl-6" *ngIf="group && group.teams">
     <strong mat-subheader>Equipos</strong>
 
     <mat-list>
@@ -10,7 +10,7 @@
     </mat-list>
   </section>
 
-  <section class="col-6" *ngIf="group && group.matches && group.matches.length > 0">
+  <section class="col-xs-12 col-sm-6 col-md-4 col-lg-6 col-xl-6" *ngIf="group && group.matches && group.matches.length > 0">
     <strong mat-subheader>Partidos</strong>
 
     <mat-list>
@@ -21,8 +21,8 @@
   </section>
 
 </div>
-<div class="row">
-  <app-position-table-card class="mt-5" [results]="results">
+<div *ngIf="results && results.length>0" class="position-table row">
+  <app-position-table-card class=" col-xs-12 mt-2 mb-2" [results]="results">
 
   </app-position-table-card>
 </div>

@@ -6,6 +6,7 @@ import { IFixtureStageModel } from '../../../models/fixture-stage.model';
 import { IPointsStadisticsModel } from '../../../models/points-stadistics.model';
 import { ITournamentModel } from '../../../models/tournament.model';
 import { GetFixtureStagesUsecase } from '../../../usecases/get-fixture-stages/get-fixture-stages.usecase';
+import { GetPositionsTableByGroupUsecase } from '../../../usecases/get-positions-table-by-group/get-positions-table-by-group';
 import { GetTournamentInfoUsecase } from '../../../usecases/get-tournament-info/get-tournament-info';
 import { GROUP_LETTERS } from '../../components/components.constants';
 
@@ -63,8 +64,9 @@ export class TournamentDetailComponent implements OnInit {
         this.tournament = tournament;
       });
       this.$fixtureStages = this.getFixtureStagesUsecase.call(params.id);
-      this.$fixtureStages.subscribe((data) => {
+      this.$fixtureStages.subscribe((data: IFixtureStageModel[]) => {
         this.fixtureStages = data;
+       
       });
     });
   }

@@ -9,6 +9,7 @@ import { CurrentTournamentComponent } from './current-tournament/current-tournam
 import { MatButtonModule } from '@angular/material/button';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { CoreModule } from 'src/app/core/core.module';
 
 const COMPONENTS = [
   TournamentListComponent,
@@ -22,6 +23,7 @@ const COMPONENTS = [
   imports: [
     CommonModule,
     ComponentsModule,
+    CoreModule,
     UsecasesModule,
     TeamsComponentsModule,
     MatButtonModule,

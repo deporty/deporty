@@ -13,7 +13,7 @@ import { AdDirective } from '../ad.directive';
   styleUrls: ['./col.component.scss'],
 })
 export class ColComponent implements OnInit {
-  data;
+  data: any;
   constructor(
     public viewContainerRef: ViewContainerRef,
     private el: ElementRef
