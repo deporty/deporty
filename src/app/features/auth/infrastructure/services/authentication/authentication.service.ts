@@ -1,22 +1,23 @@
 import { Injectable } from '@angular/core';
 import {
   getAuth,
-  signInWithEmailAndPassword,
-  UserCredential,
+  signInWithEmailAndPassword
 } from 'firebase/auth';
-import { from, Observable, of, throwError } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { app } from 'src/app/init-app';
 import { AuthenticationRepository } from '../../../domain/repository/authentication.repository';
 
 @Injectable()
 export class AuthenticationService extends AuthenticationRepository {
-
   constructor() {
     super();
   }
 
   login(email: string, password: string): Observable<string> {
-    const auth = getAuth();
+    const auth = getAuth(app);
+    console.log(auth);
+    
     return from(signInWithEmailAndPassword(auth, email, password)).pipe(
       catchError((error) => {
         return of(null);
@@ -30,5 +31,9 @@ export class AuthenticationService extends AuthenticationRepository {
     );
   }
 
-
+  public isUserLoggedIn(): Observable<boolean> {
+    const auth = getAuth(app);
+    const user = auth.currentUser;
+    return of(user != null && user != undefined);
+  }
 }

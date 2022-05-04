@@ -1,5 +1,5 @@
 <form
-  class="container w-100 h-100 border d-flex justify-content-center flex-column"
+  class="container w-100 h-100 d-flex justify-content-center flex-column"
   [formGroup]="formGroup"
 >
   <mat-form-field
@@ -23,7 +23,7 @@
     <input matInput formControlName="password" type="password" required />
   </mat-form-field>
   <div
-    class="col-xl-4 offset-xl-4 col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-sm-12 col-xs-12"
+    class="d-flex justify-content-center col-xl-4 offset-xl-4 col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-sm-12 col-xs-12"
   >
     <button mat-button mat-raised-button color="primary" (click)="login()">
       Ingresar

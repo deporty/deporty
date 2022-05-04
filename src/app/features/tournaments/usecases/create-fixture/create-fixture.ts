@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 import { BaseUsecase } from 'src/app/core/usecases/base.usecase';
 import { ITeamModel } from 'src/app/features/teams/models/team.model';
 import { IFixtureModel } from '../../models/fixture.model';
-import Tournament from 'round-robin-tournament';
 
 export interface IFixtureConfig {
   fixtureSteps: {
@@ -52,9 +51,6 @@ export class CreateFixtureUsecase extends BaseUsecase<
     }
   }
   call(param: IFixtureConfig): Observable<IFixtureModel> {
-    const tournament = new Tournament(param.teams as any);
-    const matches = tournament.matches;
-    console.log(matches)
 
     // for (const step of param.fixtureSteps) {
     //   const ammountTeamsByGroup = this.getAmmountTeamByGroup(

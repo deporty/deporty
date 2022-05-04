@@ -9,14 +9,13 @@
     alt="   {{ tournament.name }}"
   />
   <mat-card-content>
-    <h5 class="card-title text-center">
-      <button mat-button mat-raised-button color="primary">
+    <div class="d-flex justify-content-center">
+      <strong class="card-title text-center">
         {{ tournament.name }}
-      </button>
-    </h5>
-    <p class="text-center">
-      <!-- {{ tournament.startsDate}} -->
+      </strong>
+    </div>
+    <p *ngIf="tournament.startsDate" class="text-center">
+      <strong> Fecha de inicio: </strong> {{ tournament.startsDate | timestamp }}
     </p>
-   
   </mat-card-content>
 </mat-card>
