@@ -9,6 +9,8 @@ import { MatchSummaryCardComponent } from './match-summary-card/match-summary-ca
 import { TeamSummaryCardComponent } from './team-summary-card/team-summary-card.component';
 import { MatListModule } from '@angular/material/list';
 import { PositionTableCardComponent } from './position-table-card/position-table-card.component';
+import { CoreModule } from 'src/app/core/core.module';
+import { MatIconModule } from '@angular/material/icon';
 
 const COMPONENTS = [
   TournamentCardComponent,
@@ -22,6 +24,13 @@ const COMPONENTS = [
 @NgModule({
   declarations: [...COMPONENTS],
   exports: [...COMPONENTS],
-  imports: [CommonModule, MatCardModule, MatButtonModule, MatListModule],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatListModule,
+    CoreModule,
+  ],
 })
 export class ComponentsModule {}

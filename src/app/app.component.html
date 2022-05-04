@@ -5,7 +5,7 @@
   </mat-sidenav-content> -->
 
   <mat-drawer #drawer class="example-sidenav" [mode]="mode">
-    <img width="200px" src="assets/brand/deporty-isologotipo.jpg" alt="" />
+    <img width="200px" [routerLink]="['./home']" src="assets/brand/deporty-isologotipo.jpg" alt="" />
     <mat-list role="list">
       <mat-list-item class="app-item" [routerLink]="['./players']"
         >Jugadores</mat-list-item
@@ -18,6 +18,9 @@
       >
       <mat-list-item class="app-item" [routerLink]="['./tournaments']"
         >Tiendas Deportivas</mat-list-item
+      >
+      <mat-list-item class="app-item" [routerLink]="['./tournaments']"
+        >Cerrar Sesión</mat-list-item
       >
     </mat-list>
   </mat-drawer>
@@ -35,9 +38,8 @@
   </mat-toolbar>
   <div class="d-flex app-container">
     <div class="app-main-container">
-      <div class="container-fluid">
-
-        <div class="row no-gutters">
+      <div class="container-fluid h-100">
+        <div class="row no-gutters h-100">
           <router-outlet> </router-outlet>
         </div>
       </div>
