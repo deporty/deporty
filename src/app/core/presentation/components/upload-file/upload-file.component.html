@@ -1,5 +1,7 @@
-<input type="file" id="file" />
-  <label for="file" class="btn-2">Subir archivo</label>
-
-
-  
+<input #inputFile type="file" id="file" />
+<button (click)="inputFile.click()" mat-raised-button>{{ text }}</button>
+<span class="mx-3 my-2" *ngIf="nameFile"
+  ><strong>
+    {{ nameFile }}
+  </strong>
+</span>

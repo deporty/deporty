@@ -1,4 +1,14 @@
 :host{
+    mat-list-item{
+        height: initial;
+        .mat-list-item-content{
+            padding: 0;
+        }
+    }
+    table{
+        width: 100%;
+    }
+    
     mat-icon{
         cursor: pointer;
     }

@@ -1,7 +1,10 @@
-:host{
-    display: flex;
-    flex-direction: column;
-    .position-table{
-        overflow-x: auto;
-    }
+:host {
+  display: flex;
+  flex-direction: column;
+  .position-table {
+    overflow-x: auto;
+  }
+  .app-mat-list-item {
+    min-height: 110px;
+  }
 }

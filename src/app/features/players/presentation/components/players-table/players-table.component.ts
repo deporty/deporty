@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { DEFAULT_PROFILE_IMG } from 'src/app/app.constants';
 import { IPlayerModel } from '../../../models/player.model';
 
 @Component({
@@ -12,7 +13,8 @@ export class PlayersTableComponent implements OnInit {
   @Input() players!: IPlayerModel[];
 
   @Output() onSelectedPlayer = new EventEmitter();
-  constructor() {}
+  constructor() {
+  }
 
   ngOnInit(): void {}
 }

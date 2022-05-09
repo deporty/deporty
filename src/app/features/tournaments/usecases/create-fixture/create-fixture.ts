@@ -52,13 +52,6 @@ export class CreateFixtureUsecase extends BaseUsecase<
   }
   call(param: IFixtureConfig): Observable<IFixtureModel> {
 
-    // for (const step of param.fixtureSteps) {
-    //   const ammountTeamsByGroup = this.getAmmountTeamByGroup(
-    //     param.teams,
-    //     step.groups
-    //   );
-    //   console.log(ammountTeamsByGroup);
-    // }
     throw new Error('Method not implemented.');
   }
 }

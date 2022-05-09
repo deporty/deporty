@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
+import {
+  getCurrentGeolocation,
+  trackEvent,
+} from 'src/app/core/helpers/log-events.helper';
 import { ITournamentModel } from '../../../models/tournament.model';
 import { GetCurrentTournamentUsecase } from '../../../usecases/get-current-tournament/get-current-tournament';
 import { TournamentListComponent } from '../tournament-list/tournament-list.component';
@@ -63,13 +67,17 @@ export class CurrentTournamentComponent implements OnInit {
           },
           children: [],
         },
-
-       
       ],
     };
   }
 
   ngOnInit(): void {
+    getCurrentGeolocation().subscribe((data) => {
+      trackEvent('tournaments_views', {
+        date: data.date,
+        timestamp: data.timestamp,
+      });
+    });
     this.$tournament = this.getCurrentTournamentUsecase.call('marchagas');
     this.$tournamentSubscription = this.$tournament.subscribe((data) => {
       if (data) {

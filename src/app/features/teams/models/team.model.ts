@@ -7,10 +7,10 @@ import { IPlayerModel } from 'src/app/features/players/models/player.model';
 
 // }
 
-export interface Member extends IPlayerModel {
-  ingressDate: Date;
+export interface Member extends Partial<IPlayerModel> {
+  ingressDate?: Date;
   retirementDate?: Date;
-  position: string;
+  position?: string;
 }
 type Members = Member[];
 export interface ITeamModel {

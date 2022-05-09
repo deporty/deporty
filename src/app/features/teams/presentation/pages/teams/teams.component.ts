@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ITeamModel } from '../../../models/team.model';
+import { DeleteTeamUsecase } from '../../../usecases/delete-team/delete-team.usecase';
 import { GetTeamsUsecase } from '../../../usecases/get-teams/get-teams.usecase';
 
 @Component({
@@ -11,16 +12,28 @@ import { GetTeamsUsecase } from '../../../usecases/get-teams/get-teams.usecase';
 })
 export class TeamsComponent implements OnInit {
   static route = 'team-list';
-  options: string[];
+  options: any;
   routes: any;
   $teams!: Observable<ITeamModel[]>;
   constructor(
     private getTeamsUsecase: GetTeamsUsecase,
+    private deleteTeamUsecase: DeleteTeamUsecase,
     private route: ActivatedRoute,
     private router: Router
   ) {
-    this.routes = {};
-    this.routes['Ver'] = './team';
+    this.routes = {
+      Ver: (team: ITeamModel) => {
+        this.router.navigate(['./team'], {
+          relativeTo: this.route,
+          queryParams: { team: JSON.stringify(team) },
+        });
+      },
+      Eliminar: (team: ITeamModel) => {
+        this.deleteTeamUsecase.call(team).subscribe(() => {
+          this.$teams = this.getTeamsUsecase.call();
+        });
+      },
+    };
     this.options = Object.keys(this.routes);
   }
 
@@ -28,10 +41,8 @@ export class TeamsComponent implements OnInit {
     this.$teams = this.getTeamsUsecase.call();
   }
 
-  receiveSelectedOption(option: string) {
-    const route = this.routes[option];
-    this.router.navigate([route], {
-      relativeTo: this.route,
-    });
+  receiveSelectedOption(option: any) {
+    const key = this.options[option.index];
+    this.routes[key](option.team);
   }
 }

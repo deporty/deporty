@@ -7,10 +7,23 @@ export class PlayerMapper {
       name: obj['name'],
       lastName: obj['last-name'],
       id: obj['id'],
+      document: obj['document'],
       alias: obj['alias'],
       number: obj['number'],
       role: obj['role'],
       image: obj['image'],
+    };
+  }
+
+  toJson(player: IPlayerModel) {
+    return {
+      name: player.name,
+      'last-name': player.lastName || '',
+      id: player.id,
+      alias: player.alias || '',
+      number: player.number || '',
+      role: player.role || '',
+      image: player.image || '',
     };
   }
 }

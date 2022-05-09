@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import {
+  getCurrentGeolocation,
+  trackEvent,
+} from 'src/app/core/helpers/log-events.helper';
 import { PlayersRoutingModule } from 'src/app/features/players/players-routing.module';
 
 @Component({
@@ -40,5 +44,9 @@ export class HomeComponent implements OnInit {
   goModule(route: string) {
     this.router.navigate([route]);
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    getCurrentGeolocation().subscribe((data) => {
+      trackEvent('index_views', data);
+    });
+  }
 }

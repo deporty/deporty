@@ -34,11 +34,11 @@ export class LoginComponent implements OnDestroy {
     private router: Router
   ) {
     this.formGroup = new FormGroup({
-      email: new FormControl('sergio.posadaurrea@gmail.com', [
+      email: new FormControl('', [
         Validators.required,
         Validators.email,
       ]),
-      password: new FormControl('1053850428', [
+      password: new FormControl('', [
         Validators.required,
         Validators.min(8),
       ]),

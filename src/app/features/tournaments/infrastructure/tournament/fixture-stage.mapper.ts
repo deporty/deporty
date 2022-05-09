@@ -18,8 +18,12 @@ export class FixtureStageMapper {
               };
             })
             .map((x) => this.groupMapper.fromJson(x))
+            .sort((a, b) => {
+              return a.label > b.label ? 1: -1;
+            })
         : [],
       order: obj['order'],
+      id: obj['id'],
     };
   }
 }

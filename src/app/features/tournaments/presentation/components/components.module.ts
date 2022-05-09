@@ -11,7 +11,15 @@ import { MatListModule } from '@angular/material/list';
 import { PositionTableCardComponent } from './position-table-card/position-table-card.component';
 import { CoreModule } from 'src/app/core/core.module';
 import { MatIconModule } from '@angular/material/icon';
-
+import { AddTeamCardComponent } from './add-team-card/add-team-card.component';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
+import { UsecasesModule as TeamsUsecasesModule } from '../../../teams/usecases/usecases.module';
+import { EditMatchCardComponent } from './edit-match-card/edit-match-card.component';
+import { CreateGroupComponent } from './create-group/create-group.component';
 const COMPONENTS = [
   TournamentCardComponent,
   GroupCardComponent,
@@ -19,16 +27,26 @@ const COMPONENTS = [
   MatchSummaryCardComponent,
   TeamSummaryCardComponent,
   PositionTableCardComponent,
+  AddTeamCardComponent,
+  EditMatchCardComponent,
+  CreateGroupComponent
 ];
 
 @NgModule({
-  declarations: [...COMPONENTS],
+  declarations: [...COMPONENTS, ],
   exports: [...COMPONENTS],
   imports: [
     CommonModule,
     MatCardModule,
     MatButtonModule,
     MatIconModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    MatDialogModule,
+    ReactiveFormsModule,
+    TeamsUsecasesModule,
+    FormsModule,
+    MatInputModule,
     MatListModule,
     CoreModule,
   ],

@@ -37,7 +37,6 @@ export class GetPositionsTableByGroupUsecase extends BaseUsecase<
       [index: string]: Stadistics;
     } = {};
     const teams: any = {};
-    console.log(param.matches);
     if (param.matches) {
       for (const match of param.matches) {
         const teamAName = match.teamA.name;
@@ -93,14 +92,14 @@ export class GetPositionsTableByGroupUsecase extends BaseUsecase<
       }
     }
 
-    return of(
+      return of(
       Object.keys(table)
         .map((entry: string) => {
           const value = table[entry];
           return {
             team: teams[entry],
             ...value,
-            goalsAgainstPerMatch: value.goalsAgainst / value.playedMatches
+            goalsAgainstPerMatch: value.goalsAgainst / value.playedMatches,
           } as IPointsStadisticsModel;
         })
         .sort((prev, next) => {

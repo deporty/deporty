@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { getDownloadURL, ref } from 'firebase/storage';
+import { storage } from 'src/app/init-app';
 import { ITournamentModel } from '../../../models/tournament.model';
 
 @Component({
@@ -8,7 +10,16 @@ import { ITournamentModel } from '../../../models/tournament.model';
 })
 export class TournamentCardComponent implements OnInit {
   @Input() tournament!: ITournamentModel;
+  img!: string;
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.tournament.flayer) {
+      const flayerRef = ref(storage, this.tournament.flayer);
+
+      getDownloadURL(flayerRef).then((data) => {
+        this.img = data;
+      });
+    }
+  }
 }

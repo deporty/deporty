@@ -7,6 +7,6 @@ import { IPlayerModel } from '../../../models/player.model';
   styleUrls: ['./players-summary-list.component.scss'],
 })
 export class PlayersSummaryListComponent {
-  @Input() players!: IPlayerModel[];
-  selectedPlayer!: IPlayerModel;
+  @Input() players!: Partial<IPlayerModel>[];
+  selectedPlayer!: Partial<IPlayerModel>;
 }

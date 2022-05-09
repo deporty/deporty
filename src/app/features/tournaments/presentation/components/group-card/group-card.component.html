@@ -1,39 +1,55 @@
+
 <div class="row d-flex">
   <section
-    class="col-xs-12 col-sm-6 col-md-8 col-lg-6 col-xl-6"
-    *ngIf="group && group.teams"
+    class="border col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"
+    *ngIf="group "
   >
     <strong mat-subheader
       >Equipos
-      <mat-icon #addTeam *ngIf="addTeamFlag" (click)="addTeam()" color="primary"
-        >add_circle</mat-icon
+      <button
+        mat-button
+        (click)="onAddTeam.emit({ index: group.index, stageId: stageId })"
       >
+        <mat-icon #addTeam *ngIf="addTeamFlag" color="primary"
+          >add_circle</mat-icon
+        >
+      </button>
     </strong>
 
-    <mat-list>
-      <mat-list-item *ngFor="let team of group.teams">
+    <section class="d-flex flex-wrap">
+      <div class="col-6 py-1 px-2" *ngFor="let team of group.teams">
         <app-team-summary-card [team]="team"> </app-team-summary-card>
-      </mat-list-item>
-    </mat-list>
+      </div>
+    </section>
   </section>
 
   <section
-    class="col-xs-12 col-sm-6 col-md-4 col-lg-6 col-xl-6"
-    *ngIf="group && group.matches && group.matches.length > 0"
+    class="border col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"
+    *ngIf="group "
   >
     <strong mat-subheader
       >Partidos
-      <mat-icon #addMatch *ngIf="addMatchFlag" color="primary">add_circle</mat-icon>
+      <button
+        mat-button
+        (click)="onAddMatch.emit({ index: group.index, stageId: stageId })"
+      >
+        <mat-icon #addMatch *ngIf="addMatchFlag" color="primary"
+          >add_circle</mat-icon
+        >
+      </button>
     </strong>
 
     <mat-list>
-      <mat-list-item *ngFor="let match of group.matches">
+      <mat-list-item
+        class="app-mat-list-item"
+        *ngFor="let match of group.matches"
+      >
         <app-match-summary-card [match]="match"> </app-match-summary-card>
       </mat-list-item>
     </mat-list>
   </section>
 </div>
 <div *ngIf="results && results.length > 0" class="position-table row">
-  <app-position-table-card class="col-xs-12 mt-2 mb-2" [results]="results">
+  <app-position-table-card class="col-12 mt-2 mb-2" [results]="results">
   </app-position-table-card>
 </div>

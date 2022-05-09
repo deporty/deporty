@@ -12,15 +12,23 @@ export class GroupMapper {
     private teamMapper: TeamMapper
   ) {}
   fromJson(obj: any): IGroupModel {
-    console.log(this)
     return {
       matches: obj['matches']
-        ? (obj['matches'] as []).map(x => this.matchMapper.fromJson(x))
+        ? (obj['matches'] as []).map((x) => this.matchMapper.fromJson(x))
         : undefined,
       teams: obj['teams']
-        ? (obj['teams'] as []).map(this.teamMapper.fromJson)
+        ? (obj['teams'] as []).map((x) => this.teamMapper.fromJson(x))
         : [],
-        index: obj['index']
+      label: obj['label'],
+      index: obj['index'],
+    };
+  }
+
+  toJson(group: IGroupModel) {
+    return {
+      label: group.label,
+      matches: group.matches || [],
+      teams: group.teams.map((x) => this.teamMapper.toJsonDB(x)) || [],
     };
   }
 }

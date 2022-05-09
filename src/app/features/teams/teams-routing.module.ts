@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CreateTeamComponent } from './presentation/pages/create-team/create-team.component';
 import { TeamComponent } from './presentation/pages/team/team.component';
 import { TeamsComponent } from './presentation/pages/teams/teams.component';
 
@@ -7,18 +8,22 @@ const routes: Routes = [
   {
     path: '',
     component: TeamsComponent,
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: TeamComponent.route,
     component: TeamComponent,
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
 
   {
     path: TeamsComponent.route,
     component: TeamsComponent,
-    pathMatch: 'full'
+    pathMatch: 'full',
+  },
+  {
+    path: CreateTeamComponent.route,
+    component: CreateTeamComponent,
   },
 ];
 

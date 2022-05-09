@@ -1,8 +1,9 @@
 <mat-card>
   <img
+    *ngIf="img"
     mat-card-image
     src="{{
-      tournament.flayer ||
+      img ||
         'https://firebasestorage.googleapis.com/v0/b/deporty-app.appspot.com/o/default-pictures%2Fdefault-player-profile.png?alt=media&token=fa007b78-7fc5-41cd-a14a-cae5c7d9fd88'
     }}"
     class="card-img-top"
@@ -15,7 +16,8 @@
       </strong>
     </div>
     <p *ngIf="tournament.startsDate" class="text-center">
-      <strong> Fecha de inicio: </strong> {{ tournament.startsDate | timestamp }}
+      <strong> Fecha de inicio: </strong>
+      {{ tournament.startsDate | timestamp }}
     </p>
   </mat-card-content>
 </mat-card>
