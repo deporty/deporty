@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { PlayerRepository } from '../../adapters/player.repository';
+import { PlayerAdapter } from '../../adapters/player.repository';
 
 @Injectable()
 export class GetAllSummaryPlayersUsecase {
-  constructor(private playerRepository: PlayerRepository) {}
+  constructor(private playerRepository: PlayerAdapter) {}
   call() {
     return this.playerRepository.getAllSummaryPlayers();
   }

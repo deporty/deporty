@@ -1,9 +1,9 @@
 <ng-container *ngIf="tournament">
   <header class="d-flex row my-4 align-items-start justify-content-start">
-    <h2 class="col-xs-6 col-sm-8 col-md-9 col-lg-10 col-xl-10">
+    <h2 class="col-6 col-sm-8 col-md-9 col-lg-10 col-xl-10">
       {{ tournament.name }}
     </h2>
-    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 col-xl-2">
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl-2">
       <span
         class="rounded py-2 px-1"
         [ngClass]="{
@@ -16,12 +16,10 @@
     </div>
   </header>
   <section class="d-flex row">
-    <div class="col-xs-6 col-sm-5 col-md-4 col-lg-3 col-xl-3">
-      <img src="{{ tournament.flayer }}" alt="" srcset="" />
+    <div *ngIf="img" class="col-12 col-sm-5 col-md-4 col-lg-3 col-xl-3">
+      <img src="{{ img }}" alt="" srcset="" />
     </div>
-    <div
-      class="col-xs-6 col-sm-7 col-md-8 col-lg-9 col-xl-9 d-flex flex-column"
-    >
+    <div class="col-12 col-sm-7 col-md-8 col-lg-9 col-xl-9 d-flex flex-column">
       <div class="my-1">
         <strong>Inscripción</strong> {{ tournament.inscription | currency }}
       </div>
@@ -46,10 +44,18 @@
     </div>
   </section>
 
-  <section class="mt-4" *ngIf="fixtureStages">
+  <section class="my-5" *ngIf="fixtureStages">
     <section *ngFor="let stage of fixtureStages">
       <header>
         <h2>Fase de Grupos ({{ stage.order }})</h2>
+        <button
+          mat-raised-button
+          class="col-12 col-sm-3 col-md-3 col-lg-2 col-xl-2"
+          color="primary"
+          (click)="openCreateGroupDialog(stage.id || '')"
+        >
+          Agregar grupo
+        </button>
       </header>
       <div
         class="border my-1"
@@ -58,24 +64,22 @@
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <strong> Grupo {{ letters[group.index] }} </strong>
+              <strong> Grupo {{ group.label }} </strong>
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <app-group-card [group]="group"> </app-group-card>
+
+          <app-group-card
+            (on-add-team)="onAddTeam($event)"
+            (on-add-match)="onAddMatch($event)"
+            stage-id="{{ stage.id }}"
+            [group]="group"
+          >
+          </app-group-card>
         </mat-expansion-panel>
       </div>
     </section>
   </section>
-
- 
-  <!-- <section class="mt-3">
-    <header>
-      <h3>Equipos inscritos</h3>
-      <section class="row">
-        <div class="col-2" *ngFor="let team of teams">
-          <app-team-card [team]="team"> </app-team-card>
-        </div>
-      </section>
-    </header>
-  </section> -->
+  <br />
+  <br />
+  <br />
 </ng-container>

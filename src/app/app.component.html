@@ -1,44 +1,66 @@
 <mat-drawer-container class="h-100" autosize>
-  <!-- <mat-sidenav position="start">Start</mat-sidenav>
-  <mat-sidenav-content>
-    <router-outlet> </router-outlet>
-  </mat-sidenav-content> -->
 
   <mat-drawer #drawer class="example-sidenav" [mode]="mode">
-    <img width="200px" [routerLink]="['./home']" src="assets/brand/deporty-isologotipo.jpg" alt="" />
+    <img
+      width="200px"
+      [routerLink]="['./home']"
+      src="assets/brand/deporty-isologotipo.jpg"
+      alt=""
+    />
+    <div class="w-100 d-flex justify-content-center">
+      <small class="align-text-bottom" *ngIf="user">{{ user.email }}</small>
+    </div>
+
     <mat-list role="list">
-      <mat-list-item class="app-item" [routerLink]="['./players']"
+      <mat-list-item
+        (click)="mode == 'over' && drawer.close()"
+        class="app-item"
+        [routerLink]="['./players']"
         >Jugadores</mat-list-item
       >
-      <mat-list-item class="app-item" [routerLink]="['./teams']"
+      <mat-list-item
+        (click)="mode == 'over' && drawer.close()"
+        class="app-item"
+        [routerLink]="['./teams']"
         >Equipos</mat-list-item
       >
-      <mat-list-item class="app-item" [routerLink]="['./tournaments']"
+      <mat-list-item
+        (click)="mode == 'over' && drawer.close()"
+        class="app-item"
+        [routerLink]="['./tournaments']"
         >Torneos</mat-list-item
       >
-      <mat-list-item class="app-item" [routerLink]="['./tournaments']"
-        >Tiendas Deportivas</mat-list-item
-      >
-      <mat-list-item class="app-item" [routerLink]="['./tournaments']"
+      <!-- <mat-list-item (click)="mode == 'over' && drawer.close()" class="app-item" [routerLink]="['./tournaments']"
+        >Tiendas</mat-list-item
+      > -->
+      <mat-list-item
+        (click)="mode == 'over' && drawer.close()"
+        color="primary"
+        class="app-item"
+        (click)="closeSession()"
         >Cerrar Sesión</mat-list-item
       >
     </mat-list>
   </mat-drawer>
   <mat-toolbar color="primary">
-    <button
-      mat-icon-button
-      (click)="drawer.toggle()"
-      aria-label="Example icon-button with menu icon"
-    >
-      <mat-icon>menu</mat-icon>
-    </button>
-    <span>Deporty</span>
-    <!-- col-xl-11 col-lg-10 col-md-10 col-sm-10 col-xs-10  -->
-    <!-- col-xl-1 col-lg-2 col-md-2 col-sm-2 col-xs-2  -->
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <button
+        mat-icon-button
+        (click)="drawer.toggle()"
+        aria-label="Example icon-button with menu icon"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+      <div
+        class="d-flex w-100 flex-wrap align-items-center justify-content-between"
+      >
+        <h1 class="align-text-bottom">Deporty</h1>
+      </div>
+    </div>
   </mat-toolbar>
   <div class="d-flex app-container">
     <div class="app-main-container">
-      <div class="container-fluid h-100">
+      <div class="container-fluid p-0 h-100">
         <div class="row no-gutters h-100">
           <router-outlet> </router-outlet>
         </div>

@@ -1,6 +1,7 @@
 export interface IPlayerModel {
-    lastName?: string;
+  lastName?: string;
   name: string;
+  document: string;
   number: number;
   role: string;
   image?: string;

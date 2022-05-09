@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { CreatePlayerComponent } from './presentation/pages/create-player/create-player.component';
 import { ViewAllComponent } from './presentation/pages/view-all/view-all.component';
+import { IsLoggedInGuard } from 'src/app/core/guards/is-logged-in/is-logged-in.guard';
 
 const routes: Routes = [
   {
@@ -17,6 +18,7 @@ const routes: Routes = [
   {
     path: CreatePlayerComponent.route,
     component: CreatePlayerComponent,
+    canActivate: [IsLoggedInGuard],
   },
 ];
 

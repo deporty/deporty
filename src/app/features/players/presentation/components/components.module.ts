@@ -14,11 +14,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
 import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
+import { CreatePlayerCardComponent } from './create-player-card/create-player-card.component';
+import { PlayerSummaryCardComponent } from './player-summary-card/player-summary-card.component';
 
 const COMPONENTS = [
   PlayerCardComponent,
   PlayersSummaryListComponent,
   PlayersTableComponent,
+  CreatePlayerCardComponent,
+  PlayerSummaryCardComponent,
 ];
 
 @NgModule({
@@ -40,6 +44,8 @@ const COMPONENTS = [
     MatButtonModule,
     MatIconModule,
     CoreModule,
+    ReactiveFormsModule,
+    FormsModule,
   ],
 })
 export class ComponentsModule {}

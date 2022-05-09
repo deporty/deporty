@@ -1,43 +1,61 @@
 <div class="container">
-    <form [formGroup]="formGroup">
-      <div class="row">
-        <mat-form-field class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12">
-          <mat-label>Nombre</mat-label>
-          <mat-icon matSuffix>person</mat-icon>
-          <input matInput formControlName="name" />
-        </mat-form-field>
-  
-        <mat-form-field class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12">
-          <mat-label>Apellidos</mat-label>
-          <mat-icon matSuffix>short_text</mat-icon>
-          <input matInput formControlName="name" />
-        </mat-form-field>
-  
-        <mat-form-field class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12">
-          <mat-label>Cédula</mat-label>
-          <mat-icon matSuffix>fingerprint</mat-icon>
-          <input matInput formControlName="name" />
-        </mat-form-field>
-      </div>
-    </form>
-    <div class="row">
-      <div class="col">
-        <app-players-table (onSelectedPlayer)="onSelectedPlayer($event)" [players]="players">
+  <div class="row mt-2 d-flex justify-content-around align-items-start flex-wrap">
+    
+    <div class="col-10">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Filtros </mat-panel-title>
+        </mat-expansion-panel-header>
 
-        </app-players-table>
-      </div>
+        <form [formGroup]="formGroup">
+          <div class="row">
+            <mat-form-field
+              class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12"
+            >
+              <mat-label>Nombre</mat-label>
+              <mat-icon matSuffix>person</mat-icon>
+              <input matInput formControlName="name" />
+            </mat-form-field>
+
+            <mat-form-field
+              class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12"
+            >
+              <mat-label>Apellidos</mat-label>
+              <mat-icon matSuffix>short_text</mat-icon>
+              <input matInput formControlName="name" />
+            </mat-form-field>
+
+            <mat-form-field
+              class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12"
+            >
+              <mat-label>Cédula</mat-label>
+              <mat-icon matSuffix>fingerprint</mat-icon>
+              <input matInput formControlName="name" />
+            </mat-form-field>
+          </div>
+        </form>
+      </mat-expansion-panel>
     </div>
-    <div class="row">
-      <div class="col">
-        <button
-          mat-button
-          mat-raised-button
-          (click)="createUser()"
-          color="primary"
-        >
-          Crear jugador
-        </button>
-      </div>
+
+    <div class="col-2">
+      <button
+        mat-button
+        mat-raised-button
+        (click)="createUser()"
+        color="primary"
+      >
+        Nuevo
+      </button>
     </div>
   </div>
-  
+
+  <div class="row">
+    <div class="col">
+      <app-players-table
+        (onSelectedPlayer)="onSelectedPlayer($event)"
+        [players]="players"
+      >
+      </app-players-table>
+    </div>
+  </div>
+</div>

@@ -37,6 +37,5 @@ export class CreateTournamentComponent implements OnInit {
     };
 
     const response = this.createFixtureUsecase.call(config);
-    console.log(response);
   }
 }

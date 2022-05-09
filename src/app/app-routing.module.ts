@@ -25,20 +25,20 @@ const routes: Routes = [
     path: HomeRoutingModule.route,
     loadChildren: () =>
       import('./features/home/home.module').then((m) => m.HomeModule),
-    canLoad: [IsLoggedInGuard],
+    // canLoad: [IsLoggedInGuard],
   },
 
   {
     path: PlayersRoutingModule.route,
     loadChildren: () =>
       import('./features/players/players.module').then((m) => m.PlayersModule),
-    canLoad: [IsLoggedInGuard],
+    // canLoad: [IsLoggedInGuard],
   },
   {
     path: TeamsRoutingModule.route,
     loadChildren: () =>
       import('./features/teams/teams.module').then((m) => m.TeamsModule),
-    canLoad: [IsLoggedInGuard],
+    // canLoad: [IsLoggedInGuard],
   },
 
   {
@@ -47,7 +47,7 @@ const routes: Routes = [
       import('./features/tournaments/tournaments.module').then(
         (m) => m.TournamentsModule
       ),
-    canLoad: [IsLoggedInGuard],
+    // canLoad: [IsLoggedInGuard],
   },
 ];
 

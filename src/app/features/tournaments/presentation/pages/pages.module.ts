@@ -10,6 +10,8 @@ import { MatButtonModule } from '@angular/material/button';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { CoreModule } from 'src/app/core/core.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 
 const COMPONENTS = [
   TournamentListComponent,
@@ -27,6 +29,7 @@ const COMPONENTS = [
     UsecasesModule,
     TeamsComponentsModule,
     MatButtonModule,
+
     MatExpansionModule,
     MatIconModule
   ],

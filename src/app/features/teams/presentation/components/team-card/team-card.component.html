@@ -1,11 +1,11 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-title>{{ team.name }}</mat-card-title>
-    <mat-card-subtitle>{{ team.agent }}</mat-card-subtitle>
+    <mat-card-title>{{ team.name | titlecase }}</mat-card-title>
+    <mat-card-subtitle>{{ team.id }}</mat-card-subtitle>
   </mat-card-header>
   <img
     mat-card-image
-    [src]="team.shield"
+    [src]="img || 'assets/badge-team.png'"
     [attr.alt]="'Foto del escudo del equipo' + team.name"
   />
 

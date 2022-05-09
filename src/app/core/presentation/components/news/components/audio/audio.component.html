@@ -1,16 +1,16 @@
 <div class="bg-white rounded-lg p-1 shadow">
-  <h2 class="h6 font-weight-bold text-center mb-1">{{ data.title }}</h2>
-  <div #progress class="progress mx-auto">
+  <h2 *ngIf="data" class="h6 font-weight-bold text-center mb-1">{{ data.title }}</h2>
+  <div #progress *ngIf="data" class="progress mx-auto">
     <span class="progress-left">
       <span class="progress-bar border-success"></span>
     </span>
     <span class="progress-right">
       <span class="progress-bar border-success"></span>
     </span>
-    <div
+    <div 
       class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center"
     >
-      <img class="w-100 h-100 rounded-circle" src="{{ data.image }}" alt="" srcset="" />
+      <img  class="w-100 h-100 rounded-circle" src="{{ data.image }}" alt="" srcset="" />
     </div>
   </div>
   <div class="row text-center mt-2 d-flex justify-content-center">

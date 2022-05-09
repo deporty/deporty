@@ -6,11 +6,24 @@ import { UploadFileComponent } from './presentation/components/upload-file/uploa
 import { NewsModule } from './presentation/components/news/news.module';
 import { IsNotLoggedInGuard } from './guards/is-not-logged-in/is-not-logged-in.guard';
 import { TimestampPipe } from './pipes/timestamp/timestamp.pipe';
+import { MatButtonModule } from '@angular/material/button';
+import { FileAdapter } from './adapters/file/file.adapter';
+import { FileService } from './infrastructure/file/file.service';
+import { UploadFileUsecase } from './usecases/upload-file/upload-file';
 
 @NgModule({
   declarations: [UploadFileComponent, TimestampPipe],
-  imports: [CommonModule, NewsModule],
+  imports: [CommonModule, MatButtonModule, NewsModule],
   exports: [UploadFileComponent, NewsModule, TimestampPipe],
-  providers: [TokenService, IsLoggedInGuard, IsNotLoggedInGuard],
+  providers: [
+    TokenService,
+    IsLoggedInGuard,
+    IsNotLoggedInGuard,
+    UploadFileUsecase,
+    {
+      provide: FileAdapter,
+      useClass: FileService,
+    },
+  ],
 })
 export class CoreModule {}

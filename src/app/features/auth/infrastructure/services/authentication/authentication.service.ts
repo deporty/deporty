@@ -16,7 +16,6 @@ export class AuthenticationService extends AuthenticationRepository {
 
   login(email: string, password: string): Observable<string> {
     const auth = getAuth(app);
-    console.log(auth);
     
     return from(signInWithEmailAndPassword(auth, email, password)).pipe(
       catchError((error) => {

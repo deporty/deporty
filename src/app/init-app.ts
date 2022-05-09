@@ -6,6 +6,7 @@ import {
   getDocs,
   Firestore,
 } from 'firebase/firestore/lite';
+import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCmfXDNcDTHtWgc8DnieEk0MS6KUogR-Rc",
@@ -20,6 +21,8 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const firestore = getFirestore(app);
 export const analytics = getAnalytics(app);
+export const storage = getStorage();
+
 
 export function init(): Promise<any> {
   return new Promise((resolve, reject) => {
@@ -27,4 +30,6 @@ export function init(): Promise<any> {
     resolve(true);
   });
 }
+
+
 

@@ -22,12 +22,13 @@ export class GroupCardComponent implements OnInit {
   results!: IPointsStadisticsModel[];
 
   @Input() group!: IGroupModel;
+  @Input('stage-id') stageId!: string;
 
   @Input() addTeamFlag;
   @Input() addMatchFlag;
 
-  @Output() onAddTeam: EventEmitter<any>;
-  @Output() onAddMatch: EventEmitter<any>;
+  @Output('on-add-team') onAddTeam: EventEmitter<any>;
+  @Output('on-add-match') onAddMatch: EventEmitter<any>;
 
   @ViewChild('addTeam', {
     static: false,
@@ -42,8 +43,8 @@ export class GroupCardComponent implements OnInit {
   constructor(
     private getPositionsTableByGroupUsecase: GetPositionsTableByGroupUsecase
   ) {
-    this.addTeamFlag = false;
-    this.addMatchFlag = false;
+    this.addTeamFlag = true;
+    this.addMatchFlag = true;
     this.onAddTeam = new EventEmitter();
     this.onAddMatch = new EventEmitter();
   }

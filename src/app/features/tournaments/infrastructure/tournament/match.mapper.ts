@@ -10,6 +10,7 @@ export class MatchMapper {
       score: obj['score'] ?  this.scoreMapper.fromJson(obj['score']): undefined,
       teamA: obj['team-a'],
       teamB: obj['team-b'],
+      date: obj['date'] ? new Date(obj['date'].seconds*1000): undefined,
     };
   }
 }

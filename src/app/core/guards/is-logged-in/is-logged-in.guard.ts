@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanLoad, Route, Router, UrlSegment, UrlTree } from '@angular/router';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { Observable, of } from 'rxjs';
-import { AuthRoutingModule } from 'src/app/features/auth/auth-routing.module';
+import { Observable } from 'rxjs';
 import { app } from 'src/app/init-app';
 import { TokenService } from '../../infrastructure/services/token/token.service';
 
@@ -24,7 +23,7 @@ export class IsLoggedInGuard implements CanLoad {
       onAuthStateChanged(auth, (user) => {
         const isInSession = user != null && user != undefined;
         if (!isInSession) {
-          this.router.navigate([AuthRoutingModule.route]);
+          this.router.navigate(['auth']);
         }
 
         observer.next(isInSession);
