@@ -7,4 +7,8 @@
   .app-mat-list-item {
     min-height: 110px;
   }
+  .matches {
+    max-height: 300px;
+    overflow-y: auto;
+  }
 }

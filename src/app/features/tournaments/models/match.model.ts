@@ -6,4 +6,5 @@ export interface IMatchModel {
   teamB: ITeamModel;
   score?: IScoreModel;
   date?: Date;
+  playground?: string
 }

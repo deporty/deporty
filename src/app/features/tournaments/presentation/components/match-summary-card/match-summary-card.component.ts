@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IMatchModel } from '../../../models/match.model';
 
 @Component({
@@ -9,7 +9,12 @@ import { IMatchModel } from '../../../models/match.model';
 export class MatchSummaryCardComponent implements OnInit {
   @Input() match!: IMatchModel;
 
-  constructor() {}
+  @Input('edit-flag') editFlag: boolean;
+  @Output('on-edit-match') onEditMatch: EventEmitter<boolean>;
+  constructor() {
+    this.editFlag = true;
+    this.onEditMatch = new EventEmitter();
+  }
 
   ngOnInit(): void {}
 }

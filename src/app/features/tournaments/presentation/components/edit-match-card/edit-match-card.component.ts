@@ -1,7 +1,9 @@
+import { formatDate } from '@angular/common';
 import { Component, Inject, Input, OnInit, Optional } from '@angular/core';
 import { FormControl, FormControlName, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ITeamModel } from 'src/app/features/teams/models/team.model';
+import { IMatchModel } from '../../../models/match.model';
 
 @Component({
   selector: 'app-edit-match-card',
@@ -9,9 +11,12 @@ import { ITeamModel } from 'src/app/features/teams/models/team.model';
   styleUrls: ['./edit-match-card.component.scss'],
 })
 export class EditMatchCardComponent implements OnInit {
-  formGroup: FormGroup;
+  formGroup!: FormGroup;
 
   @Input() teams!: ITeamModel[];
+  @Input() match!: IMatchModel;
+
+  _match!: IMatchModel;
   _teams!: ITeamModel[];
 
   teamA!: ITeamModel;
@@ -20,15 +25,7 @@ export class EditMatchCardComponent implements OnInit {
   constructor(
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<EditMatchCardComponent>
-  ) {
-    this.formGroup = new FormGroup({
-      teamA: new FormControl(''),
-      teamB: new FormControl(''),
-      date: new FormControl(''),
-      scoreA: new FormControl(null),
-      scoreB: new FormControl(null),
-    });
-  }
+  ) {}
   optionSelected(key: string, team: ITeamModel) {
     if (key == 'teamB') {
       this.teamB = team;
@@ -50,8 +47,29 @@ export class EditMatchCardComponent implements OnInit {
   ngOnInit(): void {
     if (this.data) {
       this._teams = this.data.teams;
+      this._match = this.data.match;
     } else {
       this._teams = this.teams;
+      this._match = this.match;
     }
+    console.log(this._teams)
+
+    const teamA = this._match?.teamA.name || '';
+    if (teamA) {
+      this.optionSelected('teamA', this._match.teamA);
+    }
+
+    const teamB = this._match?.teamB.name || '';
+    if (teamB) {
+      this.optionSelected('teamB', this._match.teamB);
+    }
+    console.log(this._match);
+    this.formGroup = new FormGroup({
+      teamA: new FormControl(teamA),
+      teamB: new FormControl(teamB),
+      date: new FormControl(this._match?.date ? formatDate(this._match.date, 'yyyy-MM-dd', 'en') : ''),
+      scoreA: new FormControl(this._match?.score?.teamA || null),
+      scoreB: new FormControl(this._match?.score?.teamB || null),
+    });
   }
 }

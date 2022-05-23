@@ -1,16 +1,21 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { Observable, Subscription } from 'rxjs';
+import { hasPermission } from 'src/app/core/helpers/permission.helper';
 import { ITeamModel } from 'src/app/features/teams/models/team.model';
 import { GetTeamsUsecase } from 'src/app/features/teams/usecases/get-teams/get-teams.usecase';
-import { storage } from 'src/app/init-app';
+import { RESOURCES_PERMISSIONS_IT, storage } from 'src/app/init-app';
 import { IFixtureStageModel } from '../../../models/fixture-stage.model';
+import { IMatchModel } from '../../../models/match.model';
 import { IPointsStadisticsModel } from '../../../models/points-stadistics.model';
 import { ITournamentModel } from '../../../models/tournament.model';
+import { TournamentsRoutingModule } from '../../../tournaments-routing.module';
+import { AddMatchToGroupUsecase } from '../../../usecases/add-match-to-group/add-match-to-group';
 import { AddTeamToGroupUsecase } from '../../../usecases/add-team-to-group/add-team-to-group.usecase';
 import { CreateGroupUsecase } from '../../../usecases/create-group/create-group.usecase';
+import { EditMatchOfGroupUsecase } from '../../../usecases/edit-match-of-group/edit-match-of-group';
 import { GetFixtureStagesUsecase } from '../../../usecases/get-fixture-stages/get-fixture-stages.usecase';
 import { GetPositionsTableByGroupUsecase } from '../../../usecases/get-positions-table-by-group/get-positions-table-by-group';
 import { GetTournamentInfoUsecase } from '../../../usecases/get-tournament-info/get-tournament-info';
@@ -18,6 +23,7 @@ import { AddTeamCardComponent } from '../../components/add-team-card/add-team-ca
 import { GROUP_LETTERS } from '../../components/components.constants';
 import { CreateGroupComponent } from '../../components/create-group/create-group.component';
 import { EditMatchCardComponent } from '../../components/edit-match-card/edit-match-card.component';
+import { EditMatchComponent } from '../edit-match/edit-match.component';
 
 @Component({
   selector: 'app-tournament-detail',
@@ -47,10 +53,14 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
     private getTournamentInfoUsecase: GetTournamentInfoUsecase,
     private getFixtureStagesUsecase: GetFixtureStagesUsecase,
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     public dialog: MatDialog,
     private getTeamsUsecase: GetTeamsUsecase,
     private addTeamToGroupUsecase: AddTeamToGroupUsecase,
-    private createGroupUsecase: CreateGroupUsecase
+    private createGroupUsecase: CreateGroupUsecase,
+    private addMatchToGroupUsecase: AddMatchToGroupUsecase,
+    private editMatchOfGroupUsecase: EditMatchOfGroupUsecase,
+    @Inject(RESOURCES_PERMISSIONS_IT) private resourcesPermissions: string[]
   ) {
     this.statusMapper = {
       'in progress': 'En progreso',
@@ -61,6 +71,21 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
     if (this.$teamSubscription) {
       this.$teamSubscription.unsubscribe();
     }
+  }
+
+  isAllowedToAddMatch() {
+    const identifier = 'tournaments:add-match:ui';
+    return hasPermission(identifier, this.resourcesPermissions);
+  }
+
+  isAllowedToAddTeam() {
+    const identifier = 'tournaments:add-team:ui';
+    return hasPermission(identifier, this.resourcesPermissions);
+  }
+
+  isAllowedToEditMatch() {
+    const identifier = 'tournaments:edit-match:ui';
+    return hasPermission(identifier, this.resourcesPermissions);
   }
 
   ngOnInit(): void {
@@ -89,14 +114,39 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
     this.$fixtureStages = this.getFixtureStagesUsecase.call(this.tournament.id);
     this.$fixtureStages.subscribe((data: IFixtureStageModel[]) => {
       this.fixtureStages = data;
-
     });
   }
 
   onAddTeam(data: any) {
     this.stageId = data.stageId;
     this.currentIndexGroup = data.index;
-    this.openDialog();
+    this.openAddTeamDialog();
+  }
+
+  onEditMatch(data: any) {
+    console.log(data);
+
+    this.router.navigate([TournamentsRoutingModule.route,EditMatchComponent.route],{
+      queryParams: {
+        match: JSON.stringify(data.match)
+      }
+      // relativeTo: this.activatedRoute
+    })
+
+    // this.stageId = data.stageId;
+    // this.currentIndexGroup = data.index;
+    // const teams =
+    //   this.fixtureStages
+    //     .filter((x) => {
+    //       return x.id == this.stageId;
+    //     })
+    //     .pop()
+    //     ?.groups.filter((x) => {
+    //       return x.index == this.currentIndexGroup;
+    //     })
+    //     .pop()?.teams || [];
+
+    // this.openEditMatchDialog(teams, data.match);
   }
 
   onAddMatch(data: any) {
@@ -113,10 +163,10 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
         })
         .pop()?.teams || [];
 
-    this.openMatchDialog(teams);
+    this.openCreateMatchDialog(teams);
   }
 
-  openDialog(): void {
+  openAddTeamDialog(): void {
     const dialogRef = this.dialog.open(AddTeamCardComponent, {
       width: '400px',
       height: '400px',
@@ -145,7 +195,6 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-
       this.createGroupUsecase
         .call({
           group: {
@@ -162,15 +211,106 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  openMatchDialog(teams: ITeamModel[]): void {
+  openCreateMatchDialog(teams: ITeamModel[]): void {
     const dialogRef = this.dialog.open(EditMatchCardComponent, {
       width: '400px',
-      height: '300px',
+      height: '400px',
       data: { teams },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed', result);
+      if (result) {
+        console.log(result);
+        const match: IMatchModel = {
+          teamA: result.teamA,
+          teamB: result.teamB,
+          date: new Date(result.date),
+          // scoreÑ
+        };
+
+        if (result.scoreA >= 0 && result.scoreB >= 0) {
+          match.score = {
+            teamA: result.scoreA,
+            teamB: result.scoreB,
+          };
+        }
+
+        const group = this.fixtureStages
+          .filter((x) => {
+            return x.id == this.stageId;
+          })
+          .pop()
+          ?.groups.filter((x) => {
+            return x.index == this.currentIndexGroup;
+          })
+          .pop();
+        if (group) {
+          this.addMatchToGroupUsecase
+            .call({
+              match,
+              groupIndex: group.index,
+              stageIndex: this.stageId,
+              tournamentId: this.tournament.id,
+            })
+            .subscribe(() => {
+              this.getFixtureStages();
+            });
+        }
+      }
+    });
+  }
+
+  openEditMatchDialog(teams: ITeamModel[], match: IMatchModel): void {
+    const dialogRef = this.dialog.open(EditMatchCardComponent, {
+      width: '400px',
+      height: '400px',
+      data: { teams, match },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        const match: IMatchModel = {
+          teamA: result.teamA,
+          teamB: result.teamB,
+          date: new Date(result.date),
+        };
+
+        if (result.scoreA >= 0 && result.scoreB >= 0) {
+          match.score = {
+            teamA: result.scoreA,
+            teamB: result.scoreB,
+          };
+        }
+
+        const group = this.fixtureStages
+          .filter((x) => {
+            return x.id == this.stageId;
+          })
+          .pop()
+          ?.groups.filter((x) => {
+            return x.index == this.currentIndexGroup;
+          })
+          .pop();
+        if (group) {
+          console.log({
+            match,
+            groupIndex: group.index,
+            stageIndex: this.stageId,
+            tournamentId: this.tournament.id,
+          });
+
+          this.editMatchOfGroupUsecase
+            .call({
+              match,
+              groupIndex: group.index,
+              stageIndex: this.stageId,
+              tournamentId: this.tournament.id,
+            })
+            .subscribe(() => {
+              this.getFixtureStages();
+            });
+        }
+      }
     });
   }
 }

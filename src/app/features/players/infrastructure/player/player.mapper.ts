@@ -26,4 +26,13 @@ export class PlayerMapper {
       image: player.image || '',
     };
   }
+
+  toJsonDB(player: IPlayerModel) {
+    return {
+      name: player.name,
+      'last-name': player.lastName || '',
+      id: player.id,
+      image: player.image || '',
+    };
+  }
 }

@@ -1,0 +1,303 @@
+<ng-container *ngIf="match">
+  <div class="row py-3 align-items-center">
+    <div class="col h-100">
+      <div class="row d-flex align-items-center">
+        <div class="d-flex col-5">
+          <app-team-summary-card [team]="match.teamA"> </app-team-summary-card>
+          <strong class="mx-2" *ngIf="match.score">{{
+            match.score.teamA
+          }}</strong>
+        </div>
+        <span class="col-2 text-center"> v </span>
+        <div class="d-flex col-5 justify-content-end">
+          <strong class="mx-2" *ngIf="match.score">{{
+            match.score.teamB
+          }}</strong>
+          <app-team-summary-card [team]="match.teamB"> </app-team-summary-card>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <ng-container *ngIf="formGroup">
+        <form [formGroup]="formGroup" class="row align-items-center">
+          <mat-form-field
+            class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4"
+            appearance="fill"
+          >
+            <mat-label>Fecha</mat-label>
+            <input
+              type="date"
+              placeholder="Pick one"
+              aria-label="Number"
+              matInput
+              formControlName="date"
+            />
+          </mat-form-field>
+          <mat-form-field
+            class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4"
+            appearance="fill"
+          >
+            <mat-label>Hora</mat-label>
+            <input
+              type="hour"
+              placeholder="Pick one"
+              aria-label="Number"
+              matInput
+              formControlName="hour"
+            />
+          </mat-form-field>
+
+          <mat-form-field
+            class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4"
+            appearance="fill"
+          >
+            <mat-label>Cancha</mat-label>
+            <input
+              type="text"
+              placeholder="Pick one"
+              aria-label="Number"
+              matInput
+              formControlName="playground"
+              [matAutocomplete]="auto1"
+            />
+            <mat-autocomplete class="my-3 col-4" #auto1="matAutocomplete">
+              <mat-option>Cancha 1 </mat-option>
+              <mat-option>Cancha 2 </mat-option>
+              <mat-option>Cancha 3 </mat-option>
+              <mat-option>Cancha 4 </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </form>
+      </ng-container>
+    </div>
+  </div>
+
+  <ng-container>
+    <div class="row">
+      <div class="col players-container" *ngIf="playersA">
+        <div
+          class="d-flex align-items-center justify-content-ekvenly"
+          *ngFor="let player of playersA"
+        >
+          <mat-checkbox class="mx-2"></mat-checkbox>
+          <mat-expansion-panel class="w-100">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <app-player-summary-card [player]="player">
+                </app-player-summary-card>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+        </div>
+      </div>
+
+      <div class="col players-container" *ngIf="playersB">
+        <div
+          class="d-flex align-items-center justify-content-ekvenly"
+          *ngFor="let player of playersB"
+        >
+          <mat-checkbox class="mx-2"></mat-checkbox>
+          <mat-expansion-panel class="w-100">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <app-player-summary-card [player]="player">
+                </app-player-summary-card>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="row">
+              <h3>Goles</h3>
+            </div>
+            <div class="row">
+              <mat-form-field class="col-lg-5" appearance="fill">
+                <mat-label>Minuto</mat-label>
+                <input
+                  type="number"
+                  placeholder="15"
+                  aria-label="Number"
+                  matInput
+                  [(ngModel)]="minute"
+                />
+              </mat-form-field>
+
+              <mat-form-field class="col-lg-5" appearance="fill">
+                <mat-label>Tipo de gol</mat-label>
+                <mat-select [(ngModel)]="selectedKindGoal">
+                  <mat-option>None</mat-option>
+                  <mat-option *ngFor="let kind of goalKind" [value]="kind">{{
+                    kind
+                  }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <div class="col-lg-2">
+                <button mat-button (click)="addGoal(player)">
+                  <mat-icon> add </mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="row">
+              <mat-chip-list
+                *ngIf="stadistics[player.id]"
+                aria-label="Fish selection"
+              >
+                <mat-chip
+                  *ngFor="let goal of stadistics[player.id]['goals']"
+                  color="primary"
+                >
+                  Min: {{ goal.minute }} - {{ goal["kind-goal"] }}
+                </mat-chip>
+              </mat-chip-list>
+            </div>
+
+            <hr />
+
+            <div class="row">
+              <h3>Tarjetas Amarillas</h3>
+            </div>
+            <div class="row">
+              <mat-form-field class="col-lg-5" appearance="fill">
+                <mat-label>Minuto</mat-label>
+                <input
+                  type="number"
+                  placeholder="15"
+                  aria-label="Number"
+                  matInput
+                  [(ngModel)]="minuteCard"
+                />
+              </mat-form-field>
+
+              <div class="col-lg-2">
+                <button mat-button (click)="addCard(player,'yellowCards')">
+                  <mat-icon> add </mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="row">
+              <mat-chip-list
+                *ngIf="stadistics[player.id]"
+                aria-label="Fish selection"
+              >
+                <mat-chip
+                  class="bg-warning"
+                  *ngFor="let goal of stadistics[player.id]['yellowCards']"
+                >
+                  Min: {{ goal }} 
+                </mat-chip>
+              </mat-chip-list>
+            </div>
+
+            <hr />
+
+            <div class="row">
+              <h3>Tarjetas Rojas</h3>
+            </div>
+            <div class="row">
+              <mat-form-field class="col-lg-5" appearance="fill">
+                <mat-label>Minuto</mat-label>
+                <input
+                  type="number"
+                  placeholder="15"
+                  aria-label="Number"
+                  matInput
+                  [(ngModel)]="redMinuteCard"
+                />
+              </mat-form-field>
+
+              <div class="col-lg-2">
+                <button mat-button (click)="addCard(player,'redCards')">
+                  <mat-icon> add </mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="row">
+              <mat-chip-list
+                *ngIf="stadistics[player.id]"
+                aria-label="Fish selection"
+              >
+                <mat-chip
+                  *ngFor="let goal of stadistics[player.id]['redCards']"
+                  class="bg-danger text-white"
+
+                >
+                  Min: {{ goal }} 
+                </mat-chip>
+              </mat-chip-list>
+            </div>
+          </mat-expansion-panel>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
+
+<!-- <form *ngIf="formGroup" class="d-flex flex-column" [formGroup]="formGroup">
+    <div *ngIf="_teams">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Equipo A</mat-label>
+        <input
+          type="text"
+          placeholder="Pick one"
+          aria-label="Number"
+          matInput
+          formControlName="teamA"
+        />
+    
+      </mat-form-field>
+  
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Equipo B</mat-label>
+        <input
+          type="text"
+          placeholder="Equipo B"
+          aria-label="Number"
+          matInput
+          formControlName="teamB"
+          [matAutocomplete]="auto2"
+        />
+        <mat-autocomplete class="my-3 col-4" #auto2="matAutocomplete">
+          <mat-option
+            *ngFor="let team of _teams"
+            [value]="team.name"
+            (click)="optionSelected('teamB', team)"
+          >
+            <app-team-summary-card [team]="team"> </app-team-summary-card>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <mat-form-field class="w-100" appearance="fill">
+      <mat-label>Fecha y hora</mat-label>
+      <input
+        type="datetime-local"
+        placeholder="Pick one"
+        aria-label="Number"
+        matInput
+        formControlName="date"
+        value="{{_match?.date}}"
+      />
+    </mat-form-field>
+  
+    <div class="d-flex">
+      <mat-form-field class="w-50" appearance="fill">
+        <mat-label>Score Equipo A</mat-label>
+        <input
+          type="number"
+          placeholder="Pick one"
+          aria-label="Number"
+          matInput
+          formControlName="scoreA"
+        />
+      </mat-form-field>
+      <mat-form-field class="w-50" appearance="fill">
+        <mat-label>Score Equipo B</mat-label>
+        <input
+          type="number"
+          placeholder="Pick one"
+          aria-label="Number"
+          matInput
+          formControlName="scoreB"
+        />
+      </mat-form-field>
+    </div>
+    <button (click)="save()" mat-button>Guardar</button>
+  </form>
+   -->

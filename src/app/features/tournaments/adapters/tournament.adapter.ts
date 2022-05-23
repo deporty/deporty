@@ -32,4 +32,19 @@ export abstract class TournamentAdapter {
     stageId: string,
     group: Omit<IGroupModel,'index'>
   ): Observable<void>;
+
+  abstract addMatchToGroupInsideTournament(
+    tournamentId: string,
+    stageId: string,
+    groupIndex: number,
+    match: IMatchModel
+  ): Observable<void>;
+
+  abstract editMatchOfGroupInsideTournament(
+    tournamentId: string,
+    stageId: string,
+    groupIndex: number,
+    match: IMatchModel
+  ): Observable<void>;
+
 }

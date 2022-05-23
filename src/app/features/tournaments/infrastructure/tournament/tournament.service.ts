@@ -15,6 +15,7 @@ import {
   limit,
   QuerySnapshot,
   setDoc,
+  updateDoc,
 } from 'firebase/firestore/lite';
 
 import { from, Observable } from 'rxjs';
@@ -134,12 +135,29 @@ export class TournamentService extends TournamentAdapter {
     return new Observable((observer) => {
       from(getDoc(stageDoc)).subscribe((data) => {
         const docu = { ...data.data() };
+        if (!docu.groups[groupIndex].teams) {
+          docu.groups[groupIndex].teams = [];
+        }
+
+        if (!docu.groups[groupIndex].matches) {
+          docu.groups[groupIndex].matches = [];
+        }
         for (const team of teams) {
-          (docu.groups[groupIndex].teams as any[]).push({
-            id: team.id,
-            name: team.name,
-            shield: team.shield || '',
-          });
+          let isExists = false;
+          for (const _team of docu.groups[groupIndex].teams) {
+            isExists = _team['name'] == team['name'];
+            if (isExists) {
+              break;
+            }
+          }
+
+          if (!isExists) {
+            (docu.groups[groupIndex].teams as any[]).push({
+              id: team.id,
+              name: team.name,
+              shield: team.shield || '',
+            });
+          }
         }
         from(setDoc(stageDoc, docu)).subscribe(() => {
           observer.next();
@@ -170,6 +188,109 @@ export class TournamentService extends TournamentAdapter {
         }
         (docu.groups as any[]).push(this.groupMapper.toJson(group as any));
         from(setDoc(stageDoc, docu)).subscribe(() => {
+          observer.next();
+          observer.complete();
+        });
+      });
+    });
+  }
+
+  addMatchToGroupInsideTournament(
+    tournamentId: string,
+    stageId: string,
+    groupIndex: number,
+    match: IMatchModel
+  ): Observable<void> {
+    const stageDoc = doc(
+      firestore,
+      TournamentService.collection,
+      tournamentId,
+      'fixture-stages',
+      stageId
+    );
+    return new Observable((observer) => {
+      from(getDoc(stageDoc)).subscribe((data) => {
+        const docu = { ...data.data() };
+        if (!docu.groups[groupIndex].teams) {
+          docu.groups[groupIndex].teams = [];
+        }
+
+        if (!docu.groups[groupIndex].matches) {
+          docu.groups[groupIndex].matches = [];
+        }
+        const matchDB = this.matchMapper.toWeakJson(match);
+
+        if (!docu.groups[groupIndex].matches) {
+          docu.groups[groupIndex].matches = [];
+        }
+        let isPresent = false;
+
+        for (const _match of docu.groups[groupIndex].matches) {
+          isPresent =
+            (_match['team-a'].name == match.teamA.name &&
+              _match['team-b'].name == match.teamB.name) ||
+            (_match['team-a'].name == match.teamB.name &&
+              _match['team-b'].name == match.teamA.name);
+          if (isPresent) {
+            break;
+          }
+        }
+        if (!isPresent) {
+          docu.groups[groupIndex].matches.push(matchDB);
+
+          from(setDoc(stageDoc, docu)).subscribe(() => {
+            observer.next();
+            observer.complete();
+          });
+        } else {
+          observer.next();
+          observer.complete();
+        }
+      });
+    });
+  }
+
+  editMatchOfGroupInsideTournament(
+    tournamentId: string,
+    stageId: string,
+    groupIndex: number,
+    match: IMatchModel
+  ): Observable<void> {
+    const stageDoc = doc(
+      firestore,
+      TournamentService.collection,
+      tournamentId,
+      'fixture-stages',
+      stageId
+    );
+
+    return new Observable((observer) => {
+      from(getDoc(stageDoc)).subscribe((data) => {
+        const docu = { ...data.data() };
+
+        const matchDB = this.matchMapper.toWeakJson(match);
+
+        if (!docu.groups[groupIndex].matches) {
+          docu.groups[groupIndex].matches = [];
+        }
+        let index = 0;
+        for (const _match of [...docu.groups[groupIndex].matches]) {
+          const isMatch =
+            (_match['team-a'].name == match.teamA.name &&
+              _match['team-b'].name == match.teamB.name) ||
+            (_match['team-a'].name == match.teamB.name &&
+              _match['team-b'].name == match.teamA.name);
+          index += 1;
+
+          if (isMatch) {
+            break;
+          }
+        }
+        index -= 1;
+
+        docu.groups[groupIndex].matches[index] = matchDB;
+
+        from(updateDoc(stageDoc, docu)).subscribe(() => {
           observer.next();
           observer.complete();
         });

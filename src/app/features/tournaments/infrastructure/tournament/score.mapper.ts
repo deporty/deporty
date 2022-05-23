@@ -9,4 +9,11 @@ export class ScoreMapper {
       teamB: obj['team-b'],
     };
   }
+
+  toJson(score: IScoreModel) {
+    return {
+      'team-a':score.teamA,
+      'team-b':score.teamB,
+    };
+  }
 }
