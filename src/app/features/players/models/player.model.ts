@@ -1,10 +1,10 @@
-export interface IPlayerModel {
-  lastName?: string;
-  name: string;
-  document: string;
+import { IUserModel } from "../../auth/domain/models/user.model";
+
+export interface IPlayerModel extends Omit<IUserModel,'phone' | 'email'> {
   number: number;
   role: string;
-  image?: string;
   alias: string;
   id: string;
 }
+
+export type ICreatePlayerModel = Omit<IPlayerModel, 'id'>;

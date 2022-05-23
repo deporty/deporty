@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginComponent } from './ui/pages/login/login.component';
+import { LoginComponent } from './presentation/pages/login/login.component';
 import { AuthRoutingModule } from './auth-routing.module';
 import { RouterModule } from '@angular/router';
 import { LoginUserUsecase } from './domain/usecases/login-user/login-user.usecase';
@@ -15,22 +15,12 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CoreModule } from 'src/app/core/core.module';
 import { IsUserLoggedInUsecase } from './domain/usecases/is-user-logged-in/is-user-logged-in.usecase';
+import { CreateResourceComponent } from './presentation/pages/create-resource/create-resource.component';
+import { PagesModule } from './presentation/pages/pages.module';
 
 @NgModule({
-  declarations: [LoginComponent],
-  imports: [
-    CoreModule,
-    CommonModule,
-    AuthRoutingModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatGridListModule,
-    MatSnackBarModule,
-    FormsModule,
-    ReactiveFormsModule,
-  ],
+  declarations: [],
+  imports: [CoreModule, CommonModule, AuthRoutingModule, PagesModule],
   providers: [
     LoginUserUsecase,
     IsUserLoggedInUsecase,

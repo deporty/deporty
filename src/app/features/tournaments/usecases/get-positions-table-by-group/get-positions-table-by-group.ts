@@ -52,30 +52,33 @@ export class GetPositionsTableByGroupUsecase extends BaseUsecase<
           teams[teamBName] = match.teamB;
         }
 
-        if (match.score) {
+        const winnerTeam = this.getWinnerTeam(match as Required<IMatchModel>);
+
+        if (winnerTeam !== undefined) {
           table[teamAName].playedMatches = table[teamAName].playedMatches + 1;
           table[teamBName].playedMatches = table[teamBName].playedMatches + 1;
 
-          table[teamAName].goalsAgainst =
-            table[teamAName].goalsAgainst + match.score.teamB;
-          table[teamBName].goalsAgainst =
-            table[teamBName].goalsAgainst + match.score.teamA;
+          if (match.score) {
+            table[teamAName].goalsAgainst =
+              table[teamAName].goalsAgainst + match.score.teamB;
+            table[teamBName].goalsAgainst =
+              table[teamBName].goalsAgainst + match.score.teamA;
 
-          table[teamAName].goalsInFavor =
-            table[teamAName].goalsInFavor + match.score.teamA;
-          table[teamBName].goalsInFavor =
-            table[teamBName].goalsInFavor + match.score.teamB;
+            table[teamAName].goalsInFavor =
+              table[teamAName].goalsInFavor + match.score.teamA;
+            table[teamBName].goalsInFavor =
+              table[teamBName].goalsInFavor + match.score.teamB;
 
-          table[teamAName].goalsDifference =
-            table[teamAName].goalsDifference +
-            match.score.teamA -
-            match.score.teamB;
-          table[teamBName].goalsDifference =
-            table[teamBName].goalsDifference +
-            match.score.teamB -
-            match.score.teamA;
+            table[teamAName].goalsDifference =
+              table[teamAName].goalsDifference +
+              match.score.teamA -
+              match.score.teamB;
+            table[teamBName].goalsDifference =
+              table[teamBName].goalsDifference +
+              match.score.teamB -
+              match.score.teamA;
+          }
 
-          const winnerTeam = this.getWinnerTeam(match as Required<IMatchModel>);
           if (winnerTeam) {
             table[winnerTeam.winner].points =
               table[winnerTeam.winner].points + 3;
@@ -84,7 +87,11 @@ export class GetPositionsTableByGroupUsecase extends BaseUsecase<
               table[winnerTeam.winner].wonMatches + 1;
             table[winnerTeam.loser].lostMatches =
               table[winnerTeam.loser].lostMatches + 1;
-          } else {
+          } else if (winnerTeam === null) {
+            table[teamAName].tiedMatches = table[teamAName].tiedMatches + 1;
+
+            table[teamBName].tiedMatches = table[teamBName].tiedMatches + 1;
+
             table[teamBName].points = table[teamBName].points + 1;
             table[teamAName].points = table[teamAName].points + 1;
           }
@@ -92,34 +99,63 @@ export class GetPositionsTableByGroupUsecase extends BaseUsecase<
       }
     }
 
-      return of(
+    return of(
       Object.keys(table)
         .map((entry: string) => {
           const value = table[entry];
           return {
             team: teams[entry],
             ...value,
-            goalsAgainstPerMatch: value.goalsAgainst / value.playedMatches,
+            goalsAgainstPerMatch:
+              Math.trunc((value.goalsAgainst / value.playedMatches) * 100) /
+              100,
           } as IPointsStadisticsModel;
         })
         .sort((prev, next) => {
-          return prev.points < next.points ? 1 : -1;
+          if (prev.points < next.points) {
+            return 1;
+          } else if (prev.points > next.points) {
+            return -1;
+          } else {
+            if (prev.goalsDifference < next.goalsDifference) {
+              return 1;
+            } else if (prev.goalsDifference > next.goalsDifference) {
+              return -1;
+            } else {
+              if (prev.goalsInFavor < next.goalsInFavor) {
+                return 1;
+              } else if (prev.goalsInFavor > next.goalsInFavor) {
+                return -1;
+              } else {
+                return 1;
+              }
+            }
+          }
         })
     );
   }
   getWinnerTeam(match: Required<IMatchModel>) {
-    let response = null;
-
-    if (match.score.teamA < match.score.teamB) {
-      response = {
-        winner: match.teamB.name,
-        loser: match.teamA.name,
-      };
-    } else if (match.score.teamA > match.score.teamB) {
-      response = {
-        winner: match.teamA.name,
-        loser: match.teamB.name,
-      };
+    let response = undefined;
+    if (
+      match.score &&
+      match.score.teamA &&
+      match.score.teamB &&
+      typeof match.score.teamA == 'number' &&
+      typeof match.score.teamB == 'number'
+    ) {
+      if (match.score.teamA < match.score.teamB) {
+        response = {
+          winner: match.teamB.name,
+          loser: match.teamA.name,
+        };
+      } else if (match.score.teamA > match.score.teamB) {
+        response = {
+          winner: match.teamA.name,
+          loser: match.teamB.name,
+        };
+      } else {
+        response = null;
+      }
     }
 
     return response;

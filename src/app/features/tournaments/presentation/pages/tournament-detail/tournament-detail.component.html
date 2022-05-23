@@ -50,6 +50,8 @@
         <h2>Fase de Grupos ({{ stage.order }})</h2>
         <button
           mat-raised-button
+          appIsAllowed
+          identifier="tournaments:create-group:ui"
           class="col-12 col-sm-3 col-md-3 col-lg-2 col-xl-2"
           color="primary"
           (click)="openCreateGroupDialog(stage.id || '')"
@@ -71,6 +73,10 @@
           <app-group-card
             (on-add-team)="onAddTeam($event)"
             (on-add-match)="onAddMatch($event)"
+            (on-edit-match)="onEditMatch($event)"
+            [add-match-flag]="isAllowedToAddMatch()"
+            [add-team-flag]="isAllowedToAddTeam()"
+            [edit-match-flag]="isAllowedToEditMatch()"
             stage-id="{{ stage.id }}"
             [group]="group"
           >

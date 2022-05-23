@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './ui/pages/login/login.component';
+import { LoginComponent } from './presentation/pages/login/login.component';
 
 const routes: Routes = [
   {

@@ -28,7 +28,7 @@ export class GroupMapper {
     return {
       label: group.label,
       matches: group.matches || [],
-      teams: group.teams.map((x) => this.teamMapper.toJsonDB(x)) || [],
+      teams: group.teams.map((x) => this.teamMapper.toWeakJson(x)) || [],
     };
   }
 }

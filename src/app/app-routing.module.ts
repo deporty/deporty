@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { IsLoggedInGuard } from './core/guards/is-logged-in/is-logged-in.guard';
 import { IsNotLoggedInGuard } from './core/guards/is-not-logged-in/is-not-logged-in.guard';
+import { LoggedInContainerComponent } from './core/presentation/components/logged-in-container/logged-in-container.component';
 import { AuthRoutingModule } from './features/auth/auth-routing.module';
 import { AuthModule } from './features/auth/auth.module';
 import { HomeRoutingModule } from './features/home/home-routing.module';
@@ -12,9 +13,11 @@ import { TournamentsRoutingModule } from './features/tournaments/tournaments-rou
 const routes: Routes = [
   {
     path: '',
-    redirectTo: HomeRoutingModule.route,
+    redirectTo: TournamentsRoutingModule.route,
     pathMatch: 'full',
   },
+
+
   {
     path: AuthRoutingModule.route,
     loadChildren: () =>
@@ -47,6 +50,9 @@ const routes: Routes = [
       import('./features/tournaments/tournaments.module').then(
         (m) => m.TournamentsModule
       ),
+      data: {
+        display: TournamentsRoutingModule.display
+      }
     // canLoad: [IsLoggedInGuard],
   },
 ];

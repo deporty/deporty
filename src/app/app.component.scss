@@ -3,9 +3,30 @@
     cursor: pointer;
   }
   $header-height: 64px;
+  $sub-header-height: 0px;
+
   $footer-height: 70px;
-  $available-space: calc(100vh - #{$header-height} - #{$footer-height});
+  $available-space: calc(100vh - #{$header-height});
   $aside-width: 0px;
+
+  $iso-size: 200px;
+  $subheader-height: 30px;
+  $menu-footer-height: 40px;
+  .iso {
+    width: $iso-size;
+    height: $iso-size;
+  }
+  .subheader {
+    height: $subheader-height;
+  }
+  .menu {
+    height: calc(100% - #{$iso-size} - #{$subheader-height} - #{$menu-footer-height});
+  }
+  .menu-footer {
+    padding-top: 5px;
+    height: $menu-footer-height;
+    padding-left: 10px;
+  }
 
   .no-gutters {
     margin-right: 0;
@@ -17,7 +38,9 @@
       padding-left: 0;
     }
   }
-
+  mat-toolbar {
+    height: $header-height;
+  }
   .app-container {
     height: calc(100% - #{$header-height});
     width: 100%;
@@ -29,13 +52,35 @@
     overflow-x: hidden;
     overflow-y: auto;
     width: calc(100% - #{$aside-width});
-    // background-color: rgba(185, 185, 36, 1);
 
-   
+    > header {
+      height: $sub-header-height;
+      padding-left: 15px;
+      display: flex;
+      align-items: center;
+      a {
+        text-decoration: underline !important;
+      }
+    }
+    > section {
+      height: calc(100% - #{$sub-header-height} - #{$footer-height});
+    }
+    > footer {
+      height: $footer-height;
+      padding: 0;
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      padding: 0;
+      img {
+        width: 100%;
+        height: $footer-height;
+        padding: 0;
+      }
+    }
   }
   .ad-aside {
     height: calc(100vh - #{$header-height});
-    // background-color: #e74c3c;
     position: fixed;
     right: 0;
     width: $aside-width;
@@ -44,21 +89,5 @@
     margin: 0;
     display: flex;
     border-left: 1px solid rgb(196, 196, 196);
-  }
-  .ad-footer {
-    height: $footer-height;
-    // display: none;
-    padding: 0;
-    background-color: gray;
-    width: 100%;
-    // border: 1px solid blue;
-    position: absolute;
-    bottom: 0;
-    padding: 0;
-    img {
-      width: 100%;
-      height: $footer-height;
-      padding: 0;
-    }
   }
 }

@@ -22,17 +22,24 @@ export class TeamMapper {
     };
   }
 
-  toJsonDB(team: ITeamModel) {
+  toJson(team: ITeamModel) {
     return {
       name: team.name,
       athem: team.athem || '',
       members: team.members
         ? (team.members as []).map((member) => {
-            return this.playerMapper.toJson(member);
+            return this.playerMapper.toJsonDB(member);
           })
         : [],
       shield: team.shield || '',
       agent: team.agent || '',
+    };
+  }
+
+  toWeakJson(team: ITeamModel) {
+    return {
+      name: team.name ,
+      shield: team.shield || '',
     };
   }
 }

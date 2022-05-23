@@ -1,4 +1,4 @@
-<form class="d-flex flex-column" [formGroup]="formGroup">
+<form *ngIf="formGroup" class="d-flex flex-column" [formGroup]="formGroup">
   <div *ngIf="_teams">
     <mat-form-field class="w-100" appearance="fill">
       <mat-label>Equipo A</mat-label>
@@ -44,13 +44,14 @@
     </mat-form-field>
   </div>
   <mat-form-field class="w-100" appearance="fill">
-    <mat-label>Equipos</mat-label>
+    <mat-label>Fecha y hora</mat-label>
     <input
-      type="date"
+      type="datetime-local"
       placeholder="Pick one"
       aria-label="Number"
       matInput
       formControlName="date"
+      value="{{_match?.date}}"
     />
   </mat-form-field>
 

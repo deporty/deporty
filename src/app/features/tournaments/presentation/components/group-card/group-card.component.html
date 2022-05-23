@@ -1,8 +1,7 @@
-
 <div class="row d-flex">
   <section
     class="border col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"
-    *ngIf="group "
+    *ngIf="group"
   >
     <strong mat-subheader
       >Equipos
@@ -24,8 +23,8 @@
   </section>
 
   <section
-    class="border col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"
-    *ngIf="group "
+    class="border p-0 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"
+    *ngIf="group"
   >
     <strong mat-subheader
       >Partidos
@@ -39,14 +38,15 @@
       </button>
     </strong>
 
-    <mat-list>
-      <mat-list-item
-        class="app-mat-list-item"
+    <section class="matches p-0">
+      <app-match-summary-card
         *ngFor="let match of group.matches"
+        [match]="match"
+        [edit-flag]="editMatchFlag"
+        (on-edit-match)="onEditMatch.emit({ index: group.index, stageId: stageId, match: match })"
       >
-        <app-match-summary-card [match]="match"> </app-match-summary-card>
-      </mat-list-item>
-    </mat-list>
+      </app-match-summary-card>
+    </section>
   </section>
 </div>
 <div *ngIf="results && results.length > 0" class="position-table row">

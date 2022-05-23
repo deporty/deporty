@@ -5,13 +5,14 @@ import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { init } from './init-app';
+import { init, RESOURCES_PERMISSIONS, RESOURCES_PERMISSIONS_IT } from './init-app';
 import { CoreModule } from './core/core.module';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
+import { AdsModule } from './features/ads/ads.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,6 +26,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatListModule,
     MatToolbarModule,
     MatIconModule,
+    AdsModule
   ],
   providers: [
     {
@@ -32,6 +34,10 @@ import { MatIconModule } from '@angular/material/icon';
       useFactory: () => init,
       multi: true,
     },
+    {
+      provide: RESOURCES_PERMISSIONS_IT,
+      useValue: RESOURCES_PERMISSIONS
+    }
   ],
   bootstrap: [AppComponent],
 })

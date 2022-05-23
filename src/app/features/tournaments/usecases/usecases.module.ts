@@ -9,6 +9,8 @@ import { GetFixtureStagesUsecase } from './get-fixture-stages/get-fixture-stages
 import { GetPositionsTableByGroupUsecase } from './get-positions-table-by-group/get-positions-table-by-group';
 import { AddTeamToGroupUsecase } from './add-team-to-group/add-team-to-group.usecase';
 import { CreateGroupUsecase } from './create-group/create-group.usecase';
+import { AddMatchToGroupUsecase } from './add-match-to-group/add-match-to-group';
+import { EditMatchOfGroupUsecase } from './edit-match-of-group/edit-match-of-group';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { CreateGroupUsecase } from './create-group/create-group.usecase';
     GetFixtureStagesUsecase,
     GetPositionsTableByGroupUsecase,
     AddTeamToGroupUsecase,
-    CreateGroupUsecase
+    CreateGroupUsecase,
+    AddMatchToGroupUsecase,
+    EditMatchOfGroupUsecase
   ],
   imports: [CommonModule, InfrastructureModule],
 })

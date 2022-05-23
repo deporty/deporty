@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CoreModule } from 'src/app/core/core.module';
 import { ComponentsModule } from '../components/components.module';
 import { CreatePlayerComponent } from './create-player/create-player.component';
@@ -25,6 +26,7 @@ const COMPONENTS = [CreatePlayerComponent, ViewAllComponent];
     MatExpansionModule,
     MatDialogModule,
     ReactiveFormsModule,
+    MatProgressSpinnerModule,
     FormsModule,
     MatSortModule,
     MatButtonModule,
