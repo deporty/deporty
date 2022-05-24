@@ -1,0 +1,144 @@
+<div
+  class="d-flex align-items-center justify-content-ekvenly"
+  *ngFor="let player of players"
+>
+  <mat-checkbox
+    [checked]="selectedPlayers.indexOf(player.id) >= 0"
+    (change)="selectPlayer(player)"
+    class="mx-2"
+  ></mat-checkbox>
+  <mat-expansion-panel class="w-100">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <app-player-summary-card [player]="player"> </app-player-summary-card>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="row">
+      <h3>Goles</h3>
+    </div>
+    <div class="row">
+      <div class="col-lg-5" appearance="fill">
+        <mat-label>Minuto</mat-label>
+        <input
+          type="number"
+          placeholder="15"
+          aria-label="Number"
+          matInput
+          [(ngModel)]="minute"
+        />
+      </div>
+
+      <div class="col-lg-5" appearance="fill">
+        <mat-label>Tipo de gol</mat-label>
+        <mat-select [(ngModel)]="selectedKindGoal">
+          <mat-option>None</mat-option>
+          <mat-option *ngFor="let kind of goalKind" [value]="kind">{{
+            kind
+          }}</mat-option>
+        </mat-select>
+      </div>
+      <div class="col-lg-2">
+        <button mat-button (click)="addGoal(player)">
+          <mat-icon> add </mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <mat-chip-list
+        *ngIf="stadistics && stadistics[player.id]"
+        aria-label="Fish selection"
+      >
+        <mat-chip
+          *ngFor="let goal of stadistics[player.id]['goals']; let i = index"
+          color="primary"
+        >
+          Min: {{ goal.minute }} - {{ goal["kindGoal"] }}
+          <mat-icon (click)="deleteGoal(player, i)"> clear </mat-icon>
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+
+    <hr />
+
+    <div class="row">
+      <h3>Tarjetas Amarillas</h3>
+    </div>
+    <div class="row">
+      <div class="col-lg-5" appearance="fill">
+        <mat-label>Minuto</mat-label>
+        <input
+          type="number"
+          placeholder="15"
+          aria-label="Number"
+          matInput
+          [(ngModel)]="minuteCard"
+        />
+      </div>
+
+      <div class="col-lg-2">
+        <button mat-button (click)="addCard(player, 'yellowCards')">
+          <mat-icon> add </mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <mat-chip-list
+        *ngIf="stadistics && stadistics[player.id]"
+        aria-label="Fish selection"
+      >
+        <mat-chip
+          class="bg-warning"
+          *ngFor="
+            let goal of stadistics[player.id]['yellowCards'];
+            let i = index
+          "
+        >
+          Min: {{ goal }}
+          <mat-icon (click)="deleteCard(player, i, 'yellowCards')">
+            clear
+          </mat-icon>
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+
+    <hr />
+
+    <div class="row">
+      <h3>Tarjetas Rojas</h3>
+    </div>
+    <div class="row">
+      <div class="col-lg-5" appearance="fill">
+        <mat-label>Minuto</mat-label>
+        <input
+          type="number"
+          placeholder="15"
+          aria-label="Number"
+          matInput
+          [(ngModel)]="redMinuteCard"
+        />
+      </div>
+
+      <div class="col-lg-2">
+        <button mat-button (click)="addCard(player, 'redCards')">
+          <mat-icon> add </mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <mat-chip-list
+        *ngIf="stadistics && stadistics[player.id]"
+        aria-label="Fish selection"
+      >
+        <mat-chip
+          *ngFor="let goal of stadistics[player.id]['redCards']; let i = index"
+          class="bg-danger text-white"
+        >
+          Min: {{ goal }}
+          <mat-icon (click)="deleteCard(player, i, 'redCards')">
+            clear
+          </mat-icon>
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+  </mat-expansion-panel>
+</div>

@@ -18,7 +18,7 @@ export class CreatePlayerCardComponent implements OnInit {
     this.formGroup = new FormGroup({
       name: new FormControl('', Validators.required),
       email: new FormControl('', Validators.required),
-      id: new FormControl('', Validators.required),
+      document: new FormControl('', Validators.required),
       lastName: new FormControl('', Validators.required),
       image: new FormControl(''),
     });

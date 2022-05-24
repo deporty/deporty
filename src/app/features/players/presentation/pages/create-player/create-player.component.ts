@@ -23,7 +23,7 @@ export class CreatePlayerComponent implements OnInit {
 
   createPlayer(value: any) {
     if (value) {
-      const filePath = `players/${value.playerData.id}/profile.jpg`;
+      const filePath = `players/${value.playerData.document}/profile.jpg`;
       this.uploadFileUsecase
         .call({
           file: value.img,

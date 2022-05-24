@@ -29,6 +29,7 @@ import { AdsModule } from './features/ads/ads.module';
     AdsModule
   ],
   providers: [
+    
     {
       provide: APP_INITIALIZER,
       useFactory: () => init,
