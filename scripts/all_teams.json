@@ -1,67 +1,67 @@
 {
     "0YdP72BUeApEckNbSGIW": {
-        "members": [],
-        "shield": "",
         "name": "TU CEL ACCESORIOS",
+        "members": [],
         "athem": "",
-        "agent": ""
+        "agent": "",
+        "shield": ""
     },
     "2nmhfIMTVWtokVBPDbmt": {
-        "members": [],
+        "agent": "",
         "shield": "",
-        "name": "EURO MALLAS",
         "athem": "",
-        "agent": ""
+        "name": "EURO MALLAS",
+        "members": []
     },
     "3UaeR0rbRByxNiA9hu1O": {
-        "members": [],
-        "shield": "",
-        "agent": "",
         "name": "ARSENAL",
-        "athem": ""
+        "athem": "",
+        "agent": "",
+        "shield": "",
+        "members": []
     },
     "3x2lBCklMVxDk3BBeLWN": {
-        "members": [],
-        "shield": "",
         "name": "LOS KORIOTOS",
         "athem": "",
-        "agent": ""
+        "shield": "",
+        "agent": "",
+        "members": []
     },
     "4LFIvzS8gKke5EYEEAFq": {
-        "members": [],
-        "shield": "",
-        "name": "MILENIALS F.C",
         "athem": "",
+        "name": "MILENIALS F.C",
+        "shield": "",
+        "members": [],
         "agent": ""
     },
     "50VGBkVyW6IAHdLvq4dc": {
-        "members": [],
+        "agent": "",
         "shield": "",
         "athem": "",
         "name": "PACHOTRUCK F.C",
-        "agent": ""
+        "members": []
     },
     "50tMWhW4gV4QTBCWyxqS": {
-        "members": [],
-        "shield": "",
-        "agent": "",
-        "name": "AUTOMATICAS",
-        "athem": ""
-    },
-    "6cF4QOrXnBnpxs0B9s8a": {
-        "members": [],
-        "shield": "",
-        "name": "YONETBA STORE",
         "athem": "",
+        "name": "AUTOMATICAS",
+        "shield": "",
+        "members": [],
         "agent": ""
     },
-    "8Nmck1lyQgJB2XzNvGdB": {
-        "name": "CALIDOSOS",
-        "shield": "teams/8Nmck1lyQgJB2XzNvGdB/brand/shield.png",
+    "6cF4QOrXnBnpxs0B9s8a": {
+        "name": "YONETBA STORE",
         "athem": "",
         "agent": "",
-        "id": "8Nmck1lyQgJB2XzNvGdB",
+        "shield": "",
         "members": []
+    },
+    "8Nmck1lyQgJB2XzNvGdB": {
+        "athem": "",
+        "members": [],
+        "agent": "",
+        "shield": "teams/8Nmck1lyQgJB2XzNvGdB/brand/shield.png",
+        "id": "8Nmck1lyQgJB2XzNvGdB",
+        "name": "CALIDOSOS"
     },
     "8SROrTvAf1wYvGHRa2E1": {
         "name": "ABC JURIDICA S.A.S - EURO REPUESTOS EL BOMBI"
@@ -70,17 +70,17 @@
         "name": "SAO PAULO TIENDA DE ROPA"
     },
     "B0RIqqO0X8DQu1HgOZOs": {
-        "members": [],
         "shield": "",
+        "members": [],
         "name": "REAL SOCIEDAD",
-        "athem": "",
-        "agent": ""
+        "agent": "",
+        "athem": ""
     },
     "EObGU24Qu1GHLcppnnx7": {
-        "members": [],
+        "athem": "",
         "shield": "",
         "name": "COMERCIALIZADORA CAMPOAMOR",
-        "athem": "",
+        "members": [],
         "agent": ""
     },
     "FPMuM1WrotBpz5W1Anfr": {
@@ -90,128 +90,128 @@
         "name": "DON JUAN BAR"
     },
     "G5hCxfDjOgdHeBUEDbD3": {
-        "members": [],
         "shield": "",
         "agent": "",
-        "name": "F&A CONTROL Y PREVENCION DE PLAGAS",
-        "athem": ""
+        "members": [],
+        "athem": "",
+        "name": "F&A CONTROL Y PREVENCION DE PLAGAS"
     },
     "GVYiwegZvbtDqw5UwRYN": {
-        "members": [],
-        "shield": "",
-        "athem": "",
         "name": "URBAN STORE GM",
-        "agent": ""
+        "agent": "",
+        "athem": "",
+        "shield": "",
+        "members": []
     },
     "H5xwVpqSCcPv3rNsZYGN": {
         "members": [],
-        "shield": "",
         "athem": "",
         "name": "INDEPENDIENTE",
+        "shield": "",
         "agent": ""
     },
     "KXT44ChFJIRf399uMgHo": {
-        "members": [],
+        "agent": "",
         "shield": "",
-        "name": "LIVERPOOL",
         "athem": "",
-        "agent": ""
+        "name": "LIVERPOOL",
+        "members": []
     },
     "LW3YBY5UFbWtFBIlsSSJ": {
-        "members": [],
-        "shield": "",
         "athem": "",
+        "shield": "",
         "agent": "",
+        "members": [],
         "name": "JAMES BURGUER ALTA SUIZA"
     },
     "MpiQ0nVG5o5vDTJemnT5": {
-        "members": [],
-        "shield": "",
-        "athem": "",
         "name": "MORALES & DUQUE ABOGADOS",
-        "agent": ""
+        "agent": "",
+        "athem": "",
+        "shield": "",
+        "members": []
     },
     "NTicYLp4H9mWaYv7hUXO": {
-        "members": [],
         "shield": "",
+        "members": [],
         "agent": "",
         "name": "JAMES BURGUER ALTA SUIZA",
         "athem": ""
     },
     "OSFDq8qHymJUm4TfVqcl": {
-        "members": [],
-        "shield": "",
         "athem": "",
+        "members": [],
         "name": "RESTAURANTE GRAN CHINA ",
+        "shield": "",
         "agent": ""
     },
     "OtDJJaxBC8cjomBMDmFs": {
         "athem": "",
+        "shield": "",
+        "members": [],
         "name": "SOLDACERO INDUSTRIAL",
-        "shield": "",
-        "agent": "",
-        "members": []
-    },
-    "P2EPsiKoK9qWoDwe0leT": {
-        "members": [],
-        "shield": "",
-        "athem": "",
-        "agent": "",
-        "name": "MERCAPLAZA ALTA SUIZA"
-    },
-    "PhZWNNLhy9VrOHDXsVCD": {
-        "members": [],
-        "shield": "",
-        "name": "LOS RUSOS",
-        "athem": "",
         "agent": ""
     },
-    "QhGoHkIcbzXCqUP2bzft": {
-        "members": [],
-        "shield": "",
+    "P2EPsiKoK9qWoDwe0leT": {
+        "agent": "",
         "athem": "",
+        "name": "MERCAPLAZA ALTA SUIZA",
+        "shield": "",
+        "members": []
+    },
+    "PhZWNNLhy9VrOHDXsVCD": {
+        "name": "LOS RUSOS",
+        "members": [],
+        "athem": "",
+        "agent": "",
+        "shield": ""
+    },
+    "QhGoHkIcbzXCqUP2bzft": {
+        "athem": "",
+        "shield": "",
         "name": "LOS KORIOTOS",
+        "members": [],
         "agent": ""
     },
     "RzPk0EyT9fwW547v1ztE": {
-        "members": [],
-        "shield": "",
-        "name": "MONITOS PIZZA",
         "athem": "",
+        "shield": "",
+        "members": [],
+        "name": "MONITOS PIZZA",
         "agent": ""
     },
     "Suz0mml4LWTHABhbtxmC": {
-        "members": [],
-        "shield": "",
-        "athem": "",
         "name": "COMERCIO ELECTRONICO JM S.A.S",
-        "agent": ""
+        "agent": "",
+        "athem": "",
+        "shield": "",
+        "members": []
     },
     "Tdfss7acVK1KDaTjdjSn": {
-        "members": [],
-        "shield": "",
+        "agent": "",
         "athem": "",
         "name": "LA CURVA",
-        "agent": ""
+        "shield": "",
+        "members": []
     },
     "TyQk7uOQePhvWFHILqvN": {
-        "members": [],
-        "shield": "",
         "athem": "",
+        "shield": "",
         "name": "AMIGOS CHEC",
+        "members": [],
         "agent": ""
     },
     "V4QcESLqECJh4j7MvzDF": {
-        "members": [],
-        "shield": "",
         "name": "SPORT CITY",
         "athem": "",
-        "agent": ""
+        "members": [],
+        "agent": "",
+        "shield": ""
     },
     "VvhspKV1WTiNZO7VvAS4": {
-        "members": [],
-        "shield": "",
         "athem": "",
+        "shield": "",
+        "members": [],
         "name": "YONETBA-STORE",
         "agent": ""
     },
@@ -219,99 +219,119 @@
         "name": "POLIFASE INGENIEIRA"
     },
     "XNTfhVsAg6LODw8SdtUv": {
-        "athem": "",
-        "name": "MONTES F.C",
         "shield": "",
         "agent": "",
-        "members": []
+        "members": [
+            {
+                "name": "Andr\u00e9s ",
+                "last-name": "Erazo Reyes",
+                "id": "gi47U8lJZlaqChWFsHcS",
+                "image": "players/gi47U8lJZlaqChWFsHcS/profile.jpg"
+            },
+            {
+                "name": "Karen",
+                "last-name": "Rapado",
+                "image": "players/undefined/profile.jpg",
+                "id": "jJ3QEqkpnKJd0zTYHyn5"
+            },
+            {
+                "id": "0ynLCEbLJTEJOI0CoS8D",
+                "image": "players/4040404040/profile.jpg",
+                "name": "David",
+                "last-name": "Contra No"
+            }
+        ],
+        "name": "MONTES F.C",
+        "athem": ""
     },
     "YlIrEoSV5GbHaNWjgaeB": {
-        "members": [],
-        "shield": "",
         "agent": "",
+        "athem": "",
+        "shield": "",
         "name": "FRESCOS FUVER",
-        "athem": ""
+        "members": []
     },
     "a2WsNioeWYgxoVYcw2X9": {
         "name": "M Y M - ESPARTANOS"
     },
     "b98EdTaUvPSkAUbZfMZK": {
-        "members": [],
+        "agent": "",
         "shield": "",
         "athem": "",
         "name": "EL COMBO",
-        "agent": ""
+        "members": []
     },
     "dmwFtIlkROc8ziZQA8Vh": {
-        "members": [],
-        "shield": "",
-        "name": "JAMES BURGUER ALTA SUIZA",
         "athem": "",
-        "agent": ""
+        "members": [],
+        "name": "JAMES BURGUER ALTA SUIZA",
+        "agent": "",
+        "shield": ""
     },
     "eTlRKRbkyQujZ2Iw7POu": {
-        "members": [],
-        "shield": "",
-        "name": "JM CEBALLOS",
         "agent": "",
-        "athem": ""
-    },
-    "efvnWQ7rqiduP5OSa2Rv": {
-        "members": [],
         "shield": "",
         "athem": "",
-        "name": "MISCELANIA Y LICORERIA JUANPIS",
-        "agent": ""
+        "name": "JM CEBALLOS",
+        "members": []
+    },
+    "efvnWQ7rqiduP5OSa2Rv": {
+        "agent": "",
+        "shield": "",
+        "athem": "",
+        "members": [],
+        "name": "MISCELANIA Y LICORERIA JUANPIS"
     },
     "egyIYChMwqQ74BCk30a4": {
         "athem": "",
         "name": "LA CURVA",
-        "shield": "",
+        "members": [],
         "agent": "",
-        "members": []
+        "shield": ""
     },
     "fZlopFtFzMACazaq5xL9": {
         "name": "FAMA MANTENIMIENTO"
     },
     "fvns8fcf2SmuGkknwJBx": {
-        "members": [],
-        "shield": "",
-        "name": "LOS AMIGOS",
-        "athem": "",
-        "agent": ""
-    },
-    "gbneC1aIHmrANogcDwUT": {
-        "members": [],
         "shield": "",
         "agent": "",
+        "members": [],
+        "athem": "",
+        "name": "LOS AMIGOS"
+    },
+    "gbneC1aIHmrANogcDwUT": {
+        "athem": "",
         "name": "RESTAURANTE GRAN CHINA",
-        "athem": ""
+        "shield": "",
+        "members": [],
+        "agent": ""
     },
     "ghgnWGJjSe4mjLBo7MXL": {
+        "name": "CUCOS F.C",
         "members": [
             {
-                "last-name": "Ospina Gallego",
-                "image": "",
                 "id": "2PbaDW0y9WnP0UMHQzQC",
-                "name": "Juan Felipe"
+                "last-name": "Ospina Gallego",
+                "name": "Juan Felipe",
+                "image": ""
             },
             {
-                "image": "",
+                "last-name": "Morales Sanchez",
                 "name": "Juan Camilo",
                 "id": "AX0VFlSBrgug0Vm4L1KQ",
-                "last-name": "Morales Sanchez"
+                "image": ""
             },
             {
-                "last-name": "Santamaria Linares",
                 "image": "",
                 "id": "Bx9c7t0Mpj3vtbz0UhCF",
-                "name": "Sebastian"
+                "name": "Sebastian",
+                "last-name": "Santamaria Linares"
             },
             {
                 "name": "Camilo Andres",
+                "last-name": "Loaiza Cardozo",
                 "image": "",
-                "id": "PRhWSQLy8hcu0R1gWeVR",
-                "last-name": "Loaiza Cardozo"
+                "id": "PRhWSQLy8hcu0R1gWeVR"
             },
             {
                 "id": "RkY98kHHef7dBRgTFfQh",
@@ -320,153 +340,152 @@
                 "image": "players/1053850428/profile.jpeg"
             },
             {
-                "image": "",
                 "id": "S0A0aLKGcY7B2IfHTQH5",
-                "name": "Manuel",
-                "last-name": "Zuluaga"
+                "image": "",
+                "last-name": "Zuluaga",
+                "name": "Manuel"
             },
             {
-                "name": "Juan Manuel",
+                "id": "Sf70qJOMeIFIAZukmAT6",
                 "image": "",
                 "last-name": "Valencia Lopez",
-                "id": "Sf70qJOMeIFIAZukmAT6"
+                "name": "Juan Manuel"
             },
             {
                 "image": "",
+                "id": "ijVHldXDT20WuPd6V7ns",
                 "last-name": "Osorio Casta\u00f1o",
-                "name": "Simon",
-                "id": "ijVHldXDT20WuPd6V7ns"
+                "name": "Simon"
             },
             {
-                "last-name": "Rodriguez Ospina",
                 "name": "Santiago",
+                "last-name": "Rodriguez Ospina",
                 "image": "players/1060655572/profile.jpeg",
                 "id": "mhmeplcwaO8nhhx3dAr0"
             },
             {
-                "name": "Sebastian",
-                "last-name": "Guarnizo Obando",
-                "id": "npDbbxJ05f6NZCEw5J4m",
-                "image": ""
-            },
-            {
-                "image": "players/1053857232/profile.jpeg",
-                "id": "ttkBUZ9LWts8TIxTRtAl",
-                "last-name": "Loaiza Giraldo",
-                "name": "Santiago"
-            },
-            {
                 "image": "",
-                "id": "yQEzgDhP1c5HytnAOxND",
+                "id": "npDbbxJ05f6NZCEw5J4m",
+                "name": "Sebastian",
+                "last-name": "Guarnizo Obando"
+            },
+            {
+                "name": "Santiago",
+                "last-name": "Loaiza Giraldo",
+                "id": "ttkBUZ9LWts8TIxTRtAl",
+                "image": "players/1053857232/profile.jpeg"
+            },
+            {
                 "last-name": "Vasquez",
-                "name": "Sebastian"
+                "name": "Sebastian",
+                "image": "",
+                "id": "yQEzgDhP1c5HytnAOxND"
             }
         ],
-        "shield": "teams/ghgnWGJjSe4mjLBo7MXL/brand/shield.png",
-        "name": "CUCOS F.C",
         "athem": "",
-        "agent": "Sergio Posada Urrea"
+        "agent": "Sergio Posada Urrea",
+        "shield": "teams/ghgnWGJjSe4mjLBo7MXL/brand/shield.png"
     },
     "hZjc9IOTUhrrvTxFtZAT": {
-        "athem": "",
         "shield": "",
-        "name": "IMPACTO INTEGRAL MODULARES",
         "agent": "",
-        "members": []
+        "members": [],
+        "athem": "",
+        "name": "IMPACTO INTEGRAL MODULARES"
     },
     "lRUwZ5ks6HpIoayefV0C": {
-        "shield": "teams/lRUwZ5ks6HpIoayefV0C/brand/shield.png",
-        "name": "INTER F.C"
+        "name": "INTER F.C",
+        "shield": "teams/lRUwZ5ks6HpIoayefV0C/brand/shield.png"
     },
     "lblAumPE2US50QQ9Z1TH": {
-        "members": [],
-        "shield": "",
-        "name": "ALMACEN MEDICO SAUDE",
         "athem": "",
+        "shield": "",
+        "members": [],
+        "name": "ALMACEN MEDICO SAUDE",
         "agent": ""
     },
     "nZPiV2VgUtUdcAw4kYu3": {
-        "members": [],
         "shield": "",
-        "athem": "",
+        "members": [],
         "agent": "",
-        "name": "CAMILO TORRES"
+        "name": "CAMILO TORRES",
+        "athem": ""
     },
     "nmpKzyZwVam6oiwFrmCW": {
-        "members": [],
-        "shield": "",
-        "name": "EL COMBO",
         "athem": "",
+        "shield": "",
+        "members": [],
+        "name": "EL COMBO",
         "agent": ""
     },
     "nvHb8VqAij0KRBA5DXQo": {
-        "members": [],
-        "shield": "",
         "name": "CAPITTANO SPORT",
+        "agent": "",
         "athem": "",
-        "agent": ""
+        "shield": "",
+        "members": []
     },
     "o0gC0biuNyjoSKOaTTe0": {
-        "members": [],
         "shield": "",
-        "athem": "",
+        "members": [],
         "name": "RESTAURANTE GRAN CHINA",
-        "agent": ""
+        "agent": "",
+        "athem": ""
     },
     "oJFsKxhNAsAUtHdkS7y5": {
-        "members": [],
-        "shield": "",
         "athem": "",
+        "shield": "",
+        "members": [],
         "agent": "",
         "name": "FLAMENGO"
     },
     "pgzhAqH1L9Eqtd6cEibB": {
-        "members": [],
-        "shield": "",
-        "athem": "",
         "name": "MISCELANIA Y LICORERA JUANIS",
-        "agent": ""
+        "agent": "",
+        "athem": "",
+        "shield": "",
+        "members": []
     },
     "pljJ6fNa3O9TdXm92S79": {
-        "athem": "",
         "name": "ISOMET",
+        "athem": "",
+        "agent": "",
+        "shield": "",
+        "members": []
+    },
+    "py05komvcn1JWYCe5F3p": {
+        "shield": "",
+        "members": [],
+        "agent": "",
+        "name": "TURIN F.C",
+        "athem": ""
+    },
+    "qGLQQKnLz4LfJVH7x4Jq": {
+        "name": "POLLOS DEL CAMPO",
+        "agent": "",
+        "athem": "",
+        "shield": "",
+        "members": []
+    },
+    "ru0jcbexbDVD5hiXljBn": {
+        "members": [],
+        "athem": "",
+        "name": "TALLER DE PLANOS",
+        "agent": "",
+        "shield": ""
+    },
+    "rxQE7tOfYapqhGz0hVgt": {
+        "name": "INGENIEROS",
+        "athem": "",
         "shield": "",
         "agent": "",
         "members": []
     },
-    "py05komvcn1JWYCe5F3p": {
-        "members": [],
-        "shield": "",
-        "agent": "",
-        "athem": "",
-        "name": "TURIN F.C"
-    },
-    "qGLQQKnLz4LfJVH7x4Jq": {
-        "members": [],
-        "shield": "",
-        "athem": "",
-        "name": "POLLOS DEL CAMPO",
-        "agent": ""
-    },
-    "ru0jcbexbDVD5hiXljBn": {
-        "members": [],
-        "shield": "",
-        "agent": "",
-        "name": "TALLER DE PLANOS",
-        "athem": ""
-    },
-    "rxQE7tOfYapqhGz0hVgt": {
-        "members": [],
-        "shield": "",
-        "athem": "",
-        "name": "INGENIEROS",
-        "agent": ""
-    },
     "sfoIB2jTeDSFJm1R8uqO": {
-        "members": [],
-        "shield": "",
         "athem": "",
+        "shield": "",
         "name": "MORALES & DUQUE ABOGADOS",
+        "members": [],
         "agent": ""
     },
     "smKns2HJCPuw7h5CkfGo": {

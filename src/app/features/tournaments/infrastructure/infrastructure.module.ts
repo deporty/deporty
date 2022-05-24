@@ -9,6 +9,8 @@ import { ScoreMapper } from './tournament/score.mapper';
 import { FixtureMapper } from './tournament/fixture.mapper';
 import { FixtureStageMapper } from './tournament/fixture-stage.mapper';
 import { GroupMapper } from './tournament/group.mapper';
+import { PlayerFormMapper } from './tournament/player-form.mapper';
+import { StadisticsMapper } from './tournament/stadistics.mapper';
 
 
 @NgModule({
@@ -20,6 +22,8 @@ import { GroupMapper } from './tournament/group.mapper';
     FixtureStageMapper,
     GroupMapper,
     ScoreMapper,
+    PlayerFormMapper,
+    StadisticsMapper,
     {
       provide: TournamentAdapter,
       useClass: TournamentService

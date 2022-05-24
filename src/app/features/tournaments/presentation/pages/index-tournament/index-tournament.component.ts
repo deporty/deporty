@@ -27,6 +27,14 @@ export class CurrentTournamentComponent implements OnInit {
 
   news = [
     {
+      title: 'Fecha 5',
+      start: new Date(2022, 4, 21, 10, 33, 30, 0),
+      end: new Date(2022, 4, 22, 10, 33, 30, 0),
+      // end: new Date('24/04/2022'),
+      img: 'assets/dates/05.jpeg',
+    },
+
+    {
       title: 'Fecha 4',
       start: new Date(2022, 4, 14, 10, 33, 30, 0),
       end: new Date(2022, 4, 15, 10, 33, 30, 0),

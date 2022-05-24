@@ -20,6 +20,13 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { UsecasesModule as TeamsUsecasesModule } from '../../../teams/usecases/usecases.module';
 import { EditMatchCardComponent } from './edit-match-card/edit-match-card.component';
 import { CreateGroupComponent } from './create-group/create-group.component';
+import { PlayerFormComponent } from './player-form/player-form.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { ComponentsModule as PlayerComponentsModule } from '../../../players/presentation/components/components.module';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+
 const COMPONENTS = [
   TournamentCardComponent,
   GroupCardComponent,
@@ -29,11 +36,12 @@ const COMPONENTS = [
   PositionTableCardComponent,
   AddTeamCardComponent,
   EditMatchCardComponent,
-  CreateGroupComponent
+  CreateGroupComponent,
+  PlayerFormComponent,
 ];
 
 @NgModule({
-  declarations: [...COMPONENTS, ],
+  declarations: [...COMPONENTS],
   exports: [...COMPONENTS],
   imports: [
     CommonModule,
@@ -45,10 +53,16 @@ const COMPONENTS = [
     MatDialogModule,
     ReactiveFormsModule,
     TeamsUsecasesModule,
+    MatFormFieldModule,
     FormsModule,
     MatInputModule,
     MatListModule,
     CoreModule,
+    MatExpansionModule,
+    PlayerComponentsModule,
+    MatCheckboxModule,
+    MatSelectModule
+
   ],
 })
 export class ComponentsModule {}

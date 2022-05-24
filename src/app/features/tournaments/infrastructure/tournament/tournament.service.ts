@@ -289,7 +289,7 @@ export class TournamentService extends TournamentAdapter {
         index -= 1;
 
         docu.groups[groupIndex].matches[index] = matchDB;
-
+        console.log(docu);
         from(updateDoc(stageDoc, docu)).subscribe(() => {
           observer.next();
           observer.complete();

@@ -39,6 +39,7 @@ export class TeamMapper {
   toWeakJson(team: ITeamModel) {
     return {
       name: team.name ,
+      id: team.id || '',
       shield: team.shield || '',
     };
   }

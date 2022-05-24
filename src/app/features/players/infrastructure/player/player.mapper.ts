@@ -19,7 +19,7 @@ export class PlayerMapper {
     return {
       name: player.name,
       'last-name': player.lastName || '',
-      id: player.id,
+      document: player.document,
       alias: player.alias || '',
       number: player.number || '',
       role: player.role || '',

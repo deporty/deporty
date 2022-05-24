@@ -126,12 +126,18 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
   onEditMatch(data: any) {
     console.log(data);
 
-    this.router.navigate([TournamentsRoutingModule.route,EditMatchComponent.route],{
-      queryParams: {
-        match: JSON.stringify(data.match)
+    this.router.navigate(
+      [TournamentsRoutingModule.route, EditMatchComponent.route],
+      {
+        queryParams: {
+          match: JSON.stringify(data.match),
+          groupIndex: data.index,
+          stageId: data.stageId,
+          tournamentId: this.tournament.id
+        },
+        // relativeTo: this.activatedRoute
       }
-      // relativeTo: this.activatedRoute
-    })
+    );
 
     // this.stageId = data.stageId;
     // this.currentIndexGroup = data.index;

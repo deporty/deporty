@@ -17,9 +17,11 @@ import { EditMatchComponent } from './edit-match/edit-match.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { ComponentsModule as PlayerComponentsModule } from '../../../players/presentation/components/components.module';
 import {MatSelectModule} from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 const COMPONENTS = [
   TournamentListComponent,
@@ -31,10 +33,12 @@ const COMPONENTS = [
 @NgModule({
   declarations: [...COMPONENTS],
   exports: [...COMPONENTS],
+  providers:[
+  ],
   imports: [
     CommonModule,
     ComponentsModule,
-    PlayerComponentsModule,
+    // PlayerComponentsModule,
     CoreModule,
     UsecasesModule,
     TeamsComponentsModule,
@@ -47,10 +51,14 @@ const COMPONENTS = [
     MatInputModule,
     MatExpansionModule,
     MatIconModule,
-    MatCheckboxModule,
     MatExpansionModule,
     MatSelectModule,
-    MatChipsModule
+    MatChipsModule,
+    MatProgressSpinnerModule,
+    MatDatepickerModule,
+    MatNativeDateModule
+
+    
   ],
 })
 export class PagesModule {}
