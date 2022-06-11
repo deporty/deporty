@@ -1,0 +1,9 @@
+{
+  "environments": ["dev", "pdn"],
+  "dev": {
+    "databaseURL": "https://deporty-app-default-rtdb.firebaseio.com"
+  },
+  "pdn": {
+    "databaseURL": "https://deporty-app-default-rtdb.firebaseio.com"
+  }
+}
