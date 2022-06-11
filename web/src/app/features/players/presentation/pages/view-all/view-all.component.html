@@ -1,0 +1,72 @@
+<header
+  class="row w-100 mt-2 d-flex justify-content-around align-items-start flex-wrap"
+>
+  <section class="col-12 my-2">
+    <button
+      appIsAllowed
+      identifier="players:create-player:ui"
+      mat-button
+      mat-raised-button
+      (click)="createUser()"
+      color="primary"
+    >
+      Nuevo <mat-icon> add </mat-icon>
+    </button>
+  </section>
+  <section class="col-12">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Filtros </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <form [formGroup]="formGroup">
+        <div class="row">
+          <mat-form-field class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+            <mat-label>Nombre</mat-label>
+            <mat-icon matSuffix>person</mat-icon>
+            <input matInput formControlName="name" />
+          </mat-form-field>
+
+          <mat-form-field class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+            <mat-label>Apellidos</mat-label>
+            <mat-icon matSuffix>short_text</mat-icon>
+            <input matInput formControlName="name" />
+          </mat-form-field>
+
+          <mat-form-field class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+            <mat-label>Cédula</mat-label>
+            <mat-icon matSuffix>fingerprint</mat-icon>
+            <input matInput formControlName="name" />
+          </mat-form-field>
+        </div>
+      </form>
+    </mat-expansion-panel>
+  </section>
+</header>
+
+<section class="row px-3" *ngIf="players && players.length > 0; else noPlayers">
+  <!-- <app-players-table
+    (onSelectedPlayer)="onSelectedPlayer($event)"
+    [players]="players"
+  >
+  </app-players-table>
+
+ -->
+
+  <div
+    *ngFor="let player of players"
+    class="my-1 px-2 py-1 col-12 col-sm-6 col-md-4 col-lg-3"
+  >
+    <app-player-card (click)="onSelectedPlayer(player)" [player]="player">
+    </app-player-card>
+  </div>
+</section>
+
+<ng-template #noPlayers>
+  <div class="row mt-5 d-flex justify-content-center">
+    <div class="col d-flex justify-content-center">
+      <mat-progress-spinner color="primary" mode="indeterminate">
+      </mat-progress-spinner>
+    </div>
+  </div>
+</ng-template>
