@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IPlayerModel } from '@deporty/entities/players';
 import { Observable, Subscription } from 'rxjs';
 import { GetAllSummaryPlayersUsecase } from '../../../usecases/get-all-summary-players/get-all-summary-players.usecase';
-import { IPlayerModel } from '../../../models/player.model';
 import { PlayerCardComponent } from '../../components/player-card/player-card.component';
 import { CreatePlayerComponent } from '../create-player/create-player.component';
 

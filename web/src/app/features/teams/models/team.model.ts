@@ -1,11 +1,6 @@
-import { IPlayerModel } from 'src/app/features/players/models/player.model';
+import { IPlayerModel } from '@deporty/entities/players';
 
-// export interface IPlayerModel {
-//     name: string;
-//     lastName: string;
-//     id: string;
 
-// }
 
 export interface Member extends Partial<IPlayerModel> {
   ingressDate?: Date;

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { IPlayerModel } from '../../models/player.model';
+import { IPlayerModel } from '@deporty/entities/players';
+
 @Injectable()
 export class PlayerMapper {
   fromJson(obj: any): IPlayerModel {

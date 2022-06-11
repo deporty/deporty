@@ -11,8 +11,8 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "paths": {
-      "@deporty/entities": ["../../core/dist", "../core/dist"],
-      "@deporty/entities/*": ["../../core/dist/*", "../core/dist/*"]
+      "@deporty/entities": ["../../entities/dist", "../entities/dist"],
+      "@deporty/entities/*": ["../../entities/dist/*", "../entities/dist/*"]
     }
   },
   "compileOnSave": true,

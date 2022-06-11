@@ -1,9 +1,10 @@
 import { Component, Inject, Input, OnChanges, OnInit, Optional, SimpleChanges } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { IPlayerModel } from '@deporty/entities/players';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { DEFAULT_PROFILE_IMG } from 'src/app/app.constants';
 import { storage } from 'src/app/init-app';
-import { IPlayerModel } from '../../../models/player.model';
+
 
 @Component({
   selector: 'app-player-card',

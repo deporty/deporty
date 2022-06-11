@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  analytics: false
+  analytics: false,
+  serverEndpoint: 'http://localhost:5001/deporty-dev/us-central1/app',
 };
 
 /*

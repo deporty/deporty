@@ -1,5 +1,6 @@
+import { IPlayerModel } from '@deporty/entities/players';
 import { Observable } from 'rxjs';
-import { IPlayerModel } from '../models/player.model';
+
 
 export abstract class PlayerAdapter {
   public abstract getAllSummaryPlayers(): Observable<any>;

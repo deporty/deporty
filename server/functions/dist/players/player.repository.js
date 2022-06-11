@@ -15,6 +15,14 @@ class PlayerRepository extends player_contract_1.PlayerContract {
             return docs.map(this.playerMapper.fromJson);
         }));
     }
+    getByFilter(filters) {
+        return this.dataSource.getByFilter(filters).pipe((0, operators_1.map)((docs) => {
+            return docs.map(this.playerMapper.fromJson);
+        }));
+    }
+    save(player) {
+        return this.dataSource.save(player);
+    }
 }
 exports.PlayerRepository = PlayerRepository;
 PlayerRepository.entity = "players";

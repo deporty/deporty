@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IPlayerModel } from 'src/app/features/players/models/player.model';
+import { IPlayerModel } from '@deporty/entities/players';
 import { GetPlayersByTeamUsecase } from 'src/app/features/teams/usecases/get-players-by-team/get-players-by-team';
 import { RESOURCES_PERMISSIONS_IT } from 'src/app/init-app';
 import { IMatchModel } from '../../../models/match.model';

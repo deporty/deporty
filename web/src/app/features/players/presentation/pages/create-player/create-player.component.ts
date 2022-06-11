@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UploadFileUsecase } from 'src/app/core/usecases/upload-file/upload-file';
-import { IPlayerModel } from '../../../models/player.model';
 import { CreatePlayerUsecase } from '../../../usecases/create-player/create-player';
-import { PlayersSummaryListComponent } from '../../components/players-summary-list/players-summary-list.component';
-import { ViewAllComponent } from '../view-all/view-all.component';
+
 
 @Component({
   selector: 'app-create-player',

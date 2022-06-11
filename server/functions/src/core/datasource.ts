@@ -19,4 +19,5 @@ export abstract class DataSource<T> {
   abstract getById(id: string): Observable<T>;
   abstract getByFilter(filters: DataSourceFilter[]): Observable<T[]>;
   abstract deleteById(id: string): Observable<void>;
+  abstract save(entity: any): Observable<string>;
 }

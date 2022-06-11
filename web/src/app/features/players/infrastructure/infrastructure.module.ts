@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PlayerAdapter } from '../adapters/player.repository';
+import { PlayerAdapter } from '../player.repository';
 import { PlayerService } from './player/player.service';
 import { HttpClientModule } from '@angular/common/http';
-import { PlayerMapper } from './player/player.mapper';
+import { PlayerMapper } from '../player.mapper';
 
 
 

@@ -1,23 +1,18 @@
 import { Injectable } from '@angular/core';
+import { IPlayerModel } from '@deporty/entities/players';
 import {
-  addDoc,
-  deleteDoc,
-  collection,
-  DocumentData,
-  DocumentReference,
-  getDocs,
-  setDoc,
-  doc,
-  getDoc,
+  addDoc, collection, deleteDoc, doc, DocumentData,
+  DocumentReference, getDoc, getDocs,
+  setDoc
 } from 'firebase/firestore/lite';
 import { from, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
-import { PlayerMapper } from 'src/app/features/players/infrastructure/player/player.mapper';
-import { IPlayerModel } from 'src/app/features/players/models/player.model';
+import { map } from 'rxjs/operators';
+import { PlayerMapper } from 'src/app/features/players/player.mapper';
 import { firestore } from 'src/app/init-app';
 import { TeamAdapter } from '../../adapters/team.adapter';
 import { ITeamModel } from '../../models/team.model';
 import { TeamMapper } from './team.mapper';
+
 
 @Injectable()
 export class TeamService extends TeamAdapter {

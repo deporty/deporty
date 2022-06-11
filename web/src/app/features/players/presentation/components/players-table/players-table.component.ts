@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { DEFAULT_PROFILE_IMG } from 'src/app/app.constants';
-import { IPlayerModel } from '../../../models/player.model';
+import { IPlayerModel } from '@deporty/entities/players';
+
 
 @Component({
   selector: 'app-players-table',

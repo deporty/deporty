@@ -2,7 +2,9 @@ import { Container } from "../core/DI";
 import { PlayerContract } from "./player.contract";
 import { PlayerMapper } from "./player.mapper";
 import { PlayerRepository } from "./player.repository";
+import { CreatePlayerUsecase } from "./usecases/create-player/create-player.usecase";
 import { DeletePlayerUsecase } from "./usecases/delete-player/delete-player.usecase";
+import { GetPlayerByDocumentUsecase } from "./usecases/get-player-by-document/get-player-by-document.usecase";
 import { GetPlayersUsecase } from "./usecases/get-players/get-players.usecase";
 export class PlayersModulesConfig {
   static config(container: Container) {
@@ -31,6 +33,20 @@ export class PlayersModulesConfig {
       id: "DeletePlayerUsecase",
       kind: DeletePlayerUsecase,
       dependencies: ["PlayerContract"],
+      strategy: "singleton",
+    });
+
+    container.add({
+      id: "GetPlayerByDocumentUsecase",
+      kind: GetPlayerByDocumentUsecase,
+      dependencies: ["PlayerContract"],
+      strategy: "singleton",
+    });
+
+    container.add({
+      id: "CreatePlayerUsecase",
+      kind: CreatePlayerUsecase,
+      dependencies: ["PlayerContract", "GetPlayerByDocumentUsecase"],
       strategy: "singleton",
     });
 

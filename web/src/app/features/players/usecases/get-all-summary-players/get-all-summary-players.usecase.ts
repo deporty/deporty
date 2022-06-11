@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PlayerAdapter } from '../../adapters/player.repository';
+import { PlayerAdapter } from '../../player.repository';
 
 @Injectable()
 export class GetAllSummaryPlayersUsecase {

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { IPlayerModel } from 'src/app/features/players/models/player.model';
+import { IPlayerModel } from '@deporty/entities/players';
+
 
 @Component({
   selector: 'app-player-form',
