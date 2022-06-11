@@ -13,7 +13,7 @@ import { AdDirective } from '../ad.directive';
   styleUrls: ['./col.component.scss'],
 })
 export class ColComponent implements OnInit {
-  data;
+  data!: { [x: string]: any };
   constructor(
     public viewContainerRef: ViewContainerRef,
     private el: ElementRef
@@ -27,7 +27,7 @@ export class ColComponent implements OnInit {
   updateLayout() {
     const temp = { ...this.data };
 
-    const defaultValue = this.data['def'];
+    const defaultValue = this.data ? this.data['def'] : null;
     delete temp['def'];
 
     let mapped = Object.entries(temp).map((item) => {

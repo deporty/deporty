@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewsComponent implements OnInit {
 
-  data;
+  data: any;
   constructor() { }
 
   ngOnInit(): void {

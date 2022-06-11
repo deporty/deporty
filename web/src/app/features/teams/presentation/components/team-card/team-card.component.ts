@@ -21,7 +21,7 @@ export class TeamCardComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    if (this.team.shield) {
+    if (this.team && this.team.shield) {
       const imageRef = ref(storage, this.team.shield);
 
       getDownloadURL(imageRef).then((data) => {

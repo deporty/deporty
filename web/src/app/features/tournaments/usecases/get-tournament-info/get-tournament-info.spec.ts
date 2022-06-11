@@ -1,7 +1,7 @@
-import { GetTournamentInfo } from './get-tournament-info';
+// import { GetTournamentInfoUsecase } from './get-tournament-info';
 
-describe('GetTournamentInfo', () => {
-  it('should create an instance', () => {
-    expect(new GetTournamentInfo()).toBeTruthy();
-  });
-});
+// fdescribe('GetTournamentInfoUsecase', () => {
+//   it('should create an instance', () => {
+//     expect(new GetTournamentInfoUsecase()).toBeTruthy();
+//   });
+// });

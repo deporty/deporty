@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ParagraphComponent implements OnInit {
 
-  data;
+  data: any;
 
   maxHeight = 300;
   
