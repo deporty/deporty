@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
+import { IPlayerModel } from '@deporty/entities/players';
 import { logEvent } from 'firebase/analytics';
-import { getDownloadURL, ref } from 'firebase/storage';
-import { IPlayerModel } from 'src/app/features/players/models/player.model';
 import { GetAllSummaryPlayersUsecase } from 'src/app/features/players/usecases/get-all-summary-players/get-all-summary-players.usecase';
-import { analytics, storage } from 'src/app/init-app';
+import { analytics } from 'src/app/init-app';
 import { environment } from 'src/environments/environment';
 import { ITeamModel } from '../../../models/team.model';
 import { AddPlayerToTeamUsecase } from '../../../usecases/add-player-to-team/add-player-to-team';
+
 
 @Component({
   selector: 'app-team',

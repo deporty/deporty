@@ -1,6 +1,8 @@
+import { IPlayerModel } from '@deporty/entities/players';
 import { Observable } from 'rxjs';
-import { IPlayerModel } from '../../players/models/player.model';
 import { ITeamModel } from '../models/team.model';
+
+
 
 export abstract class TeamAdapter {
   abstract getTeams(): Observable<ITeamModel[]>;

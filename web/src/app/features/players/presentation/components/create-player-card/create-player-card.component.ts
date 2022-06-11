@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { IPlayerModel } from '../../../models/player.model';
+import { IPlayerModel } from '@deporty/entities/players';
+
 
 @Component({
   selector: 'app-create-player-card',

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { getExtensionFileFromBase64 } from 'src/app/core/helpers/upload-file.helper';
 import { BaseUsecase } from 'src/app/core/usecases/base.usecase';
 import { UploadFileUsecase } from 'src/app/core/usecases/upload-file/upload-file';
-import { PlayerAdapter } from 'src/app/features/players/adapters/player.repository';
+import { PlayerAdapter } from 'src/app/features/players/player.repository';
 import { TeamAdapter } from '../../adapters/team.adapter';
 import { ITeamModel } from '../../models/team.model';
 import { UpdateTeamUsecase } from '../update-team/update-team.usecase';

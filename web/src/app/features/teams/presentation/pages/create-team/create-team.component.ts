@@ -5,11 +5,12 @@ import {
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { IPlayerModel } from '@deporty/entities/players';
 import { Observable, Subscription } from 'rxjs';
-import { IPlayerModel } from 'src/app/features/players/models/player.model';
 import { GetAllSummaryPlayersUsecase } from 'src/app/features/players/usecases/get-all-summary-players/get-all-summary-players.usecase';
 import { ITeamModel } from '../../../models/team.model';
 import { CreateTeamUsecase } from '../../../usecases/create-team/create-team.usecase';
+
 
 @Component({
   selector: 'app-create-team',

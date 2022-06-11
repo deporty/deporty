@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { PlayerMapper } from 'src/app/features/players/infrastructure/player/player.mapper';
-import { IPlayerModel } from 'src/app/features/players/models/player.model';
+import { PlayerMapper } from 'src/app/features/players/player.mapper';
 import { ITeamModel } from '../../models/team.model';
+
 @Injectable()
 export class TeamMapper {
   constructor(private playerMapper: PlayerMapper) {}

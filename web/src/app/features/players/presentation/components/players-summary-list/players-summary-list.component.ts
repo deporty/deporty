@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { IPlayerModel } from '../../../models/player.model';
+import { IPlayerModel } from '@deporty/entities/players';
+
 
 @Component({
   selector: 'app-players-summary-list',

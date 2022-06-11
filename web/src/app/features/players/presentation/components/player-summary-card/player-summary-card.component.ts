@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { DEFAULT_PROFILE_IMG } from 'src/app/app.constants';
 import { storage } from 'src/app/init-app';
-import { IPlayerModel } from '../../../models/player.model';
+import { IPlayerModel } from '@deporty/entities/players';
 
 @Component({
   selector: 'app-player-summary-card',

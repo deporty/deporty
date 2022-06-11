@@ -1,25 +1,28 @@
 import { Injectable } from '@angular/core';
+import { IPlayerModel } from '@deporty/entities/players';
 import {
   addDoc,
   collection,
   DocumentData,
   DocumentReference,
   getDocs,
-  setDoc,
 } from 'firebase/firestore/lite';
-import { getDownloadURL, getMetadata, ref } from 'firebase/storage';
 import { from, Observable } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
-import { BUCKET_NAME } from 'src/app/app.constants';
-import { firestore, storage } from 'src/app/init-app';
-import { PlayerAdapter } from '../../adapters/player.repository';
-import { IPlayerModel } from '../../models/player.model';
-import { PlayerMapper } from './player.mapper';
+import { map } from 'rxjs/operators';
+import { firestore } from 'src/app/init-app';
+import { PlayerAdapter } from '../../player.repository';
+import { PlayerMapper } from '../../player.mapper';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { IBaseResponse } from 'src/app/core/http/response.model';
 
 @Injectable()
 export class PlayerService extends PlayerAdapter {
   static collection = 'players';
-  constructor(private playerMapper: PlayerMapper) {
+  constructor(
+    private playerMapper: PlayerMapper,
+    private httpClient: HttpClient
+  ) {
     super();
   }
   public getAllSummaryPlayers(): Observable<any> {
@@ -41,14 +44,20 @@ export class PlayerService extends PlayerAdapter {
   }
 
   createPlayer(player: IPlayerModel): Observable<string> {
-    const playerCollections = collection(firestore, PlayerService.collection);
-
-    return from(
-      addDoc(playerCollections, this.playerMapper.toJson(player))
-    ).pipe(
-      map((data: DocumentReference<DocumentData>) => {
-        return data.id;
+    const path = `${environment.serverEndpoint}/${PlayerService.collection}`;
+    return this.httpClient.post<IBaseResponse>(path, player).pipe(
+      map((response) => {
+        return response.data;
       })
     );
+    // const playerCollections = collection(firestore, PlayerService.collection);
+
+    // return from(
+    //   addDoc(playerCollections, this.playerMapper.toJson(player))
+    // ).pipe(
+    //   map((data: DocumentReference<DocumentData>) => {
+    //     return data.id;
+    //   })
+    // );
   }
 }

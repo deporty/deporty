@@ -14,14 +14,32 @@ class FirebaseDataSource extends datasource_1.DataSource {
     }
     getByFilter(filters) {
         return (0, rxjs_1.from)(this.db.collection(this.entity).get()).pipe((0, operators_1.map)((snapshot) => {
-            return snapshot.docs.map((doc) => {
+            return snapshot.docs
+                .map((doc) => {
                 return Object.assign({ id: doc.id }, doc.data());
+            })
+                .filter((x) => {
+                let response = true;
+                if (filters.length > 0) {
+                    response = false;
+                    for (const fil of filters) {
+                        response = x[fil.property] == fil.equals;
+                        if (response)
+                            break;
+                    }
+                }
+                return response;
             });
         }));
     }
     deleteById(id) {
         // const entitySnapshot = doc(db, this.entity, id);
         throw new Error("Method not implemented.");
+    }
+    save(entity) {
+        return (0, rxjs_1.from)(this.db.collection(this.entity).add(entity)).pipe((0, operators_1.map)((snapshot) => {
+            return snapshot.id;
+        }));
     }
 }
 exports.FirebaseDataSource = FirebaseDataSource;
