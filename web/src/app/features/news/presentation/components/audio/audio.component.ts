@@ -12,18 +12,19 @@ import {
   styleUrls: ['./audio.component.scss'],
 })
 export class AudioComponent implements OnInit, AfterViewInit {
-  data;
-  audio: HTMLAudioElement;
-  valueMax;
-  currentValue;
+  data!: { audio: string | undefined; };
+  audio!: HTMLAudioElement;
+  valueMax: any;
+  currentValue!: number;
 
-  @ViewChild('progress', { static: true }) progress: ElementRef;
+  @ViewChild('progress', { static: true })
+  progress!: ElementRef;
   constructor() {}
   ngAfterViewInit(): void {
     this.audio.ontimeupdate = (data) => {
       this.currentValue = (this.audio.currentTime / this.audio.duration) * 100;
 
-      function percentageToDegrees(percentage) {
+      function percentageToDegrees(percentage: number) {
         return (percentage / 100) * 360;
       }
 
@@ -44,7 +45,6 @@ export class AudioComponent implements OnInit, AfterViewInit {
             'rotate(' + percentageToDegrees(value - 50) + 'deg)';
         }
       }
-
     };
   }
 

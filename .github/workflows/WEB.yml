@@ -21,3 +21,4 @@ jobs:
           ls
           cd web
           npm i
+          npx ng test
