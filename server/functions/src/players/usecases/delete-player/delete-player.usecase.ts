@@ -11,7 +11,7 @@ export class DeletePlayerUsecase extends Usecase<string, void> {
     super();
   }
   call(id: string): Observable<void> {
-    if (id.length == 2) {
+    if (!id) {
       return throwError(new VariableNotDefinedException("id"));
     }
     return of();

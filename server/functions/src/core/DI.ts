@@ -45,7 +45,6 @@ export class Container {
       config.dependencies || []
     );
     if (config.id === "PlayerContract") {
-      console.log(params);
     }
     const constructor = () => Reflect.construct(typeClass, params);
 
