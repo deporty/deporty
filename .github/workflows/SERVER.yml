@@ -35,4 +35,4 @@ jobs:
       - name: 'Validate conditions of good software'
         run: |
           cd server/functions/scripts
-          py validate-coverage.py --path ../coverage/lcov-report/index.html
+          python3 validate-coverage.py --path ../coverage/lcov-report/index.html
