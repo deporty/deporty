@@ -3,7 +3,7 @@ module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
   collectCoverage: true,
-  collectCoverageFrom: [
-    '<rootDir>/src/**/*.ts'
-  ]
+  coverageReporters: ["json", "html"],
+
+  collectCoverageFrom: ["<rootDir>/src/**/*.ts"],
 };

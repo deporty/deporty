@@ -16,9 +16,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 14.x
-      - run: ' '
-      - run: |
-          ls
+      - name: 'Install dependencies'
+        run: |
           cd server/functions
           npm i
+      - name: 'Run test'
+        run: |
+          cd server/functions
           npm test
+      - name: 'Validate conditions of good software'
+        run: py .\validate-coverage.py --path ../coverage/lcov-report/index.html
