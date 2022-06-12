@@ -13,23 +13,25 @@ initializeApp({
 
 const db: Firestore = getFirestore();
 
-DEPENDENCIES_CONTAINER.addValue({
-  id: "FirebaseDatabase",
-  value: db,
-});
+export function configDependencies() {
+  DEPENDENCIES_CONTAINER.addValue({
+    id: "FirebaseDatabase",
+    value: db,
+  });
 
-DEPENDENCIES_CONTAINER.add({
-  id: "DataSource",
-  kind: DataSource,
-  strategy: "singleton",
-  dependencies: ["FirebaseDatabase"],
-  override: FirebaseDataSource,
-});
+  DEPENDENCIES_CONTAINER.add({
+    id: "DataSource",
+    kind: DataSource,
+    strategy: "singleton",
+    dependencies: ["FirebaseDatabase"],
+    override: FirebaseDataSource,
+  });
 
-PlayersModulesConfig.config(DEPENDENCIES_CONTAINER);
+  PlayersModulesConfig.config(DEPENDENCIES_CONTAINER);
+}
 
 export const app = express();
-
+configDependencies();
 PlayerController.registerEntryPoints(app);
 
 exports.app = functions.https.onRequest(app);
