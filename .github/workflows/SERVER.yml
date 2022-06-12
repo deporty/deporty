@@ -34,5 +34,6 @@ jobs:
           npm test
       - name: 'Validate conditions of good software'
         run: |
+          ls -R
           cd server/functions/scripts
           python3 validate-coverage.py --path ../coverage/lcov-report/index.html
