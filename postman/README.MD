@@ -1,0 +1,1 @@
+newman run .\postman\collections\players_dac8179e-c2bc-4116-89a9-5ef2487a9a2a.json --env-var "host=http://localhost:5001/deporty-dev/us-central1/app"
