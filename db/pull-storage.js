@@ -25,61 +25,11 @@ const mappers = {
 };
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  // databaseURL: "https://deporty-app-default-rtdb.firebaseio.com",
-  // storageBucket: 'deporty-dev.appspot.com'
 });
 
 const today = moment(new Date()).format("YYYY-MM-DD-HH-mm-ss");
 
-async function getAllFolders(storage) {
-  db.listCollections()
-    .then((snapshot) => {
-      snapshot.forEach((snaps) => {
-        console.log(snaps["_queryOptions"].collectionId); // LIST OF ALL COLLECTIONS
-      });
-    })
-    .catch((error) => console.error(error));
-
-  const snapshot = await storage.listCollections();
-  const collections = snapshot.map((snaps) => {
-    return snaps["_queryOptions"].collectionId;
-  });
-  return collections;
-}
-
-async function getDataByCollection(db, collection) {
-  const snapshot = await db.collection(collection).get();
-  const registers = [];
-  snapshot.forEach((doc) => {
-    registers.push({ id: doc.id, data: doc.data() });
-  });
-  return registers;
-}
-
-function saveRegisters(registers, collection, env) {
-  const folderName = `${DATA_PATH}/${env}/${today}`;
-  const fileName = `${folderName}/${collection}.json`;
-
-  try {
-    const devFolderName = `${DATA_PATH}/${env}`;
-
-    if (!fs.existsSync(devFolderName)) {
-      fs.mkdirSync(devFolderName);
-    }
-    const dateFolderName = `${devFolderName}/${today}`;
-
-    if (!fs.existsSync(dateFolderName)) {
-      fs.mkdirSync(dateFolderName);
-    }
-  } catch (err) {
-    console.error(err);
-  }
-
-  fs.writeFile(fileName, JSON.stringify(registers, null, 2), (err, data) => {});
-}
 async function main() {
-  const db = admin.firestore();
-
   const bucket = getStorage().bucket(`deporty-${mappers[ENV]}.appspot.com`);
   const filesPromise = bucket.getFiles();
   const root = `storage`;
@@ -104,7 +54,6 @@ async function main() {
       const fragments = name.split(".");
       if (fragments.length == 2) {
         console.log(name);
-        // fs.writeFileSync(`${root}/${name}`, file.);
 
         const remoteFile = bucket.file(name);
         const localFilename = `${rootDate}/${name}`;
@@ -112,25 +61,14 @@ async function main() {
         remoteFile
           .createReadStream()
           .on("error", function (err) {})
-          .on("response", function (response) {
-            // Server connected and responded with the specified status and headers.
-          })
-          .on("end", function () {
-            // The file is fully downloaded.
-          })
+          .on("response", function (response) {})
+          .on("end", function () {})
           .pipe(fs.createWriteStream(localFilename));
       } else {
         fs.mkdirSync(`${rootDate}/${name}`);
       }
     }
-    // fs.writeFileSync(x)
   });
-
-  // const folders = await getAllFolders(storage);
-  // folders.forEach(async (collection) => {
-  //   const registers = await getDataByCollection(db, collection);
-  //   saveRegisters(registers, collection, ENV);
-  // });
 }
 
 main();
