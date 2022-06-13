@@ -12,7 +12,9 @@ class CreatePlayerUsecase extends usecase_1.Usecase {
         this.getPlayerByDocumentUsecase = getPlayerByDocumentUsecase;
     }
     call(player) {
+        console.log(player, "Player");
         return this.getPlayerByDocumentUsecase.call(player.document).pipe((0, operators_1.map)((playerPrev) => {
+            console.log("Player prev ", playerPrev);
             if (playerPrev) {
                 return (0, rxjs_1.throwError)(new create_player_exceptions_1.PlayerAlreadyExistsException(playerPrev.document));
             }

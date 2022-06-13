@@ -6,14 +6,14 @@ export const environment = {
   production: false,
   analytics: false,
   serverEndpoint: 'http://localhost:5001/deporty-dev/us-central1/app',
-  firebaseConfig:  {
-    apiKey: "AIzaSyBTy7TeYPAkELnMSrZ7QNm27qvIH62Q4zI",
-    authDomain: "deporty-dev.firebaseapp.com",
+  firebaseConfig: {
+    apiKey: "AIzaSyCmfXDNcDTHtWgc8DnieEk0MS6KUogR-Rc",
+    authDomain: "deporty-app.firebaseapp.com",
     projectId: "deporty-dev",
     storageBucket: "deporty-dev.appspot.com",
-    messagingSenderId: "186958009196",
-    appId: "1:186958009196:web:05533df8a1c7a7e3251949",
-    measurementId: "G-4KH8KW18GH"
+    messagingSenderId: "861456172435",
+    appId: "1:861456172435:web:edaf5251b6866e8fe8d466",
+    measurementId: "G-NLEM82Z201"
   }
 };
 

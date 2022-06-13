@@ -3,8 +3,8 @@ import {
   DocumentReference,
   Firestore,
 } from "firebase-admin/firestore";
-import { from, Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { from, Observable, of } from "rxjs";
+import { catchError, map } from "rxjs/operators";
 import { DataSource, DataSourceFilter } from "./datasource";
 
 export class FirebaseDataSource extends DataSource<any> {
@@ -43,9 +43,14 @@ export class FirebaseDataSource extends DataSource<any> {
   }
 
   save(entity: any): Observable<string> {
+    console.log(this.entity, "0", entity, "456456");
     return from(this.db.collection(this.entity).add(entity)).pipe(
       map((snapshot: DocumentReference<DocumentData>) => {
         return snapshot.id;
+      }),
+      catchError((err) => {
+        console.log("Vida hpta", err);
+        return of("");
       })
     );
   }

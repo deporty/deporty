@@ -10,7 +10,7 @@ class DeletePlayerUsecase extends usecase_1.Usecase {
         this.playerContract = playerContract;
     }
     call(id) {
-        if (id.length == 2) {
+        if (!id) {
             return (0, rxjs_1.throwError)(new exceptions_1.VariableNotDefinedException("id"));
         }
         return (0, rxjs_1.of)();
