@@ -104,5 +104,6 @@ web/.dynamodb/
 web/.tern-port
 
 db/data
+db/storage
 
 **/node_modules
