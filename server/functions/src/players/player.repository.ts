@@ -3,7 +3,7 @@ import { map } from "rxjs/operators";
 import { DataSource, DataSourceFilter } from "../core/datasource";
 import { PlayerContract } from "./player.contract";
 import { PlayerMapper } from "./player.mapper";
-import { IPlayerModel } from "@deporty/entities/players";
+import { ICreatePlayerModel, IPlayerModel } from "@deporty/entities/players";
 
 export class PlayerRepository extends PlayerContract {
   static entity = "players";
@@ -30,7 +30,8 @@ export class PlayerRepository extends PlayerContract {
     );
   }
 
-  save(player: IPlayerModel): Observable<string> {
-    return this.dataSource.save(player);
+  save(player: ICreatePlayerModel): Observable<string> {
+    const mappedPlayer = this.playerMapper.toJson(player)
+    return this.dataSource.save(mappedPlayer);
   }
 }

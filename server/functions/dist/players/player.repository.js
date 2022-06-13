@@ -21,7 +21,8 @@ class PlayerRepository extends player_contract_1.PlayerContract {
         }));
     }
     save(player) {
-        return this.dataSource.save(player);
+        const mappedPlayer = this.playerMapper.toJson(player);
+        return this.dataSource.save(mappedPlayer);
     }
 }
 exports.PlayerRepository = PlayerRepository;

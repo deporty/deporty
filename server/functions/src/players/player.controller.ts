@@ -1,4 +1,6 @@
+import { IPlayerModel } from "@deporty/entities/players";
 import { Express, Request, Response } from "express";
+import { handlerController, handlerPostController } from "../core/controller";
 import { DEPENDENCIES_CONTAINER } from "../modules.config";
 import { CreatePlayerUsecase } from "./usecases/create-player/create-player.usecase";
 import { DeletePlayerUsecase } from "./usecases/delete-player/delete-player.usecase";
@@ -7,6 +9,9 @@ import { GetPlayersUsecase } from "./usecases/get-players/get-players.usecase";
 
 export class PlayerController {
   static prefix = "player";
+
+  static identifier = "PLAYER";
+
   static registerEntryPoints(app: Express) {
     app.get(
       `/${this.prefix}/delete/:id`,
@@ -36,73 +41,31 @@ export class PlayerController {
     );
 
     app.get(`/${this.prefix}s`, (request: Request, response: Response) => {
-      const usecase =
-        DEPENDENCIES_CONTAINER.getInstance<GetPlayersUsecase>(
-          "GetPlayersUsecase"
-        );
-
-      const dataRes = usecase.call();
-      dataRes.subscribe({
-        next: (data) => {
-          console.log(data, "NEXT");
-          response.status(200).json(data);
-        },
-        error: (err) => {
-          console.log("ERROR");
-          response.send(err);
-        },
-        complete: () => {
-          console.log("COMPLETE");
-        },
-      });
+      handlerController<GetPlayersUsecase, any>("GetPlayersUsecase", response);
     });
 
     app.get(
       `/${this.prefix}/document/:document`,
       (request: Request, response: Response) => {
         const document = request.params.document;
-        const usecase =
-          DEPENDENCIES_CONTAINER.getInstance<GetPlayerByDocumentUsecase>(
-            "GetPlayerByDocumentUsecase"
-          );
 
-        const dataRes = usecase.call(document);
-
-        dataRes.subscribe({
-          next: (data) => {
-            console.log(data, "NEXT");
-            response.status(200).json(data);
-          },
-          error: (err) => {
-            console.log("ERROR");
-            response.send(err);
-          },
-          complete: () => {
-            console.log("COMPLETE");
-          },
-        });
+        handlerController<GetPlayerByDocumentUsecase, any>(
+          "GetPlayerByDocumentUsecase",
+          response,
+          undefined,
+          document
+        );
       }
     );
 
     app.post(`/${this.prefix}`, (request: Request, response: Response) => {
-      const usecase = DEPENDENCIES_CONTAINER.getInstance<CreatePlayerUsecase>(
-        "CreatePlayerUsecase"
-      );
       const player = request.body;
-      const dataRes = usecase.call(player);
-      dataRes.subscribe({
-        next: (data) => {
-          console.log(data, "NEXT");
-          response.status(200).json(data);
-        },
-        error: (err) => {
-          console.log("ERROR");
-          response.send(err);
-        },
-        complete: () => {
-          console.log("COMPLETE");
-        },
-      });
+      handlerPostController<CreatePlayerUsecase, IPlayerModel>(
+        "CreatePlayerUsecase",
+        response,
+        "PlayerMapper",
+        player
+      );
     });
   }
 }

@@ -22,7 +22,6 @@ class Container {
         }
         const params = this.getDependencies(config.dependencies || []);
         if (config.id === "PlayerContract") {
-            console.log(params);
         }
         const constructor = () => Reflect.construct(typeClass, params);
         this.table[config.id] = {

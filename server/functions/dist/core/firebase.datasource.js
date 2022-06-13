@@ -37,8 +37,12 @@ class FirebaseDataSource extends datasource_1.DataSource {
         throw new Error("Method not implemented.");
     }
     save(entity) {
+        console.log(this.entity, "0", entity, "456456");
         return (0, rxjs_1.from)(this.db.collection(this.entity).add(entity)).pipe((0, operators_1.map)((snapshot) => {
             return snapshot.id;
+        }), (0, operators_1.catchError)((err) => {
+            console.log("Vida hpta", err);
+            return (0, rxjs_1.of)("");
         }));
     }
 }

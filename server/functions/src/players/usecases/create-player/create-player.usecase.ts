@@ -14,13 +14,16 @@ export class CreatePlayerUsecase extends Usecase<IPlayerModel, string> {
     super();
   }
   call(player: IPlayerModel): Observable<string> {
+    console.log(player, "Player")
     return this.getPlayerByDocumentUsecase.call(player.document).pipe(
       map((playerPrev: IPlayerModel | undefined) => {
+        console.log("Player prev ", playerPrev)
         if (playerPrev) {
           return throwError(
             new PlayerAlreadyExistsException(playerPrev.document)
           );
         } else {
+          
           return this.playerContract.save(player)
         }
       }),
