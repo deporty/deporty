@@ -1,12 +1,15 @@
 import { IPlayerModel } from "@deporty/entities/players";
 import { Express, Request, Response } from "express";
-import { handlerController, handlerPostController } from "../../core/controller";
+import { BaseController } from "../../core/controller/controller";
 import { CreatePlayerUsecase } from "../usecases/create-player/create-player.usecase";
 import { DeletePlayerUsecase } from "../usecases/delete-player/delete-player.usecase";
 import { GetPlayerByDocumentUsecase } from "../usecases/get-player-by-document/get-player-by-document.usecase";
 import { GetPlayersUsecase } from "../usecases/get-players/get-players.usecase";
 
-export class PlayerController {
+export class PlayerController extends BaseController {
+  constructor() {
+    super();
+  }
   static prefix = "player";
 
   static identifier = "PLAYER";
@@ -16,8 +19,8 @@ export class PlayerController {
       `/${this.prefix}/delete/:id`,
       (request: Request, response: Response) => {
         const id = request.params.id;
-       
-        handlerController<DeletePlayerUsecase, any>(
+
+        this.handlerController<DeletePlayerUsecase, any>(
           "DeletePlayerUsecase",
           response,
           undefined,
@@ -27,7 +30,7 @@ export class PlayerController {
     );
 
     app.get(`/${this.prefix}s`, (request: Request, response: Response) => {
-      handlerController<GetPlayersUsecase, any>("GetPlayersUsecase", response);
+      this.handlerController<GetPlayersUsecase, any>("GetPlayersUsecase", response);
     });
 
     app.get(
@@ -35,7 +38,7 @@ export class PlayerController {
       (request: Request, response: Response) => {
         const document = request.params.document;
 
-        handlerController<GetPlayerByDocumentUsecase, any>(
+        this.handlerController<GetPlayerByDocumentUsecase, any>(
           "GetPlayerByDocumentUsecase",
           response,
           undefined,
@@ -46,7 +49,7 @@ export class PlayerController {
 
     app.post(`/${this.prefix}`, (request: Request, response: Response) => {
       const player = request.body;
-      handlerPostController<CreatePlayerUsecase, IPlayerModel>(
+      this.handlerPostController<CreatePlayerUsecase, IPlayerModel>(
         "CreatePlayerUsecase",
         response,
         "PlayerMapper",
@@ -55,3 +58,5 @@ export class PlayerController {
     });
   }
 }
+
+
