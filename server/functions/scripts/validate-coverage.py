@@ -8,10 +8,10 @@ parser.add_argument('--path', help='Path to index.html lcov file')
 args = vars(parser.parse_args())
 
 rulers = {
-    'Statements': 80,
-    'Branches': 80,
-    'Functions': 80,
-    'Lines': 80
+    'Statements': 65,
+    'Branches': 40,
+    'Functions': 50,
+    'Lines': 65
 }
 # ../coverage/lcov-report/index.html
 
