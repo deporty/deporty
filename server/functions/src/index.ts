@@ -4,7 +4,7 @@ import { Firestore, getFirestore } from "firebase-admin/firestore";
 import * as functions from "firebase-functions";
 import { FirebaseDataSource } from "./core/firebase.datasource";
 import { DEPENDENCIES_CONTAINER } from "./modules.config";
-import { PlayerController } from "./players/player.controller";
+import { PlayerController } from "./players/infrastructure/player.controller";
 import { PlayersModulesConfig } from "./players/players-modules.config";
 import { DataSource } from "./core/datasource";
 initializeApp({

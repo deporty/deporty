@@ -1,7 +1,7 @@
 import { Container } from "../core/DI";
+import { PlayerRepository } from "./infrastructure/repository/player.repository";
 import { PlayerContract } from "./player.contract";
-import { PlayerMapper } from "./player.mapper";
-import { PlayerRepository } from "./player.repository";
+import { PlayerMapper } from "./infrastructure/player.mapper";
 import { CreatePlayerUsecase } from "./usecases/create-player/create-player.usecase";
 import { DeletePlayerUsecase } from "./usecases/delete-player/delete-player.usecase";
 import { GetPlayerByDocumentUsecase } from "./usecases/get-player-by-document/get-player-by-document.usecase";

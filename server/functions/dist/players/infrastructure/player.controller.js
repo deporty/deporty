@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PlayerController = void 0;
-const controller_1 = require("../core/controller");
+const controller_1 = require("../../core/controller");
 class PlayerController {
     static registerEntryPoints(app) {
         app.get(`/${this.prefix}/delete/:id`, (request, response) => {

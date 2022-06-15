@@ -4,4 +4,5 @@ module.exports = {
   testEnvironment: "node",
   collectCoverage: true,
   collectCoverageFrom: ["<rootDir>/src/**/*.ts"],
+  testTimeout: 10000
 };

@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PlayersModulesConfig = void 0;
+const player_repository_1 = require("./infrastructure/repository/player.repository");
 const player_contract_1 = require("./player.contract");
-const player_mapper_1 = require("./player.mapper");
-const player_repository_1 = require("./player.repository");
+const player_mapper_1 = require("./infrastructure/player.mapper");
 const create_player_usecase_1 = require("./usecases/create-player/create-player.usecase");
 const delete_player_usecase_1 = require("./usecases/delete-player/delete-player.usecase");
 const get_player_by_document_usecase_1 = require("./usecases/get-player-by-document/get-player-by-document.usecase");

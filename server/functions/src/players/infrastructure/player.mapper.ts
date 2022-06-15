@@ -1,5 +1,5 @@
 import { ICreatePlayerModel, IPlayerModel } from "@deporty/entities/players";
-import { Mapper } from "../core/mapper";
+import { Mapper } from "../../core/mapper";
 
 export class PlayerMapper extends Mapper<IPlayerModel> {
   fromJson(obj: any): IPlayerModel {
