@@ -1,9 +1,9 @@
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { DataSource, DataSourceFilter } from "../core/datasource";
-import { PlayerContract } from "./player.contract";
-import { PlayerMapper } from "./player.mapper";
 import { ICreatePlayerModel, IPlayerModel } from "@deporty/entities/players";
+import { PlayerContract } from "../../player.contract";
+import { DataSource, DataSourceFilter } from "../../../core/datasource";
+import { PlayerMapper } from "../player.mapper";
 
 export class PlayerRepository extends PlayerContract {
   static entity = "players";
@@ -14,7 +14,7 @@ export class PlayerRepository extends PlayerContract {
     super();
     this.dataSource.entity = PlayerRepository.entity;
   }
-  getPlayers() {
+  getPlayers() :  Observable<IPlayerModel[]> {
     return this.dataSource.getByFilter([]).pipe(
       map((docs) => {
         return docs.map(this.playerMapper.fromJson);

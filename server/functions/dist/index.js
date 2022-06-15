@@ -7,7 +7,7 @@ const firestore_1 = require("firebase-admin/firestore");
 const functions = require("firebase-functions");
 const firebase_datasource_1 = require("./core/firebase.datasource");
 const modules_config_1 = require("./modules.config");
-const player_controller_1 = require("./players/player.controller");
+const player_controller_1 = require("./players/infrastructure/player.controller");
 const players_modules_config_1 = require("./players/players-modules.config");
 const datasource_1 = require("./core/datasource");
 (0, app_1.initializeApp)({
