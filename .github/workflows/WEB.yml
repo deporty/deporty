@@ -21,4 +21,16 @@ jobs:
           ls
           cd web
           npm i
-          npx ng test
+          
+      - name: 'Install Node dependencies'
+        run: |
+          cd web
+          npm i
+      - name: 'Run test'
+        run: |
+          cd web
+          npx ng test --codeCoverage
+      - name: 'Validate conditions of good software'
+        run: |
+          cd web/scripts
+          python3 validate-coverage.py --path ../coverage/lcov-report/index.html
