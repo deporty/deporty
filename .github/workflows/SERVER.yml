@@ -7,6 +7,8 @@ name: Server
     branches:
       - main
       - feature/**
+    paths:
+      - server/**
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
