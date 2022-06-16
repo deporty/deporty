@@ -107,3 +107,5 @@ db/data
 db/storage
 
 **/node_modules
+**/dist
+**/.angular
