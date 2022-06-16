@@ -7,6 +7,8 @@ name: Deploy web client
     branches:
       - main
       - feature/**
+    paths:
+      - web/**
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
