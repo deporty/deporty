@@ -10,6 +10,7 @@ const modules_config_1 = require("./modules.config");
 const player_controller_1 = require("./players/infrastructure/player.controller");
 const players_modules_config_1 = require("./players/players-modules.config");
 const datasource_1 = require("./core/datasource");
+const cors = require("cors");
 (0, app_1.initializeApp)({
     credential: (0, app_1.cert)("./deporty-dev-firebase-adminsdk.json"),
 });
@@ -30,6 +31,8 @@ function configDependencies() {
 }
 exports.configDependencies = configDependencies;
 exports.app = express();
+cors();
+exports.app.use(cors());
 configDependencies();
 player_controller_1.PlayerController.registerEntryPoints(exports.app);
 exports.app = functions.https.onRequest(exports.app);

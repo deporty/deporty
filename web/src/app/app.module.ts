@@ -33,6 +33,8 @@ import { metaReducers, reducers } from './app.reducer';
     MatIconModule,
     AdsModule,
     StoreModule.forRoot(reducers, { metaReducers }),
+    // StoreDevtoolsModule.instrument(),
+
   ],
   providers: [
     {

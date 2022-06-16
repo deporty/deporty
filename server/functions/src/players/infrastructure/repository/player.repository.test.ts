@@ -7,7 +7,7 @@ import { PlayerContract } from "../../player.contract";
 // import { PlayerMapper } from "../player.mapper";
 
 describe("PlayerRepository", () => {
-  const playersFromDB  = [
+  const playersFromDB = [
     {
       name: "Vegeta",
       lastName: "Sayayin",
@@ -16,15 +16,17 @@ describe("PlayerRepository", () => {
       alias: "Principe de los sayayins",
       number: "1",
       role: "Principe de los sayayins",
+      email: "",
+      phone: "",
       image: "https://sayan.planet.king",
       power: 45,
     },
   ];
-  const ALLOWED_KEY_NUMBER = 8;
+  const ALLOWED_KEY_NUMBER = 10;
 
   let playerRepository: PlayerContract;
   let dataSource: DataSource<any>;
-//   let playerMappr: PlayerMapper;
+  //   let playerMappr: PlayerMapper;
 
   beforeAll(() => {
     configDependencies();
@@ -86,9 +88,7 @@ describe("PlayerRepository", () => {
       image: "https://sayan.planet.king",
     } as ICreatePlayerModel;
 
-
     const expectedId = "123456890";
-
 
     jest.spyOn(dataSource, "save").mockImplementation((player: any) => {
       return of(expectedId);

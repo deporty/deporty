@@ -30,7 +30,10 @@ export class PlayerController extends BaseController {
     );
 
     app.get(`/${this.prefix}s`, (request: Request, response: Response) => {
-      this.handlerController<GetPlayersUsecase, any>("GetPlayersUsecase", response);
+      this.handlerController<GetPlayersUsecase, any>(
+        "GetPlayersUsecase",
+        response
+      );
     });
 
     app.get(
@@ -58,5 +61,3 @@ export class PlayerController extends BaseController {
     });
   }
 }
-
-

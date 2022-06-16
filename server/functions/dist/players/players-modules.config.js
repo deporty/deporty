@@ -8,6 +8,7 @@ const create_player_usecase_1 = require("./usecases/create-player/create-player.
 const delete_player_usecase_1 = require("./usecases/delete-player/delete-player.usecase");
 const get_player_by_document_usecase_1 = require("./usecases/get-player-by-document/get-player-by-document.usecase");
 const get_players_usecase_1 = require("./usecases/get-players/get-players.usecase");
+const get_player_by_email_usecase_1 = require("./usecases/get-player-by-email/get-player-by-email.usecase");
 class PlayersModulesConfig {
     static config(container) {
         container.add({
@@ -41,9 +42,15 @@ class PlayersModulesConfig {
             strategy: "singleton",
         });
         container.add({
+            id: "GetPlayerByEmailUsecase",
+            kind: get_player_by_email_usecase_1.GetPlayerByEmailUsecase,
+            dependencies: ["PlayerContract"],
+            strategy: "singleton",
+        });
+        container.add({
             id: "CreatePlayerUsecase",
             kind: create_player_usecase_1.CreatePlayerUsecase,
-            dependencies: ["PlayerContract", "GetPlayerByDocumentUsecase"],
+            dependencies: ["PlayerContract", "GetPlayerByDocumentUsecase", "GetPlayerByEmailUsecase"],
             strategy: "singleton",
         });
         // container.add({

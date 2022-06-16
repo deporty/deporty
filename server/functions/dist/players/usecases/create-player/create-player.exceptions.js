@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PlayerAlreadyExistsException = void 0;
 class PlayerAlreadyExistsException extends Error {
-    constructor(document) {
+    constructor(property) {
         super();
-        this.message = `The player's ${document} already exists.`;
+        this.message = `The player with the property ${property} already exists.`;
         this.name = "PlayerAlreadyExistsException";
     }
 }

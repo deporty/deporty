@@ -12,6 +12,9 @@ export class PlayerMapper extends Mapper<IPlayerModel> {
       number: obj["number"],
       role: obj["role"],
       image: obj["image"],
+      phone: obj['phone'],
+      email: obj['email'],
+
     };
   }
 
@@ -24,6 +27,8 @@ export class PlayerMapper extends Mapper<IPlayerModel> {
       number: obj["number"],
       role: obj["role"],
       image: obj["image"],
+      email: obj['email'],
+      phone: obj['phone'],
     };
   }
 
@@ -35,6 +40,8 @@ export class PlayerMapper extends Mapper<IPlayerModel> {
       alias: player.alias || "",
       number: player.number || "",
       role: player.role || "",
+      email: player.email || "",
+      phone: player.phone || "",
       image: player.image || "",
     };
   }

@@ -18,7 +18,7 @@ class GetPlayerByDocumentUsecase extends usecase_1.Usecase {
             },
         ])
             .pipe((0, operators_1.map)((players) => {
-            return players[0];
+            return players.length > 0 ? players[0] : undefined;
         }));
     }
 }

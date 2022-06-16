@@ -13,6 +13,8 @@ export class PlayerMapper {
       number: obj['number'],
       role: obj['role'],
       image: obj['image'],
+      email: obj['email'],
+      phone: obj['phone'],
     };
   }
 

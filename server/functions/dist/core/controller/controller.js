@@ -42,7 +42,13 @@ class BaseController {
         }
         dataRes.subscribe({
             next: (data) => {
-                response.send(data);
+                response.send({
+                    meta: {
+                        code: "200",
+                        message: "",
+                    },
+                    data,
+                });
             },
             error: (err) => {
                 console.log(err);

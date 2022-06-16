@@ -1,3 +1,3 @@
-export * from "./players/player.model";
-export * from "./users/credential.model";
-export * from "./users/user.model";
+export * from "./players/index";
+export * from "./users/index";
+export * from "./general/index";

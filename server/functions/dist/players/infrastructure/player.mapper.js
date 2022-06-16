@@ -13,6 +13,8 @@ class PlayerMapper extends mapper_1.Mapper {
             number: obj["number"],
             role: obj["role"],
             image: obj["image"],
+            phone: obj['phone'],
+            email: obj['email'],
         };
     }
     fromJsonWithOutId(obj) {
@@ -24,6 +26,8 @@ class PlayerMapper extends mapper_1.Mapper {
             number: obj["number"],
             role: obj["role"],
             image: obj["image"],
+            email: obj['email'],
+            phone: obj['phone'],
         };
     }
     toJson(player) {
@@ -34,6 +38,8 @@ class PlayerMapper extends mapper_1.Mapper {
             alias: player.alias || "",
             number: player.number || "",
             role: player.role || "",
+            email: player.email || "",
+            phone: player.phone || "",
             image: player.image || "",
         };
     }

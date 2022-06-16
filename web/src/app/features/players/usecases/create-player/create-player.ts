@@ -15,3 +15,5 @@ export class CreatePlayerUsecase extends BaseUsecase<IPlayerModel, string> {
     return this.playerAdapter.createPlayer(player);
   }
 }
+
+

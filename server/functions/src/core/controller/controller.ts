@@ -1,6 +1,7 @@
 import { Response } from "express";
 import { DEPENDENCIES_CONTAINER } from "../../modules.config";
 import { Mapper } from "../mapper";
+import { IBaseResponse } from "@deporty/entities/general";
 
 export abstract class BaseController {
   public static handlerPostController<
@@ -26,10 +27,7 @@ export abstract class BaseController {
     );
   }
 
-  public static handlerController<
-    T extends { call: (param?: any) => any },
-    M
-  >(
+  public static handlerController<T extends { call: (param?: any) => any }, M>(
     usecaseIdentifier: string,
     response: Response,
     mapper?: string,
@@ -78,7 +76,13 @@ export abstract class BaseController {
 
     dataRes.subscribe({
       next: (data: any) => {
-        response.send(data);
+        response.send({
+          meta: {
+            code: "200",
+            message: "",
+          },
+          data,
+        } as IBaseResponse);
       },
       error: (err: any) => {
         console.log(err);

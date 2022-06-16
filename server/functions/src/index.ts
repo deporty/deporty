@@ -7,12 +7,12 @@ import { DEPENDENCIES_CONTAINER } from "./modules.config";
 import { PlayerController } from "./players/infrastructure/player.controller";
 import { PlayersModulesConfig } from "./players/players-modules.config";
 import { DataSource } from "./core/datasource";
+import * as cors from 'cors'
 initializeApp({
   credential: cert("./deporty-dev-firebase-adminsdk.json"),
 });
 
 const db: Firestore = getFirestore();
-
 export function configDependencies() {
   DEPENDENCIES_CONTAINER.addValue({
     id: "FirebaseDatabase",
@@ -31,6 +31,8 @@ export function configDependencies() {
 }
 
 export const app = express();
+cors()
+app.use(cors())
 configDependencies();
 PlayerController.registerEntryPoints(app);
 
