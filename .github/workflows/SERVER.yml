@@ -13,6 +13,7 @@ name: SERVER
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+    environment: dev
     steps:
       - name: CHECKOUT 
         uses: actions/checkout@v2
@@ -45,6 +46,12 @@ jobs:
         run: |
           cd server/functions/scripts
           python3 validate-coverage.py --path ../coverage/lcov-report/index.html
+
+      - name: COPY SERVICE ACCOUNT
+        run: |
+          cd server
+          echo {{secrets.SERVICE_ACCOUNT}} > service-account-dev.json
+          ls
       - name: DEPLOY DEV 
         run: |
           cd server
