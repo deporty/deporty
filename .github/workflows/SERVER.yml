@@ -48,5 +48,6 @@ jobs:
       - name: DEPLOY DEV 
         run: |
           cd server
-          npx firebase deploy --only functions
+          firebase use dev
+          firebase deploy --only functions
 
