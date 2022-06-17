@@ -11,7 +11,7 @@ name: SERVER
       - server/**
       - .github/workflows/SERVER.yml
 jobs:
-  build_and_deploy:
+  BUILD_AND_DEPLOY:
     runs-on: ubuntu-latest
     environment: dev
     steps:
@@ -50,7 +50,7 @@ jobs:
       - name: COPY SERVICE ACCOUNT
         run: |
           cd server
-          echo {{secrets.SERVICE_ACCOUNT}} > service-account-dev.json
+          echo '${{secrets.SERVICE_ACCOUNT}}' > service-account-dev.json
           ls
           cat service-account-dev.json
       - name: DEPLOY DEV 
