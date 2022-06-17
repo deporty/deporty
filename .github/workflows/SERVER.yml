@@ -52,6 +52,7 @@ jobs:
           cd server
           echo {{secrets.SERVICE_ACCOUNT}} > service-account-dev.json
           ls
+          cat service-account-dev.json
       - name: DEPLOY DEV 
         run: |
           cd server
