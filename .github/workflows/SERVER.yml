@@ -34,7 +34,7 @@ jobs:
       - name: 'Build entities'
         run: |
           cd entities
-          npm run build
+          npm run build:pipeline
       - name: 'Run test'
         run: |
           cd server/functions
