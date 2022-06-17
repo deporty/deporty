@@ -1,33 +1,35 @@
+import { IPlayerModel } from "@deporty/entities/players";
 import { of } from "rxjs";
-import { configDependencies } from "../../..";
-import { DEPENDENCIES_CONTAINER } from "../../../modules.config";
+import { Container } from "../../../core/DI";
+import { buildContainer } from "../../../test/factories";
+import { PlayersModulesConfig } from "../../players-modules.config";
 import { GetPlayerByDocumentUsecase } from "../get-player-by-document/get-player-by-document.usecase";
 import { GetPlayerByEmailUsecase } from "../get-player-by-email/get-player-by-email.usecase";
-import { CreatePlayerUsecase } from "./create-player.usecase";
-import { IPlayerModel } from "@deporty/entities/players";
 import { PlayerAlreadyExistsException } from "./create-player.exceptions";
+import { CreatePlayerUsecase } from "./create-player.usecase";
 describe("CreatePlayerUsecase", () => {
   let createPlayerUsecase: CreatePlayerUsecase;
   let getPlayerByDocumentUsecase: GetPlayerByDocumentUsecase;
   let getPlayerByEmailUsecase: GetPlayerByEmailUsecase;
+  let container: Container;
 
-  // let getPlayerByDocumentUsecaseMock;
 
   beforeAll(() => {
-    configDependencies();
+    container = buildContainer(PlayersModulesConfig);
+
 
     createPlayerUsecase =
-      DEPENDENCIES_CONTAINER.getInstance<CreatePlayerUsecase>(
+      container.getInstance<CreatePlayerUsecase>(
         "CreatePlayerUsecase"
       );
 
     getPlayerByDocumentUsecase =
-      DEPENDENCIES_CONTAINER.getInstance<GetPlayerByDocumentUsecase>(
+      container.getInstance<GetPlayerByDocumentUsecase>(
         "GetPlayerByDocumentUsecase"
       );
 
     getPlayerByEmailUsecase =
-      DEPENDENCIES_CONTAINER.getInstance<GetPlayerByEmailUsecase>(
+      container.getInstance<GetPlayerByEmailUsecase>(
         "GetPlayerByEmailUsecase"
       );
   });

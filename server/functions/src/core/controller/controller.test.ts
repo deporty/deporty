@@ -1,28 +1,36 @@
-import { Observable, of } from "rxjs";
-import { DEPENDENCIES_CONTAINER } from "../../modules.config";
-import { BaseController } from "./controller";
-import { Usecase } from "../usecase";
+import { Observable, of } from 'rxjs';
+import { BaseController } from './controller';
+import { Usecase } from '../usecase';
+import { Container } from '../DI';
 
 class FakeUsecase extends Usecase<any, any> {
   call(param?: any): Observable<any> {
-    return of("NULL");
+    return of('NULL');
   }
 }
-describe("Base controller functions", () => {
-  const usecaseIdentifier = "sf";
+describe('Base controller functions', () => {
+  const usecaseIdentifier = 'sf';
+  let container: Container;
+
   beforeAll(() => {
-    DEPENDENCIES_CONTAINER.add({
+    container = new Container();
+
+    container.add({
       id: usecaseIdentifier,
       kind: FakeUsecase,
-      strategy: "singleton",
+      strategy: 'singleton',
       dependencies: [],
     });
   });
-  test("should ", () => {
+  test('should ', () => {
     const fakeResponse = {
       send: (data: any) => {},
     };
-    BaseController.handlerController(usecaseIdentifier, fakeResponse as any);
+    BaseController.handlerController(
+      container,
+      usecaseIdentifier,
+      fakeResponse as any
+    );
     expect(true).toBe(true);
   });
 });

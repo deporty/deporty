@@ -1,25 +1,27 @@
-import { VariableNotDefinedException } from "../../../core/exceptions";
-import { DeletePlayerUsecase } from "./delete-player.usecase";
+import { Container } from '../../../core/DI';
+import { VariableNotDefinedException } from '../../../core/exceptions';
+import { buildContainer } from '../../../test/factories';
+import { PlayersModulesConfig } from '../../players-modules.config';
+import { DeletePlayerUsecase } from './delete-player.usecase';
 
-import { configDependencies } from "../../../index";
-import { DEPENDENCIES_CONTAINER } from "../../../modules.config";
-describe("DeletePlayerUsecase", () => {
+describe('DeletePlayerUsecase', () => {
   let deletePlayerUsecase: DeletePlayerUsecase;
+  let container: Container;
 
   beforeAll(() => {
-    configDependencies();
-    deletePlayerUsecase = DEPENDENCIES_CONTAINER.getInstance(
-      "DeletePlayerUsecase"
+    container = buildContainer(PlayersModulesConfig);
+
+    deletePlayerUsecase = container.getInstance(
+      'DeletePlayerUsecase'
     );
   });
-  test("Should create instance", () => {
+  test('Should create instance', () => {
     expect(deletePlayerUsecase).not.toBeNull();
   });
 
-  test("Should throw a VariableNotDefinedException exception when the id is empty", (done) => {
-    const response = deletePlayerUsecase.call("");
+  test('Should throw a VariableNotDefinedException exception when the id is empty', (done) => {
+    const response = deletePlayerUsecase.call('');
     response.subscribe({
-      
       error: (err) => {
         expect(err).toBeInstanceOf(VariableNotDefinedException);
         done();
