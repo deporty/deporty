@@ -57,12 +57,11 @@ describe("CreatePlayerUsecase", () => {
   });
 
   test("Should return a PlayerAlreadyExistsException when the email exists in the db", (done) => {
-
     jest
-    .spyOn(getPlayerByDocumentUsecase, "call")
-    .mockImplementation((document: string) => {
-      return of(undefined);
-    });
+      .spyOn(getPlayerByDocumentUsecase, "call")
+      .mockImplementation((document: string) => {
+        return of(undefined);
+      });
 
     jest
       .spyOn(getPlayerByEmailUsecase, "call")
@@ -75,11 +74,10 @@ describe("CreatePlayerUsecase", () => {
     const response = createPlayerUsecase.call({
       document: "10534521654",
       email: "aksldfjañk@gmail.com",
-
     } as any);
     response.subscribe({
       error: (error) => {
-        console.log(error)
+        console.log(error);
         expect(error).toBeInstanceOf(PlayerAlreadyExistsException);
         done();
       },
