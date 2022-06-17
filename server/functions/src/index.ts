@@ -31,7 +31,6 @@ export function configDependencies() {
 }
 
 export const app = express();
-cors()
 app.use(cors())
 configDependencies();
 PlayerController.registerEntryPoints(app);
