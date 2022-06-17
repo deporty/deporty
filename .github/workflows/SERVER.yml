@@ -53,11 +53,11 @@ jobs:
           echo '${{secrets.SERVICE_ACCOUNT}}' > service-account-dev.json
           ls
           cat service-account-dev.json
-      - name: USE DEV ENVIRONMENT
+      - name: DEPLOY DEV ENVIRONMENT
         run: |
           cd server
           firebase use dev --token "${{secrets.FIREBASE_TOKEN}}"
-          firebase deploy --token "${{secrets.FIREBASE_TOKEN}}"
+          firebase deploy --token "${{secrets.FIREBASE_TOKEN}}" --allow-deletes
       # - name: DEPLOY TO FIREBASE DEV
       #   uses: w9jds/firebase-action@master
       #   with:
