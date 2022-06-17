@@ -14,37 +14,38 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: USE NODE.JS 
       - uses: actions/checkout@v2
-      - name: Use Node.js 
         uses: actions/setup-node@v3
         with:
           node-version: 14.x
-      - name: Set up Python 
+      - name: SET UP PYTHON 
         uses: actions/setup-python@v3
         with:
           python-version: 3.10.4
-      - name: 'Install Python dependencies'
+      - name: INSTALL PYTHON DEPENDENCIES
         run: |
           cd server/functions/scripts
           pip install -r packages
-      - name: 'Install Node dependencies'
+      - name: INSTALL NODE DEPENDENCIES
         run: |
           cd server/functions
           npm i
           npm i -g firebase-tools@11.0.1 
-      - name: 'Build entities'
+      - name: BUILD ENTITIES
         run: |
           cd entities
           npm run build:pipeline
-      - name: 'Run test'
+      - name: RUN TEST
         run: |
           cd server/functions
           npm test
-      - name: 'Validate conditions of good software'
+      - name: VALIDATE CONDITIONS OF GOOD SOFTWARE
         run: |
           cd server/functions/scripts
           python3 validate-coverage.py --path ../coverage/lcov-report/index.html
-      - name: 'Deploy dev' 
+      - name: DEPLOY DEV 
         run: |
+          cd server
           npx firebase deploy --only functions
 
