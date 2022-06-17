@@ -1,0 +1,55 @@
+/* You can add global styles to this file, and also import other style files */
+@use "@angular/material" as mat;
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+@import url("../node_modules/bootstrap/dist/css/bootstrap.min.css");
+// @import '@angular/material/prebuilt-themes/purple-green.css';
+
+@import "~@angular/material/theming";
+
+@include mat-core();
+
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$my-app-primary: mat-palette($mat-red, 600, 100);
+$my-app-accent: mat-palette($mat-light-blue, 400);
+$my-app-warn: mat-palette($mat-yellow);
+
+// The warn palette is optional (defaults to red).
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as `color` or `typography`.
+$my-app-theme: mat-light-theme($my-app-primary, $my-app-accent, $my-app-warn);
+
+@include angular-material-theme($my-app-theme);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+
+*::-webkit-scrollbar {
+  width: 9px; /* width of the entire scrollbar */
+}
+*::-webkit-scrollbar-track {
+  background: rgb(220, 220, 220); /* color of the tracking area */
+}
+*::-webkit-scrollbar-thumb {
+  background-color: rgb(196, 196, 196); /* color of the scroll thumb */
+  border-radius: 10px; /* roundness of the scroll thumb */
+  border: 3px solid rgb(196, 196, 196); /* creates padding around scroll thumb */
+}

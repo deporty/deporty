@@ -1,0 +1,86 @@
+<mat-drawer-container class="h-100" autosize>
+  <mat-drawer #drawer class="example-sidenav" [mode]="mode">
+    <img
+      width="200px"
+      [routerLink]="['./home']"
+      src="assets/brand/deporty-isologotipo.jpg"
+      alt=""
+      class="iso"
+    />
+    <div
+      class="w-100 subheader border-bottom d-flex align-items-center justify-content-center"
+    >
+      <small class="align-text-bottom" *ngIf="user">{{ user.email }}</small>
+    </div>
+
+    <mat-list class="menu" role="list">
+      <mat-list-item
+        (click)="mode == 'over' && drawer.close()"
+        class="app-item"
+        [routerLink]="['./players']"
+        >Jugadores</mat-list-item
+      >
+      <mat-list-item
+        (click)="mode == 'over' && drawer.close()"
+        class="app-item"
+        [routerLink]="['./teams']"
+        >Equipos</mat-list-item
+      >
+      <mat-list-item
+        (click)="mode == 'over' && drawer.close()"
+        class="app-item"
+        [routerLink]="['./tournaments']"
+        >Torneos</mat-list-item
+      >
+        <mat-list-item (click)="mode == 'over' && drawer.close()" class="app-item" [routerLink]="['./landing']"
+          >Acerca de</mat-list-item
+        >
+    </mat-list>
+
+    <section
+      (click)="mode == 'over' && drawer.close()"
+      color="primary"
+      class="menu-footer app-item align-text-center border-top d-flex pl-3 pl-md-3 pl-lg-3"
+      (click)="closeSession()"
+    >
+      <div> Cerrar Sesión </div>
+    </section>
+  </mat-drawer>
+  <mat-toolbar color="primary">
+    <div class="d-flex w-100 justify-content-start align-items-center">
+      <button
+        mat-icon-button
+        (click)="drawer.toggle()"
+        aria-label="Example icon-button with menu icon"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+      <div
+        class="d-flex flex-column w-100 flex-wrap align-items-start justify-content-between"
+      >
+        <h1 class="align-text-bottom">Deporty</h1>
+      </div>
+      <button [routerLink]="['./auth']" *ngIf="!user" mat-button>
+        Iniciar sesión
+      </button>
+    </div>
+  </mat-toolbar>
+  <div class="d-flex app-container">
+    <div class="app-main-container">
+      <section class="container-fluid p-0 ">
+        <div class="row no-gutters p-0 h-100">
+          <router-outlet> </router-outlet>
+        </div>
+      </section>
+      <footer class="row p-0 no-gutters ad-footer">
+
+        <app-banner></app-banner>
+        <!-- <img src="./assets/ads/xl.png" alt="" srcset="" /> -->
+      </footer>
+    </div>
+
+    <aside class="ad-aside">
+      <!-- <img src="./assets/ad-vertical.jpg" width="100%" alt="" srcset="" /> -->
+    </aside>
+  </div>
+</mat-drawer-container>

@@ -1,0 +1,13 @@
+:host{
+  // border: 1px solid gray;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+  display: flex;
+  input[type="file"] {
+    height: 0;
+    overflow: hidden;
+    width: 0;
+    display: none;
+  }
+}

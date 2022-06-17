@@ -1,0 +1,98 @@
+{
+	"info": {
+		"_postman_id": "0562b10e-a264-4e4e-80f5-e76122c05436",
+		"name": "players",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get all",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5e5a703d-5e00-474e-b0a3-5237b4ba5354",
+						"exec": [
+							"pm.environment.get(\"host\");\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "9b712915-7cb1-4b5f-9b49-c55c51ea183b",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/players",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"players"
+					]
+				}
+			},
+			"response": [
+				{
+					"id": "9ae22cc2-0e88-4992-81e0-6c401536a788",
+					"name": "success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/players",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"players"
+							]
+						}
+					},
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"responseTime": null,
+					"body": "[\n    {\n        \"name\": \"David\",\n        \"lastName\": \"Contra No\",\n        \"id\": \"0ynLCEbLJTEJOI0CoS8D\",\n        \"document\": \"4040404040\",\n        \"alias\": \"\",\n        \"number\": \"\",\n        \"role\": \"\",\n        \"image\": \"players/4040404040/profile.jpg\"\n    }\n]"
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "username",
+				"value": "<Basic Auth Username>",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "<Basic Auth Password>",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"id": "788fa56a-23b6-4cc7-a28e-106781b03394",
+			"key": "baseUrl",
+			"value": "localhost:3000",
+			"type": "string"
+		}
+	]
+}

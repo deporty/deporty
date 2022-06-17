@@ -1,0 +1,15 @@
+<div class="d-flex  flex-column align-items-center">
+  <section class="d-flex row m-0 pt-3 w-100 justify-content-between">
+    <div class="d-flex col-5">
+      <app-team-summary-card [team]="match.teamA"> </app-team-summary-card>
+      <strong class="mx-2" *ngIf="match.score">{{ match.score.teamA }}</strong>
+    </div>
+    <span class="col-2 text-center"> v </span>
+    <div class="d-flex col-5 justify-content-end">
+      <strong class="mx-2" *ngIf="match.score">{{ match.score.teamB }}</strong>
+      <app-team-summary-card [team]="match.teamB"> </app-team-summary-card>
+    </div>
+  </section>
+  <span class="" *ngIf="match.date">{{ match.date | date: "medium" }}</span>
+</div>
+<mat-icon (click)="onEditMatch.emit()" *ngIf="editFlag" class="edit-option"> edit </mat-icon>
