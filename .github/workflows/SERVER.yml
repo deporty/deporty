@@ -31,6 +31,7 @@ jobs:
         run: |
           cd server/functions
           npm i
+          npm i -g firebase-tools@11.0.1 
       - name: 'Build entities'
         run: |
           cd entities
