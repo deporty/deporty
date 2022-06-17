@@ -56,14 +56,14 @@ jobs:
       - name: USE DEV ENVIRONMENT
         run: |
           cd server
-          firebase use dev
-      - name: DEPLOY TO FIREBASE DEV
-        uses: w9jds/firebase-action@master
-        with:
-          args: deploy --only functions
-        env:
-          GCP_SA_KEY: ${{ secrets.SERVICE_ACCOUNT }}
-          PROJECT_PATH: server
+          firebase deploy --token "${{secrets.FIREBASE_TOKEN}}"
+      # - name: DEPLOY TO FIREBASE DEV
+      #   uses: w9jds/firebase-action@master
+      #   with:
+      #     args: deploy --only functions
+      #   env:
+      #     GCP_SA_KEY: ${{ secrets.SERVICE_ACCOUNT }}
+      #     PROJECT_PATH: server
 
 
 
