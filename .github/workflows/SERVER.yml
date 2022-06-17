@@ -38,3 +38,7 @@ jobs:
         run: |
           cd server/functions/scripts
           python3 validate-coverage.py --path ../coverage/lcov-report/index.html
+      - name: 'Deploy dev' 
+        run: |
+          npx firebase deploy --only functions
+
