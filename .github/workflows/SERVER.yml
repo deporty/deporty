@@ -57,7 +57,7 @@ jobs:
         run: |
           cd server
           firebase use dev --token "${{secrets.FIREBASE_TOKEN}}"
-          firebase deploy --token "${{secrets.FIREBASE_TOKEN}}" --allow-deletes
+          firebase deploy --token "${{secrets.FIREBASE_TOKEN}}" --force
       # - name: DEPLOY TO FIREBASE DEV
       #   uses: w9jds/firebase-action@master
       #   with:
