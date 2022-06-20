@@ -6,6 +6,8 @@ name: WEB
       - feature/**
     paths:
       - web/**
+      - .github/workflows/WEB.yml
+
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
@@ -16,9 +18,9 @@ jobs:
         with:
           node-version: 14.x
       - name: INSTALL NODE DEPENDENCIES
-      #   run: |
-      #     cd web
-      #     npm i
+        run: |
+          cd web
+          npm i
       # - name: RUN TEST
       #   run: |
       #     cd web
