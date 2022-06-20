@@ -29,6 +29,10 @@ jobs:
         # run: |
         #   cd web/scripts
         #   python3 validate-coverage.py --path ../coverage/lcov-report/index.html
+      - name: BUILD ENTITIES
+        run: |
+          cd entities
+          npm run build:pipeline
       - name: BUILD
         run: |
           cd web
