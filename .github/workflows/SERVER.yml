@@ -46,13 +46,6 @@ jobs:
         run: |
           cd server/functions/scripts
           python3 validate-coverage.py --path ../coverage/lcov-report/index.html
-
-      - name: COPY SERVICE ACCOUNT
-        run: |
-          cd server
-          echo '${{secrets.SERVICE_ACCOUNT}}' > service-account-dev.json
-          ls
-          cat service-account-dev.json
       - name: DEPLOY DEV ENVIRONMENT
         run: |
           cd server
