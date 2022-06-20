@@ -21,6 +21,7 @@ jobs:
         run: |
           cd web
           npm i
+          npm i -g firebase-tools@11.0.1 
       # - name: RUN TEST
       #   run: |
       #     cd web
