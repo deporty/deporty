@@ -14,7 +14,7 @@ import { PlayerAdapter } from '../../player.repository';
 
 @Injectable()
 export class PlayerService extends PlayerAdapter {
-  static collection = 'player';
+  static collection = 'players';
   constructor(
     private playerMapper: PlayerMapper,
     private httpClient: HttpClient
@@ -22,7 +22,7 @@ export class PlayerService extends PlayerAdapter {
     super();
   }
   public getAllSummaryPlayers(): Observable<any> {
-    const playerCollections = collection(firestore, `${PlayerService.collection}s`);
+    const playerCollections = collection(firestore, `${PlayerService.collection}`);
 
     return from(getDocs(playerCollections)).pipe(
       map((citySnapshot) => {
@@ -39,13 +39,14 @@ export class PlayerService extends PlayerAdapter {
     );
   }
 
-  createPlayer(player: IPlayerModel): Observable<string> {
+  createPlayer(player: IPlayerModel): Observable<IBaseResponse<string>> {
     const path = `${environment.serverEndpoint}/${PlayerService.collection}`;
-    return this.httpClient.post<IBaseResponse>(path, player).pipe(
-      map((response) => {
-        return response.data;
-      })
-    );
+    return this.httpClient.post<IBaseResponse<string>>(path, player)
+    // .pipe(
+    //   map((response) => {
+    //     return response.data;
+    //   })
+    // );
     // const playerCollections = collection(firestore, PlayerService.collection);
 
     // return from(

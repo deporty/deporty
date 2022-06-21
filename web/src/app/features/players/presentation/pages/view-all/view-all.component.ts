@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IPlayerModel } from '@deporty/entities/players';
 import { Observable, Subscription } from 'rxjs';
-import { GetAllSummaryPlayersUsecase } from '../../../usecases/get-all-summary-players/get-all-summary-players.usecase';
+import { PlayerAdapter } from '../../../player.repository';
 import { PlayerCardComponent } from '../../components/player-card/player-card.component';
 import { CreatePlayerComponent } from '../create-player/create-player.component';
 
@@ -21,13 +21,23 @@ export class ViewAllComponent implements OnInit {
   $players!: Observable<IPlayerModel[]>;
   $playersSubscription!: Subscription;
   players: IPlayerModel[];
+  actions: any[];
   constructor(
-    private getAllSummaryPlayersUsecase: GetAllSummaryPlayersUsecase,
+    private playerService: PlayerAdapter,
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog
   ) {
     this.players = [];
+    this.actions = [
+      {
+        icon: 'delete',
+        function: (player: IPlayerModel) => {
+          this.deletePlayer(player);
+        },
+      },
+    ];
+
     this.formGroup = new FormGroup({
       name: new FormControl(''),
       lastName: new FormControl(''),
@@ -40,16 +50,19 @@ export class ViewAllComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    this.$players = this.getAllSummaryPlayersUsecase.call();
+    this.$players = this.playerService.getAllSummaryPlayers();
     this.$players.subscribe((data) => {
       this.players.push(...data);
     });
   }
+
+  deletePlayer(player: IPlayerModel) {
+    console.log(player);
+  }
   onSelectedPlayer(player: IPlayerModel) {
     const dialogRef = this.dialog.open(PlayerCardComponent, {
       data: player,
-      maxWidth: '500px'
+      maxWidth: '500px',
     });
-
   }
 }

@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { IPlayerModel } from '@deporty/entities/players';
 import { logEvent } from 'firebase/analytics';
-import { GetAllSummaryPlayersUsecase } from 'src/app/features/players/usecases/get-all-summary-players/get-all-summary-players.usecase';
+import { PlayerAdapter } from 'src/app/features/players/player.repository';
 import { analytics } from 'src/app/init-app';
 import { environment } from 'src/environments/environment';
 import { ITeamModel } from '../../../models/team.model';
@@ -29,7 +29,7 @@ export class TeamComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
 
-    private getAllSummaryPlayersUsecase: GetAllSummaryPlayersUsecase,
+    private playerService: PlayerAdapter,
     private addPlayerToTeamUsecase: AddPlayerToTeamUsecase
   ) {
     this.membersFormControl = new FormControl();
@@ -41,7 +41,7 @@ export class TeamComponent implements OnInit {
       this.team = JSON.parse(team.team) as ITeamModel;
     });
 
-    this.$players = this.getAllSummaryPlayersUsecase.call();
+    this.$players = this.playerService.getAllSummaryPlayers();
 
     if (environment.analytics) {
       logEvent(analytics, 'team');

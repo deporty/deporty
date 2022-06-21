@@ -1,10 +1,19 @@
-import { Component, Inject, Input, OnChanges, OnInit, Optional, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  OnChanges,
+  OnInit,
+  Optional,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IPlayerModel } from '@deporty/entities/players';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { DEFAULT_PROFILE_IMG } from 'src/app/app.constants';
 import { storage } from 'src/app/init-app';
-
 
 @Component({
   selector: 'app-player-card',
@@ -13,22 +22,28 @@ import { storage } from 'src/app/init-app';
 })
 export class PlayerCardComponent implements OnInit, OnChanges {
   @Input() player!: Partial<IPlayerModel>;
-
+  @Input() actions: any[];
+  @Output() onSelectedPlayer;
   defaultImg: string;
   img!: string;
 
   constructor(@Inject(MAT_DIALOG_DATA) @Optional() public data: IPlayerModel) {
     this.defaultImg = DEFAULT_PROFILE_IMG;
+    this.onSelectedPlayer = new EventEmitter();
+    this.actions = []
   }
   ngOnChanges(changes: SimpleChanges): void {
-    this.update()
+    this.update();
   }
 
-  update(){
+  click() {
+    this.onSelectedPlayer.emit();
+  }
+  update() {
     if (this.data && !this.player) {
       this.player = this.data;
     }
-    console.log(this.player)
+    console.log(this.player);
 
     if (this.player.image) {
       const imageRef = ref(storage, this.player.image);
@@ -40,6 +55,6 @@ export class PlayerCardComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.update()
+    this.update();
   }
 }

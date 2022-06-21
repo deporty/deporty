@@ -4,12 +4,13 @@
     src="{{ img || defaultImg }}"
     class="card-img-top"
     alt="   {{ player.name }}"
+    (click)="click()"
   />
   <mat-card-content>
     <h5 class="card-title text-center">
-      <button mat-button mat-raised-button color="primary">
+      <p mat-button mat-raised-button color="primary">
         {{ player.name }} {{ player.lastName }}
-      </button>
+      </p>
     </h5>
     <p class="text-center">
       {{ player.alias }}
@@ -21,5 +22,14 @@
       {{ player.role }}
       <span *ngIf="player.number"> ({{ player.number }}) </span>
     </p>
+    <section *ngIf="actions && actions.length > 0">
+      <ng-container *ngFor="let action of actions">
+        <button mat-button (click)="action.function(player)">
+          <mat-icon>
+            {{ action.icon }}
+          </mat-icon>
+        </button>
+      </ng-container>
+    </section>
   </mat-card-content>
 </mat-card>

@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { UploadFileUsecase } from 'src/app/core/usecases/upload-file/upload-file';
-import { CreatePlayerUsecase } from '../../../usecases/create-player/create-player';
+import { PlayerAdapter } from '../../../player.repository';
 import { IPlayerState } from '../../player.states';
 import { GET_ALL_USERS_ACTION } from '../../players.actions';
-
 
 @Component({
   selector: 'app-create-player',
@@ -16,8 +15,8 @@ export class CreatePlayerComponent implements OnInit {
   static route = 'create-player';
 
   constructor(
-    private createPlayerUsecase: CreatePlayerUsecase,
     private uploadFileUsecase: UploadFileUsecase,
+    private playerService: PlayerAdapter,
     private router: Router,
     private store: Store<IPlayerState>
   ) {}
@@ -33,9 +32,9 @@ export class CreatePlayerComponent implements OnInit {
         })
         .subscribe(
           (response) => {
-            console.log(response)
-            this.createPlayerUsecase
-              .call({ ...value.playerData, image: filePath })
+            console.log(response);
+            this.playerService
+              .createPlayer({ ...value.playerData, image: filePath })
               .subscribe(() => {
                 this.router.navigate(['..']);
               });

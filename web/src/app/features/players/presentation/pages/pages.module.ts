@@ -13,7 +13,7 @@ import { CoreModule } from 'src/app/core/core.module';
 import { ComponentsModule } from '../components/components.module';
 import { CreatePlayerComponent } from './create-player/create-player.component';
 import { ViewAllComponent } from './view-all/view-all.component';
-import { CreatePlayerModule } from './create-player/create-player.module';
+import { InfrastructureModule } from '../../infrastructure/infrastructure.module';
 
 const COMPONENTS = [CreatePlayerComponent, ViewAllComponent];
 
@@ -34,7 +34,7 @@ const COMPONENTS = [CreatePlayerComponent, ViewAllComponent];
     MatIconModule,
     CoreModule,
     ComponentsModule,
-    CreatePlayerModule,
+    InfrastructureModule
   ],
 })
 export class PagesModule {}

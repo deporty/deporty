@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "cd scripts && py build.py ",
+    "build:pipeline": "cd scripts && python3 build.py ",
     "compile": "tsc ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

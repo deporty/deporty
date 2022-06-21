@@ -1,7 +1,7 @@
-export interface IBaseResponse {
+export interface IBaseResponse<T> {
   meta: {
     code: string;
     message: string;
   };
-  data: any;
+  data: T;
 }

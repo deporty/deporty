@@ -10,18 +10,69 @@ class PlayerController extends controller_1.BaseController {
     static registerEntryPoints(app) {
         app.get(`/delete/:id`, (request, response) => {
             const id = request.params.id;
-            this.handlerController(modules_config_1.DEPENDENCIES_CONTAINER, 'DeletePlayerUsecase', response, undefined, id);
+            const config = {
+                exceptions: {
+                    VariableNotDefinedException: 'DELETE:ERROR',
+                },
+                identifier: this.identifier,
+                errorCodes: {
+                    'DELETE:ERROR': '{message}',
+                },
+                successCode: 'DELETE:SUCCESS',
+                extraData: {
+                    entitiesName: 'player',
+                },
+            };
+            this.handlerController(modules_config_1.DEPENDENCIES_CONTAINER, 'DeletePlayerUsecase', response, config, undefined, id);
         });
         app.get(`/`, (request, response) => {
-            this.handlerController(modules_config_1.DEPENDENCIES_CONTAINER, 'GetPlayersUsecase', response);
+            const config = {
+                exceptions: {
+                    PlayerAlreadyExistsException: 'GET:ERROR',
+                },
+                identifier: this.identifier,
+                errorCodes: {
+                    'GET:ERROR': '{message}',
+                },
+                successCode: 'GET:SUCCESS',
+                extraData: {
+                    entitiesName: 'players',
+                },
+            };
+            this.handlerController(modules_config_1.DEPENDENCIES_CONTAINER, 'GetPlayersUsecase', response, config);
         });
         app.get(`/document/:document`, (request, response) => {
             const document = request.params.document;
-            this.handlerController(modules_config_1.DEPENDENCIES_CONTAINER, 'GetPlayerByDocumentUsecase', response, undefined, document);
+            const config = {
+                exceptions: {},
+                identifier: this.identifier,
+                errorCodes: {},
+                successCode: {
+                    code: 'GET:DOCUMENT:SUCCESS',
+                    message: 'Information for player with document {document}',
+                },
+                extraData: {
+                    document,
+                },
+            };
+            this.handlerController(modules_config_1.DEPENDENCIES_CONTAINER, 'GetPlayerByDocumentUsecase', response, config, undefined, document);
         });
         app.post(`/`, (request, response) => {
             const player = request.body;
-            this.handlerPostController(modules_config_1.DEPENDENCIES_CONTAINER, 'CreatePlayerUsecase', response, 'PlayerMapper', player);
+            const config = {
+                exceptions: {
+                    PlayerAlreadyExistsException: 'POST:ERROR',
+                },
+                identifier: this.identifier,
+                errorCodes: {
+                    'POST:ERROR': '{message}',
+                },
+                successCode: 'POST:SUCCESS',
+                extraData: {
+                    entitiesName: 'player',
+                },
+            };
+            this.handlerPostController(modules_config_1.DEPENDENCIES_CONTAINER, 'CreatePlayerUsecase', response, config, 'PlayerMapper', player);
         });
     }
 }

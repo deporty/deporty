@@ -7,7 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { IPlayerModel } from '@deporty/entities/players';
 import { Observable, Subscription } from 'rxjs';
-import { GetAllSummaryPlayersUsecase } from 'src/app/features/players/usecases/get-all-summary-players/get-all-summary-players.usecase';
+import { PlayerAdapter } from 'src/app/features/players/player.repository';
 import { ITeamModel } from '../../../models/team.model';
 import { CreateTeamUsecase } from '../../../usecases/create-team/create-team.usecase';
 
@@ -39,7 +39,7 @@ export class CreateTeamComponent implements OnInit {
   constructor(
     private _snackBar: MatSnackBar,
     private router: Router,
-    private getAllSummaryPlayersUsecase: GetAllSummaryPlayersUsecase,
+    private playerService: PlayerAdapter,
     private createTeamUsecase: CreateTeamUsecase
   ) {
     this.selectedPlayers = [];
@@ -96,6 +96,6 @@ export class CreateTeamComponent implements OnInit {
     return `${player.name} ${player.lastName}`;
   }
   ngOnInit(): void {
-    this.$players = this.getAllSummaryPlayersUsecase.call();
+    this.$players = this.playerService.getAllSummaryPlayers();
   }
 }
