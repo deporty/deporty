@@ -4,10 +4,11 @@ exports.PlayerRepository = void 0;
 const operators_1 = require("rxjs/operators");
 const player_contract_1 = require("../../player.contract");
 class PlayerRepository extends player_contract_1.PlayerContract {
-    constructor(dataSource, playerMapper) {
+    constructor(dataSource, playerMapper, fileAdapter) {
         super();
         this.dataSource = dataSource;
         this.playerMapper = playerMapper;
+        this.fileAdapter = fileAdapter;
         this.dataSource.entity = PlayerRepository.entity;
     }
     getPlayers() {
@@ -24,7 +25,18 @@ class PlayerRepository extends player_contract_1.PlayerContract {
         const mappedPlayer = this.playerMapper.toJson(player);
         return this.dataSource.save(mappedPlayer);
     }
+    delete(id) {
+        return this.dataSource.deleteById(id).pipe((0, operators_1.tap)(() => {
+            this.fileAdapter.deleteFile('');
+        }));
+    }
+    getPlayerById(id) {
+        console.log(2, id);
+        return this.dataSource.getById(id).pipe((0, operators_1.map)((player) => {
+            return player ? this.playerMapper.fromJson(player) : undefined;
+        }));
+    }
 }
 exports.PlayerRepository = PlayerRepository;
-PlayerRepository.entity = "players";
+PlayerRepository.entity = 'players';
 //# sourceMappingURL=player.repository.js.map

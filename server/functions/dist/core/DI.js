@@ -6,7 +6,11 @@ class Container {
         this.table = {};
     }
     getInstance(id) {
-        return this.table[id].instance;
+        const inst = this.table[id];
+        if (!inst) {
+            console.log('Id no encontrado', id);
+        }
+        return inst.instance;
     }
     getDependencies(dependenciesId) {
         const response = [];
@@ -21,7 +25,7 @@ class Container {
             typeClass = config.override;
         }
         const params = this.getDependencies(config.dependencies || []);
-        if (config.id === "PlayerContract") {
+        if (config.id === 'PlayerContract') {
         }
         const constructor = () => Reflect.construct(typeClass, params);
         this.table[config.id] = {

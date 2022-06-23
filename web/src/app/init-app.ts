@@ -30,6 +30,7 @@ export function init(): Promise<any> {
       if (user) {
         resources = [
           'players:create-player:ui',
+          'players:delete-player:ui',
           'teams:create-team:ui',
           'tournaments:create-group:ui',
           'tournaments:add-team-to-group:ui',

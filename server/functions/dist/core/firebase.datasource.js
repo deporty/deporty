@@ -10,13 +10,18 @@ class FirebaseDataSource extends datasource_1.DataSource {
         this.db = db;
     }
     getById(id) {
-        throw new Error("Method not implemented.");
+        console.log(this.entity, 'enti', id);
+        return (0, rxjs_1.from)(this.db.collection(this.entity).doc(id).get()).pipe((0, operators_1.map)((item) => {
+            console.log('data data ', item.data());
+            return item.data()
+                ? Object.assign(Object.assign({}, item.data()), { id: item.id }) : undefined;
+        }));
     }
     getByFilter(filters) {
         return (0, rxjs_1.from)(this.db.collection(this.entity).get()).pipe((0, operators_1.map)((snapshot) => {
             return snapshot.docs
                 .map((doc) => {
-                return Object.assign({ id: doc.id }, doc.data());
+                return Object.assign(Object.assign({}, doc.data()), { id: doc.id });
             })
                 .filter((x) => {
                 let response = true;
@@ -33,16 +38,16 @@ class FirebaseDataSource extends datasource_1.DataSource {
         }));
     }
     deleteById(id) {
-        // const entitySnapshot = doc(db, this.entity, id);
-        throw new Error("Method not implemented.");
+        const entitySnapshot = this.db.collection(this.entity).doc(id);
+        return (0, rxjs_1.from)(entitySnapshot.delete()).pipe((0, operators_1.map)((item) => {
+            return;
+        }));
     }
     save(entity) {
-        console.log(this.entity, "0", entity, "456456");
         return (0, rxjs_1.from)(this.db.collection(this.entity).add(entity)).pipe((0, operators_1.map)((snapshot) => {
             return snapshot.id;
         }), (0, operators_1.catchError)((err) => {
-            console.log("Vida hpta", err);
-            return (0, rxjs_1.of)("");
+            return (0, rxjs_1.of)('');
         }));
     }
 }

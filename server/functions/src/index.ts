@@ -1,9 +1,12 @@
 import { cert, initializeApp } from 'firebase-admin/app';
 import * as functions from 'firebase-functions';
 
-initializeApp({
+const firebaseApp = initializeApp({
   credential: cert('./deporty-dev-firebase-adminsdk.json'),
+  storageBucket: 'deporty-dev.appspot.com'
 });
-import { app as PlayerFunction } from './players';
+import { main as PlayerFunction } from './players';
+import { app as TeamFunction } from './teams';
 
-exports.players = functions.https.onRequest(PlayerFunction);
+exports.players = functions.https.onRequest(PlayerFunction(firebaseApp));
+exports.teams = functions.https.onRequest(TeamFunction);

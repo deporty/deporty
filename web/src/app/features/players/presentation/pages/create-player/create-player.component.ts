@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { UploadFileUsecase } from 'src/app/core/usecases/upload-file/upload-file';
 import { PlayerAdapter } from '../../../player.repository';
+import { PlayersRoutingModule } from '../../../players-routing.module';
 import { IPlayerState } from '../../player.states';
 import { GET_ALL_USERS_ACTION } from '../../players.actions';
 
@@ -13,7 +14,8 @@ import { GET_ALL_USERS_ACTION } from '../../players.actions';
 })
 export class CreatePlayerComponent implements OnInit {
   static route = 'create-player';
-
+  error!: string;
+  status!: string;
   constructor(
     private uploadFileUsecase: UploadFileUsecase,
     private playerService: PlayerAdapter,
@@ -22,27 +24,17 @@ export class CreatePlayerComponent implements OnInit {
   ) {}
 
   createPlayer(value: any) {
-    console.log(value);
     if (value) {
-      const filePath = `players/${value.playerData.document}/profile.jpg`;
-      this.uploadFileUsecase
-        .call({
-          file: value.img,
-          filePath,
-        })
-        .subscribe(
-          (response) => {
-            console.log(response);
-            this.playerService
-              .createPlayer({ ...value.playerData, image: filePath })
-              .subscribe(() => {
-                this.router.navigate(['..']);
-              });
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
+      const newPlayer = { ...value.playerData };
+      this.status = 'pending';
+      this.playerService.createPlayer(newPlayer).subscribe((data) => {
+        if (data.meta.code !== 'PLAYER-POST:SUCCESS') {
+          this.status = '';
+          this.error = data.meta.message;
+        } else {
+          this.router.navigate([PlayersRoutingModule.route]);
+        }
+      });
     }
   }
 

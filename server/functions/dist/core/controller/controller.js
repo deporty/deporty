@@ -62,6 +62,7 @@ class BaseController {
                 });
             },
             error: (error) => {
+                console.log(error, 777);
                 const resp = this.makeErrorMessage(config, error);
                 response.send(resp);
             },

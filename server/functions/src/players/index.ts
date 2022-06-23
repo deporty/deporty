@@ -1,32 +1,56 @@
 import * as cors from 'cors';
-import * as express from "express";
-import { Firestore, getFirestore } from "firebase-admin/firestore";
-import { DataSource } from "../core/datasource";
-import { FirebaseDataSource } from "../core/firebase.datasource";
-import { PlayerController } from "./infrastructure/player.controller";
-import { DEPENDENCIES_CONTAINER } from "./modules.config";
-import { PlayersModulesConfig } from "./players-modules.config";
+import * as express from 'express';
+import { Firestore, getFirestore } from 'firebase-admin/firestore';
+import { Storage, getStorage } from 'firebase-admin/storage';
+import { DataSource } from '../core/datasource';
+import { FileAdapter } from '../core/file/file.adapter';
+import { FileRepository } from '../core/file/file.repository';
+import { FirebaseDataSource } from '../core/firebase.datasource';
+import { PlayerController } from './infrastructure/player.controller';
+import { DEPENDENCIES_CONTAINER } from './modules.config';
+import { PlayersModulesConfig } from './players-modules.config';
+
+export function main(firebaseApp: any) {
+  const app = express();
+  app.use(cors());
+
+  const db: Firestore = getFirestore(firebaseApp);
+
+  const storage: Storage = getStorage(firebaseApp);
+
+  function configDependencies() {
+    DEPENDENCIES_CONTAINER.addValue({
+      id: 'FirebaseDatabase',
+      value: db,
+    });
+
+    DEPENDENCIES_CONTAINER.addValue({
+      id: 'FirebaseStorage',
+      value: storage,
+    });
+
+    DEPENDENCIES_CONTAINER.add({
+      id: 'DataSource',
+      kind: DataSource,
+      strategy: 'singleton',
+      dependencies: ['FirebaseDatabase'],
+      override: FirebaseDataSource,
+    });
 
 
-const db: Firestore = getFirestore();
-export function configDependencies() {
-  DEPENDENCIES_CONTAINER.addValue({
-    id: "FirebaseDatabase",
-    value: db,
-  });
+    
+    DEPENDENCIES_CONTAINER.add({
+      id: 'FileAdapter',
+      kind: FileAdapter,
+      strategy: 'singleton',
+      dependencies: ['FirebaseStorage'],
+      override: FileRepository,
+    });
 
-  DEPENDENCIES_CONTAINER.add({
-    id: "DataSource",
-    kind: DataSource,
-    strategy: "singleton",
-    dependencies: ["FirebaseDatabase"],
-    override: FirebaseDataSource,
-  });
+    PlayersModulesConfig.config(DEPENDENCIES_CONTAINER);
+  }
 
-  PlayersModulesConfig.config(DEPENDENCIES_CONTAINER);
+  configDependencies();
+  PlayerController.registerEntryPoints(app);
+  return app
 }
-
-export const app = express();
-app.use(cors())
-configDependencies();
-PlayerController.registerEntryPoints(app);

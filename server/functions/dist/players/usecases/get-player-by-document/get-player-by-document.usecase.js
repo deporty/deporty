@@ -9,7 +9,6 @@ class GetPlayerByDocumentUsecase extends usecase_1.Usecase {
         this.playerContract = playerContract;
     }
     call(document) {
-        console.log(this.playerContract);
         return this.playerContract
             .getByFilter([
             {

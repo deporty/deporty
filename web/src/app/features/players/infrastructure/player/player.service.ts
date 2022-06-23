@@ -2,9 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IPlayerModel } from '@deporty/entities/players';
 import { IBaseResponse } from '@deporty/entities/general';
-import {
-  collection, getDocs
-} from 'firebase/firestore/lite';
+import { collection, getDocs } from 'firebase/firestore/lite';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { firestore } from 'src/app/init-app';
@@ -22,15 +20,18 @@ export class PlayerService extends PlayerAdapter {
     super();
   }
   public getAllSummaryPlayers(): Observable<any> {
-    const playerCollections = collection(firestore, `${PlayerService.collection}`);
+    const playerCollections = collection(
+      firestore,
+      `${PlayerService.collection}`
+    );
 
     return from(getDocs(playerCollections)).pipe(
       map((citySnapshot) => {
         const response = citySnapshot.docs
           .map((doc) => {
             return {
-              id: doc.id,
               ...doc.data(),
+              id: doc.id,
             };
           })
           .map(this.playerMapper.fromJson);
@@ -41,20 +42,11 @@ export class PlayerService extends PlayerAdapter {
 
   createPlayer(player: IPlayerModel): Observable<IBaseResponse<string>> {
     const path = `${environment.serverEndpoint}/${PlayerService.collection}`;
-    return this.httpClient.post<IBaseResponse<string>>(path, player)
-    // .pipe(
-    //   map((response) => {
-    //     return response.data;
-    //   })
-    // );
-    // const playerCollections = collection(firestore, PlayerService.collection);
+    return this.httpClient.post<IBaseResponse<string>>(path, player);
+  }
 
-    // return from(
-    //   addDoc(playerCollections, this.playerMapper.toJson(player))
-    // ).pipe(
-    //   map((data: DocumentReference<DocumentData>) => {
-    //     return data.id;
-    //   })
-    // );
+  public deletePlayerById(id: string): Observable<IBaseResponse<string>> {
+    const path = `${environment.serverEndpoint}/${PlayerService.collection}/${id}`;
+    return this.httpClient.delete<IBaseResponse<string>>(path);
   }
 }

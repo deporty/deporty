@@ -18,12 +18,13 @@ export class PlayerController extends BaseController {
   static identifier = 'PLAYER';
 
   static registerEntryPoints(app: Express) {
-    app.get(`/delete/:id`, (request: Request, response: Response) => {
+    app.delete(`/:id`, (request: Request, response: Response) => {
       const id = request.params.id;
 
       const config: IMessagesConfiguration = {
         exceptions: {
           VariableNotDefinedException: 'DELETE:ERROR',
+          PlayerDoesNotExistException:'DELETE:ERROR',
         },
         identifier: this.identifier,
         errorCodes: {
@@ -65,6 +66,38 @@ export class PlayerController extends BaseController {
         'GetPlayersUsecase',
         response,
         config
+      );
+    });
+
+    app.get(`/:id`, (request: Request, response: Response) => {
+      const id = request.params.id;
+      console.log('ID ', id);
+
+      const config: IMessagesConfiguration = {
+        exceptions: {
+          PlayerDoesNotExistException: 'GET:ERROR',
+        },
+        identifier: this.identifier,
+        errorCodes: {
+          'GET:ERROR': '{message}',
+        },
+        successCode: {
+          code: 'GET:SUCCESS',
+          message: 'Player founded successfully',
+        },
+        extraData: {
+          entitiesName: 'players',
+        },
+      };
+
+      this.handlerController<GetPlayersUsecase, any>(
+        DEPENDENCIES_CONTAINER,
+        'GetPlayerByIdUsecase',
+        response,
+        config,
+
+        undefined,
+        id
       );
     });
 

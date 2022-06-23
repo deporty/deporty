@@ -50,7 +50,9 @@ export class PlayerCardComponent implements OnInit, OnChanges {
 
       getDownloadURL(imageRef).then((data) => {
         this.img = data;
-      });
+      }).catch((error)=>{
+        
+      })
     }
   }
 

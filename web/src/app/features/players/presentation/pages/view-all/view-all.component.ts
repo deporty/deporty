@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IPlayerModel } from '@deporty/entities/players';
 import { Observable, Subscription } from 'rxjs';
+import { hasPermission } from 'src/app/core/helpers/permission.helper';
+import { RESOURCES_PERMISSIONS_IT } from 'src/app/init-app';
 import { PlayerAdapter } from '../../../player.repository';
 import { PlayerCardComponent } from '../../components/player-card/player-card.component';
 import { CreatePlayerComponent } from '../create-player/create-player.component';
@@ -26,18 +28,27 @@ export class ViewAllComponent implements OnInit {
     private playerService: PlayerAdapter,
     private router: Router,
     private route: ActivatedRoute,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    @Inject(RESOURCES_PERMISSIONS_IT) private resourcesPermissions: string[]
   ) {
     this.players = [];
-    this.actions = [
-      {
-        icon: 'delete',
-        function: (player: IPlayerModel) => {
-          this.deletePlayer(player);
-        },
-      },
-    ];
+    this.actions = [];
 
+    const isAllowed = hasPermission(
+      'players:delete-player:ui',
+      this.resourcesPermissions
+    );
+
+    if (isAllowed) {
+      this.actions = [
+        {
+          icon: 'delete',
+          function: (player: IPlayerModel) => {
+            this.deletePlayer(player);
+          },
+        },
+      ];
+    }
     this.formGroup = new FormGroup({
       name: new FormControl(''),
       lastName: new FormControl(''),
@@ -50,6 +61,7 @@ export class ViewAllComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    this.players = [];
     this.$players = this.playerService.getAllSummaryPlayers();
     this.$players.subscribe((data) => {
       this.players.push(...data);
@@ -57,7 +69,9 @@ export class ViewAllComponent implements OnInit {
   }
 
   deletePlayer(player: IPlayerModel) {
-    console.log(player);
+    this.playerService.deletePlayerById(player.id).subscribe(() => {
+      this.ngOnInit();
+    });
   }
   onSelectedPlayer(player: IPlayerModel) {
     const dialogRef = this.dialog.open(PlayerCardComponent, {

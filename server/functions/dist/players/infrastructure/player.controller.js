@@ -8,11 +8,12 @@ class PlayerController extends controller_1.BaseController {
         super();
     }
     static registerEntryPoints(app) {
-        app.get(`/delete/:id`, (request, response) => {
+        app.delete(`/:id`, (request, response) => {
             const id = request.params.id;
             const config = {
                 exceptions: {
                     VariableNotDefinedException: 'DELETE:ERROR',
+                    PlayerDoesNotExistException: 'DELETE:ERROR',
                 },
                 identifier: this.identifier,
                 errorCodes: {
@@ -40,6 +41,27 @@ class PlayerController extends controller_1.BaseController {
                 },
             };
             this.handlerController(modules_config_1.DEPENDENCIES_CONTAINER, 'GetPlayersUsecase', response, config);
+        });
+        app.get(`/:id`, (request, response) => {
+            const id = request.params.id;
+            console.log('ID ', id);
+            const config = {
+                exceptions: {
+                    PlayerDoesNotExistException: 'GET:ERROR',
+                },
+                identifier: this.identifier,
+                errorCodes: {
+                    'GET:ERROR': '{message}',
+                },
+                successCode: {
+                    code: 'GET:SUCCESS',
+                    message: 'Player founded successfully',
+                },
+                extraData: {
+                    entitiesName: 'players',
+                },
+            };
+            this.handlerController(modules_config_1.DEPENDENCIES_CONTAINER, 'GetPlayerByIdUsecase', response, config, undefined, id);
         });
         app.get(`/document/:document`, (request, response) => {
             const document = request.params.document;

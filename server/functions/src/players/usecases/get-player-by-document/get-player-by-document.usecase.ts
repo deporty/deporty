@@ -12,7 +12,6 @@ export class GetPlayerByDocumentUsecase extends Usecase<
     super();
   }
   call(document: string): Observable<IPlayerModel | undefined> {
-    console.log(this.playerContract);
     return this.playerContract
       .getByFilter([
         {

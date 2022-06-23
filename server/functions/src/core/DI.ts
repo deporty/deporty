@@ -3,7 +3,7 @@ export interface AddConfiguration {
   kind: any;
   override?: any;
   dependencies?: any[];
-  strategy: "singleton" | "factory";
+  strategy: 'singleton' | 'factory';
 }
 
 export interface AddValueConfiguration {
@@ -25,7 +25,11 @@ export class Container {
   }
 
   getInstance<T>(id: string): T {
-    return this.table[id].instance as T;
+    const inst = this.table[id];
+    if (!inst) {
+      console.log('Id no encontrado', id);
+    }
+    return inst.instance as T;
   }
 
   getDependencies(dependenciesId: string[]) {
@@ -44,7 +48,7 @@ export class Container {
     const params: ArrayLike<any> = this.getDependencies(
       config.dependencies || []
     );
-    if (config.id === "PlayerContract") {
+    if (config.id === 'PlayerContract') {
     }
     const constructor = () => Reflect.construct(typeClass, params);
 
