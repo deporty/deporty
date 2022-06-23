@@ -46,7 +46,6 @@ export class PlayerRepository extends PlayerContract {
   }
 
   getPlayerById(id: string): Observable<IPlayerModel | undefined> {
-    console.log(2,id)
     return this.dataSource.getById(id).pipe(
       map((player) => {
         return player ? this.playerMapper.fromJson(player) : undefined;

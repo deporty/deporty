@@ -28,7 +28,6 @@ describe('PlayerRepository', () => {
 
   let playerRepository: PlayerContract;
   let dataSource: DataSource<any>;
-  //   let playerMappr: PlayerMapper;
 
   beforeAll(() => {
     container = buildContainer(PlayersModulesConfig);
@@ -36,8 +35,6 @@ describe('PlayerRepository', () => {
     playerRepository = container.getInstance<PlayerContract>('PlayerContract');
     dataSource = container.getInstance<DataSource<any>>('DataSource');
 
-    // playerMappr =
-    //   DEPENDENCIES_CONTAINER.getInstance<PlayerMapper>("PlayerMapper");
   });
   test('should create', () => {
     expect(playerRepository).not.toBeNull();

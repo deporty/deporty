@@ -29,7 +29,13 @@ describe('Base controller functions', () => {
     BaseController.handlerController(
       container,
       usecaseIdentifier,
-      fakeResponse as any
+      fakeResponse as any,
+      {
+        errorCodes: {},
+        exceptions: {},
+        identifier: '',
+        successCode: '',
+      }
     );
     expect(true).toBe(true);
   });
