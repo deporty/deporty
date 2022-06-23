@@ -1,7 +1,7 @@
 import { Storage } from 'firebase-admin/storage';
 import { existsSync, rmSync, writeFileSync } from 'fs';
 import { from, Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { FileAdapter } from './file.adapter';
 const mime = require('mime-types');
 
@@ -18,7 +18,7 @@ export class FileRepository extends FileAdapter {
   }
 
   createLocalFile(data: string, location: string) {
-    writeFileSync(location as string, data, { encoding: 'base64' });
+    writeFileSync(location as string, data, { encoding: 'base64', flag: 'w', mode: 0o777 });
   }
 
   deleteLocalFile(location: string) {
@@ -40,6 +40,12 @@ export class FileRepository extends FileAdapter {
       this.storage.bucket().upload(name as string, {
         destination: filePath,
         contentType: fileMime,
+      })
+    ).pipe(
+      tap(() => {
+        if (name) {
+          this.deleteFile(name);
+        }
       })
     );
   }
