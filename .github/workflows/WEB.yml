@@ -38,7 +38,7 @@ jobs:
       - name: BUILD
         run: |
           cd web
-          npm run build
+          npm run build:dev
       - name: DEPLOY DEV ENVIRONMENT
         run: |
           cd web
