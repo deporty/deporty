@@ -8,10 +8,10 @@ parser.add_argument('--path', help='Path to index.html lcov file')
 args = vars(parser.parse_args())
 
 rulers = {
-    'Statements': 65,
-    'Branches': 40,
-    'Functions': 50,
-    'Lines': 65
+    'Statements': 50,
+    'Branches': 30,
+    'Functions': 40,
+    'Lines': 50
 }
 # ../coverage/lcov-report/index.html
 
@@ -28,5 +28,5 @@ if(args['path'] != None):
 
         prev_value = rulers[tag]
         if(value < prev_value):
-            print(tag, 'Invalid')
+            print(tag, 'Invalid ', value, ' < ', prev_value)
             exit(1)
