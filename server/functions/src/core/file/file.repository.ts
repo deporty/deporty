@@ -1,9 +1,11 @@
 import { Storage } from 'firebase-admin/storage';
-import { existsSync, rmSync, writeFileSync } from 'fs';
+import { existsSync, rmSync, writeFileSync, unlinkSync } from 'fs';
 import { from, Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { FileAdapter } from './file.adapter';
 const mime = require('mime-types');
+import { tmpdir } from 'os';
+import { join } from 'path';
 
 export class FileRepository extends FileAdapter {
   deleteFile(filePath: string): Observable<any> {
@@ -18,10 +20,20 @@ export class FileRepository extends FileAdapter {
   }
 
   createLocalFile(data: string, location: string) {
-    writeFileSync(location as string, data, { encoding: 'base64', flag: 'w', mode: 0o777 });
+    const tmp = tmpdir();
+
+    const filepath = join(tmp, location).replace(/\\/g, '/');
+    console.log(filepath, 'SOnido d');
+    writeFileSync(filepath, data, {
+      encoding: 'base64',
+    });
+    return filepath;
   }
 
   deleteLocalFile(location: string) {
+    try {
+      unlinkSync(location);
+    } catch (error) {}
     if (existsSync(location)) {
       rmSync(location, {
         force: true,
@@ -34,17 +46,17 @@ export class FileRepository extends FileAdapter {
     let data = fileData.split(';base64,').pop();
     const fragments = filePath.split('/');
     const name = fragments.pop();
-    this.createLocalFile(data as string, name as string);
+    const tmp = this.createLocalFile(data as string, name as string);
     const fileMime = mime.lookup(filePath);
     return from(
-      this.storage.bucket().upload(name as string, {
+      this.storage.bucket().upload(tmp as string, {
         destination: filePath,
         contentType: fileMime,
       })
     ).pipe(
       tap(() => {
         if (name) {
-          this.deleteFile(name);
+          this.deleteLocalFile(tmp);
         }
       })
     );

@@ -124,7 +124,7 @@ export abstract class BaseController {
         } as IBaseResponse<any>);
       },
       error: (error: any) => {
-        console.log(error,777)
+        console.log(error,'{Controller.ts}')
         const resp = this.makeErrorMessage(config, error);
         response.send(resp);
       },
