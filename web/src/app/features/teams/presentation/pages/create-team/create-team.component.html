@@ -57,7 +57,7 @@
           />
           <mat-autocomplete class="my-3 col-4" #auto="matAutocomplete">
             <mat-option
-              *ngFor="let player of $players | async"
+              *ngFor="let player of ($players | async)?.data"
               [value]="player.name + ' ' + player.lastName"
               (click)="optionSelected(player)"
             >

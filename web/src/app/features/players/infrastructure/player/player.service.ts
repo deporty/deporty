@@ -19,28 +19,12 @@ export class PlayerService extends PlayerAdapter {
   ) {
     super();
   }
-  public getAllSummaryPlayers(): Observable<any> {
-    const playerCollections = collection(
-      firestore,
-      `${PlayerService.collection}`
-    );
-
-    return from(getDocs(playerCollections)).pipe(
-      map((citySnapshot) => {
-        const response = citySnapshot.docs
-          .map((doc) => {
-            return {
-              ...doc.data(),
-              id: doc.id,
-            };
-          })
-          .map(this.playerMapper.fromJson);
-        return response;
-      })
-    );
+  public getAllSummaryPlayers(): Observable<IBaseResponse<IPlayerModel[]>> {
+    const path = `${environment.serverEndpoint}/${PlayerService.collection}`;
+    return this.httpClient.get<IBaseResponse<IPlayerModel[]>>(path);
   }
 
-  createPlayer(player: IPlayerModel): Observable<IBaseResponse<string>> {
+ public  createPlayer(player: IPlayerModel): Observable<IBaseResponse<string>> {
     const path = `${environment.serverEndpoint}/${PlayerService.collection}`;
     return this.httpClient.post<IBaseResponse<string>>(path, player);
   }

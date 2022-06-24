@@ -4,7 +4,7 @@ import { IBaseResponse } from '@deporty/entities/general';
 
 
 export abstract class PlayerAdapter {
-  public abstract getAllSummaryPlayers(): Observable<any>;
+  public abstract getAllSummaryPlayers(): Observable<IBaseResponse<IPlayerModel[]>>;
   public abstract deletePlayerById(id: string): Observable<IBaseResponse<string>>;
   abstract createPlayer(player: IPlayerModel): Observable<IBaseResponse<string>>;
 }

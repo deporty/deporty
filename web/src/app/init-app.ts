@@ -16,7 +16,7 @@ const firebaseConfig = environment.firebaseConfig;
 export const app = initializeApp(firebaseConfig);
 export const firestore = getFirestore(app);
 export const analytics = getAnalytics(app);
-export const storage = getStorage();
+export const storage = getStorage(app);
 
 export const RESOURCES_PERMISSIONS_IT = new InjectionToken(
   'Injection TOken for resources permissions'

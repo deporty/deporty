@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IBaseResponse } from '@deporty/entities/general';
 import { IPlayerModel } from '@deporty/entities/players';
 import { Observable, Subscription } from 'rxjs';
 import { hasPermission } from 'src/app/core/helpers/permission.helper';
@@ -20,10 +21,11 @@ export class ViewAllComponent implements OnInit {
 
   formGroup: FormGroup;
 
-  $players!: Observable<IPlayerModel[]>;
+  $players!: Observable<IBaseResponse<IPlayerModel[]>>;
   $playersSubscription!: Subscription;
   players: IPlayerModel[];
   actions: any[];
+  
   constructor(
     private playerService: PlayerAdapter,
     private router: Router,
@@ -64,7 +66,7 @@ export class ViewAllComponent implements OnInit {
     this.players = [];
     this.$players = this.playerService.getAllSummaryPlayers();
     this.$players.subscribe((data) => {
-      this.players.push(...data);
+      this.players.push(...data.data);
     });
   }
 

@@ -24,7 +24,7 @@ export class PlayerController extends BaseController {
       const config: IMessagesConfiguration = {
         exceptions: {
           VariableNotDefinedException: 'DELETE:ERROR',
-          PlayerDoesNotExistException:'DELETE:ERROR',
+          PlayerDoesNotExistException: 'DELETE:ERROR',
         },
         identifier: this.identifier,
         errorCodes: {
@@ -138,7 +138,10 @@ export class PlayerController extends BaseController {
         errorCodes: {
           'POST:ERROR': '{message}',
         },
-        successCode: 'POST:SUCCESS',
+        successCode: {
+          name: 'POST:SUCCESS',
+          message: 'Player saved successfully',
+        },
         extraData: {
           entitiesName: 'player',
         },

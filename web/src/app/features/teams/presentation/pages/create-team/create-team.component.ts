@@ -5,6 +5,7 @@ import {
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { IBaseResponse } from '@deporty/entities/general';
 import { IPlayerModel } from '@deporty/entities/players';
 import { Observable, Subscription } from 'rxjs';
 import { PlayerAdapter } from 'src/app/features/players/player.repository';
@@ -28,7 +29,7 @@ export class CreateTeamComponent implements OnInit {
 
   formGroup: FormGroup;
 
-  $players!: Observable<IPlayerModel[]>;
+  $players!: Observable<IBaseResponse<IPlayerModel[]>>;
   $playersSubscription!: Subscription;
   players!: IPlayerModel[];
 
