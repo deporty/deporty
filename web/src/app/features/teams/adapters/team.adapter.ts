@@ -11,8 +11,5 @@ export abstract class TeamAdapter {
   abstract deleteTeam(team: ITeamModel): Observable<void>;
   abstract updateTeam(team: ITeamModel): Observable<void>;
   abstract getPlayersByTeam(team: ITeamModel): Observable<IPlayerModel[]>;
-  // abstract addPlayerToTeam(
-  //   player: IPlayerModel,
-  //   team: ITeamModel
-  // ): Observable<void>;
+
 }

@@ -22,7 +22,7 @@
       {{ player.role }}
       <span *ngIf="player.number"> ({{ player.number }}) </span>
     </p> -->
-    <section *ngIf="actions && actions.length > 0">
+    <section *ngIf="actions && actions.length > 0" class="d-flex justify-content-center">
       <ng-container *ngFor="let action of actions">
         <button mat-button (click)="action.function(player)">
           <mat-icon>

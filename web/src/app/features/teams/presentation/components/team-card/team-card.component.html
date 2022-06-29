@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-title>{{ team.name  }}</mat-card-title>
+    <mat-card-title>{{ team.name }}</mat-card-title>
     <mat-card-subtitle>{{ team.id }}</mat-card-subtitle>
   </mat-card-header>
   <img
@@ -9,13 +9,15 @@
     [attr.alt]="'Foto del escudo del equipo' + team.name"
   />
 
-  <mat-card-actions>
+  <mat-card-actions class="d-flex justify-content-center">
     <button
       mat-button
       *ngFor="let option of options; let i = index"
       (click)="emitSelectedOption(i)"
     >
-      {{ option }}
+      <mat-icon>
+        {{ option }}
+      </mat-icon>
     </button>
   </mat-card-actions>
 </mat-card>

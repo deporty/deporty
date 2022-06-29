@@ -1,56 +1,61 @@
-import { Container } from "../core/DI";
-import { TeamRepository } from "./infrastructure/repository/team.repository";
-import { TeamContract } from "./team.contract";
-import { TeamMapper } from "./infrastructure/team.mapper";
-import { CreateTeamUsecase } from "./usecases/create-team/create-team.usecase";
-import { DeleteTeamUsecase } from "./usecases/delete-team/delete-team.usecase";
-import { GetTeamByIdUsecase } from "./usecases/get-team-by-id/get-team-by-id.usecase";
-import { GetTeamsUsecase } from "./usecases/get-teams/get-teams.usecase";
+import { Container } from '../core/DI';
+import { TeamRepository } from './infrastructure/repository/team.repository';
+import { TeamContract } from './team.contract';
+import { TeamMapper } from './infrastructure/team.mapper';
+import { CreateTeamUsecase } from './usecases/create-team/create-team.usecase';
+import { DeleteTeamUsecase } from './usecases/delete-team/delete-team.usecase';
+import { GetTeamByIdUsecase } from './usecases/get-team-by-id/get-team-by-id.usecase';
+import { GetTeamsUsecase } from './usecases/get-teams/get-teams.usecase';
+import { PlayerMapper } from '../players/infrastructure/player.mapper';
 export class TeamsModulesConfig {
   static config(container: Container) {
     container.add({
-      id: "TeamMapper",
-      kind: TeamMapper,
-      strategy: "singleton",
+      id: 'PlayerMapper',
+      kind: PlayerMapper,
+      strategy: 'singleton',
     });
 
     container.add({
-      id: "TeamContract",
+      id: 'TeamMapper',
+      kind: TeamMapper,
+      strategy: 'singleton',
+      dependencies: ['PlayerMapper'],
+    });
+
+    container.add({
+      id: 'TeamContract',
       kind: TeamContract,
       override: TeamRepository,
-      dependencies: ["DataSource", "TeamMapper"],
-      strategy: "singleton",
+      dependencies: ['DataSource', 'TeamMapper'],
+      strategy: 'singleton',
     });
 
     container.add({
-      id: "GetTeamsUsecase",
+      id: 'GetTeamsUsecase',
       kind: GetTeamsUsecase,
-      dependencies: ["TeamContract"],
-      strategy: "singleton",
+      dependencies: ['TeamContract'],
+      strategy: 'singleton',
     });
 
     container.add({
-      id: "DeleteTeamUsecase",
+      id: 'DeleteTeamUsecase',
       kind: DeleteTeamUsecase,
-      dependencies: ["TeamContract"],
-      strategy: "singleton",
+      dependencies: ['TeamContract'],
+      strategy: 'singleton',
     });
 
     container.add({
-      id: "GetTeamByIdUsecase",
+      id: 'GetTeamByIdUsecase',
       kind: GetTeamByIdUsecase,
-      dependencies: ["TeamContract"],
-      strategy: "singleton",
+      dependencies: ['TeamContract'],
+      strategy: 'singleton',
     });
-
 
     container.add({
-      id: "CreateTeamUsecase",
+      id: 'CreateTeamUsecase',
       kind: CreateTeamUsecase,
-      dependencies: ["TeamContract", "GetTeamByIdUsecase"],
-      strategy: "singleton",
+      dependencies: ['TeamContract', 'GetTeamByIdUsecase'],
+      strategy: 'singleton',
     });
-
-
   }
 }

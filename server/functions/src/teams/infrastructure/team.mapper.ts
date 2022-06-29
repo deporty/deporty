@@ -1,13 +1,16 @@
 import { ITeamModel } from '@deporty/entities/teams';
 import { Mapper } from '../../core/mapper';
-import { PlayerMapper } from '../../players/infrastructure/player.mapper';
+// import { PlayerMapper } from '../../players/infrastructure/player.mapper';
 
 export class TeamMapper extends Mapper<ITeamModel> {
+  constructor(
+    // private playerMapper: PlayerMapper
+    ) {
+    super();
+  }
+
   fromJsonWithOutId(obj: any): Omit<ITeamModel, 'id'> {
     throw new Error('Method not implemented.');
-  }
-  constructor(private playerMapper: PlayerMapper) {
-    super();
   }
 
   fromJson(obj: any): ITeamModel {
@@ -15,12 +18,14 @@ export class TeamMapper extends Mapper<ITeamModel> {
       name: obj['name'],
       id: obj['id'],
       athem: obj['athem'],
-      members: obj['members']
-        ? (obj['members'] as []).map((item) => {
-            const obj = this.playerMapper.fromJson(item);
-            return obj;
-          })
-        : [],
+      // members: obj['members']
+      //   ? (obj['members'] as []).map((item) => {
+      //       const obj = this.playerMapper.fromJson(item);
+      //       return obj;
+      //     })
+      //   : [],
+      members: obj['members'],
+
       shield: obj['shield'],
       agent: obj['agent'],
     };

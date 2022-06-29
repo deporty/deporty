@@ -26,7 +26,7 @@ export class TeamsComponent implements OnInit {
     @Inject(RESOURCES_PERMISSIONS_IT) private resourcesPermissions: string[]
   ) {
     this.routes = {
-      Ver: (team: ITeamModel) => {
+      'zoom_in': (team: ITeamModel) => {
         this.router.navigate(['./team'], {
           relativeTo: this.route,
           queryParams: { team: JSON.stringify(team) },
@@ -35,7 +35,7 @@ export class TeamsComponent implements OnInit {
     };
 
     if (this.isAllowedToDeleteTeam()) {
-      this.routes['Eliminar'] = (team: ITeamModel) => {
+      this.routes['delete'] = (team: ITeamModel) => {
         this.deleteTeamUsecase.call(team).subscribe(() => {
           this.$teams = this.teamAdapter.getTeams();
         });
@@ -51,6 +51,9 @@ export class TeamsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.$teams = this.teamAdapter.getTeams();
+    this.$teams.subscribe((x) => {
+      console.log(x);
+    });
   }
 
   receiveSelectedOption(option: any) {
