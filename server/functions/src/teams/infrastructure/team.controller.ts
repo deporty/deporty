@@ -1,13 +1,13 @@
-import { IPlayerModel } from '@deporty/entities/players';
+import { ITeamModel } from '@deporty/entities/teams';
 import { Express, Request, Response } from 'express';
 import {
   BaseController,
   IMessagesConfiguration,
 } from '../../core/controller/controller';
 import { DEPENDENCIES_CONTAINER } from '../modules.config';
-import { CreatePlayerUsecase } from '../usecases/create-player/create-player.usecase';
-import { DeletePlayerUsecase } from '../usecases/delete-player/delete-player.usecase';
-import { GetPlayerByDocumentUsecase } from '../usecases/get-player-by-document/get-player-by-document.usecase';
+import { CreateTeamUsecase } from '../usecases/create-team/create-team.usecase';
+import { DeleteTeamUsecase } from '../usecases/delete-team/delete-team.usecase';
+import { GetTeamByIdUsecase } from '../usecases/get-team-by-id/get-team-by-id.usecase';
 import { GetTeamsUsecase } from '../usecases/get-teams/get-teams.usecase';
 
 export class TeamController extends BaseController {
@@ -31,13 +31,13 @@ export class TeamController extends BaseController {
         },
         successCode: 'DELETE:SUCCESS',
         extraData: {
-          entitiesName: 'player',
+          entitiesName: 'team',
         },
       };
 
-      this.handlerController<DeletePlayerUsecase, any>(
+      this.handlerController<DeleteTeamUsecase, any>(
         DEPENDENCIES_CONTAINER,
-        'DeletePlayerUsecase',
+        'DeleteTeamUsecase',
         response,
         config,
         undefined,
@@ -48,7 +48,7 @@ export class TeamController extends BaseController {
     app.get(`/`, (request: Request, response: Response) => {
       const config: IMessagesConfiguration = {
         exceptions: {
-          PlayerAlreadyExistsException: 'GET:ERROR',
+          TeamAlreadyExistsException: 'GET:ERROR',
         },
         identifier: this.identifier,
         errorCodes: {
@@ -77,16 +77,16 @@ export class TeamController extends BaseController {
         errorCodes: {},
         successCode: {
           code: 'GET:DOCUMENT:SUCCESS',
-          message: 'Information for player with document {document}',
+          message: 'Information for team with document {document}',
         },
         extraData: {
           document,
         },
       };
 
-      this.handlerController<GetPlayerByDocumentUsecase, any>(
+      this.handlerController<GetTeamByIdUsecase, any>(
         DEPENDENCIES_CONTAINER,
-        'GetPlayerByDocumentUsecase',
+        'GetTeamByDocumentUsecase',
         response,
         config,
         undefined,
@@ -95,11 +95,11 @@ export class TeamController extends BaseController {
     });
 
     app.post(`/`, (request: Request, response: Response) => {
-      const player = request.body;
+      const team = request.body;
 
       const config: IMessagesConfiguration = {
         exceptions: {
-          PlayerAlreadyExistsException: 'POST:ERROR',
+          TeamAlreadyExistsException: 'POST:ERROR',
         },
         identifier: this.identifier,
         errorCodes: {
@@ -107,17 +107,17 @@ export class TeamController extends BaseController {
         },
         successCode: 'POST:SUCCESS',
         extraData: {
-          entitiesName: 'player',
+          entitiesName: 'team',
         },
       };
 
-      this.handlerPostController<CreatePlayerUsecase, IPlayerModel>(
+      this.handlerPostController<CreateTeamUsecase, ITeamModel>(
         DEPENDENCIES_CONTAINER,
-        'CreatePlayerUsecase',
+        'CreateTeamUsecase',
         response,
         config,
-        'PlayerMapper',
-        player
+        'TeamMapper',
+        team
       );
     });
   }

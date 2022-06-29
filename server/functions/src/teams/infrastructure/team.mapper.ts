@@ -1,48 +1,50 @@
-import { ICreatePlayerModel, IPlayerModel } from "@deporty/entities/players";
-import { Mapper } from "../../core/mapper";
+import { ITeamModel } from '@deporty/entities/teams';
+import { Mapper } from '../../core/mapper';
+import { PlayerMapper } from '../../players/infrastructure/player.mapper';
 
-export class TeamMapper extends Mapper<IPlayerModel> {
-  fromJson(obj: any): IPlayerModel {
+export class TeamMapper extends Mapper<ITeamModel> {
+  fromJsonWithOutId(obj: any): Omit<ITeamModel, 'id'> {
+    throw new Error('Method not implemented.');
+  }
+  constructor(private playerMapper: PlayerMapper) {
+    super();
+  }
+
+  fromJson(obj: any): ITeamModel {
     return {
-      name: obj["name"],
-      lastName: obj["last-name"],
-      id: obj["id"],
-      document: obj["document"],
-      alias: obj["alias"],
-      number: obj["number"],
-      role: obj["role"],
-      image: obj["image"],
-      phone: obj['phone'],
-      email: obj['email'],
-
+      name: obj['name'],
+      id: obj['id'],
+      athem: obj['athem'],
+      members: obj['members']
+        ? (obj['members'] as []).map((item) => {
+            const obj = this.playerMapper.fromJson(item);
+            return obj;
+          })
+        : [],
+      shield: obj['shield'],
+      agent: obj['agent'],
     };
   }
 
-  fromJsonWithOutId(obj: any): ICreatePlayerModel {
+  toJson(team: ITeamModel) {
     return {
-      name: obj["name"],
-      lastName: obj["last-name"],
-      document: obj["document"],
-      alias: obj["alias"],
-      number: obj["number"],
-      role: obj["role"],
-      image: obj["image"],
-      email: obj['email'],
-      phone: obj['phone'],
+      name: team.name,
+      athem: team.athem || '',
+      members: team.members
+        ? (team.members as []).map((member) => {
+            return member;
+          })
+        : [],
+      shield: team.shield || '',
+      agent: team.agent || '',
     };
   }
 
-  toJson(player: ICreatePlayerModel) {
+  toWeakJson(team: ITeamModel) {
     return {
-      name: player.name,
-      "last-name": player.lastName || "",
-      document: player.document,
-      alias: player.alias || "",
-      number: player.number || "",
-      role: player.role || "",
-      email: player.email || "",
-      phone: player.phone || "",
-      image: player.image || "",
+      name: team.name,
+      id: team.id || '',
+      shield: team.shield || '',
     };
   }
 }

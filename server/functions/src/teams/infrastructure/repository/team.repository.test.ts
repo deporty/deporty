@@ -1,100 +1,46 @@
-import { ICreatePlayerModel } from '@deporty/entities/players';
+import { ITeamModel } from '@deporty/entities/teams';
 import { of } from 'rxjs';
-import { DataSource, DataSourceFilter } from '../../../core/datasource';
+import { DataSource } from '../../../core/datasource';
 import { Container } from '../../../core/DI';
 import { buildContainer } from '../../../test/factories';
-import { PlayerContract } from '../../player.contract';
-import { PlayersModulesConfig } from '../../players-modules.config';
+import { TeamContract } from '../../team.contract';
+import { TeamsModulesConfig } from '../../teams-modules.config';
 
-describe('PlayerRepository', () => {
+describe('TeamRepository', () => {
   let container: Container;
 
-  const playersFromDB = [
-    {
-      name: 'Vegeta',
-      lastName: 'Sayayin',
-      id: '5467892135',
-      document: '1234567892',
-      alias: 'Principe de los sayayins',
-      number: '1',
-      role: 'Principe de los sayayins',
-      email: '',
-      phone: '',
-      image: 'https://sayan.planet.king',
-      power: 45,
-    },
-  ];
-  const ALLOWED_KEY_NUMBER = 10;
-
-  let playerRepository: PlayerContract;
+  let teamRepository: TeamContract;
   let dataSource: DataSource<any>;
-  //   let playerMappr: PlayerMapper;
 
   beforeAll(() => {
-    container = buildContainer(PlayersModulesConfig);
+    container = buildContainer(TeamsModulesConfig);
 
-    playerRepository = container.getInstance<PlayerContract>('PlayerContract');
+    teamRepository = container.getInstance<TeamContract>('TeamContract');
     dataSource = container.getInstance<DataSource<any>>('DataSource');
 
-    // playerMappr =
-    //   DEPENDENCIES_CONTAINER.getInstance<PlayerMapper>("PlayerMapper");
+   
   });
   test('should create', () => {
-    expect(playerRepository).not.toBeNull();
+    expect(teamRepository).not.toBeNull();
   });
 
-  test('should get players by filters with the exact info', (done) => {
-    jest
-      .spyOn(dataSource, 'getByFilter')
-      .mockImplementation((filters: DataSourceFilter[]) => {
-        return of(playersFromDB);
-      });
-    playerRepository.getByFilter([]).subscribe((response) => {
-      for (const item of response) {
-        const keys = Object.keys(item);
-        expect(keys.length).toBe(ALLOWED_KEY_NUMBER);
-      }
-      expect(response.length).toBe(playersFromDB.length);
-
-      done();
-    });
-  });
-
-  test('should get players with the exact info', (done: any) => {
-    jest
-      .spyOn(dataSource, 'getByFilter')
-      .mockImplementation((filters: DataSourceFilter[]) => {
-        return of(playersFromDB);
-      });
-    playerRepository.getPlayers().subscribe((response) => {
-      for (const item of response) {
-        const keys = Object.keys(item);
-        expect(keys.length).toBe(ALLOWED_KEY_NUMBER);
-      }
-      expect(response.length).toBe(playersFromDB.length);
-
-      done();
-    });
-  });
-
-  test('should save a player with the exact info', (done) => {
-    const playerWithId = {
-      name: 'Vegeta',
-      lastName: 'Sayayin',
-      document: '1234567892',
-      alias: 'Principe de los sayayins',
-      number: 1,
-      role: 'Principe de los sayayins',
-      image: 'https://sayan.planet.king',
-    } as ICreatePlayerModel;
+  test('should save a team with the exact info', (done) => {
+    const teamWithId = {
+      id: 'id',
+      name: 'string',
+      athem: 'string',
+      shield: 'string',
+      members: [],
+      agent: 'string',
+    } as ITeamModel;
 
     const expectedId = '123456890';
 
-    jest.spyOn(dataSource, 'save').mockImplementation((player: any) => {
+    jest.spyOn(dataSource, 'save').mockImplementation((team: any) => {
       return of(expectedId);
     });
 
-    playerRepository.save(playerWithId).subscribe((response) => {
+    teamRepository.save(teamWithId).subscribe((response: any) => {
       expect(response).toBe(expectedId);
       done();
     });

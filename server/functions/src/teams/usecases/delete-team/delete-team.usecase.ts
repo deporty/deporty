@@ -6,8 +6,8 @@ import { TeamContract } from "../../team.contract";
 
 
 
-export class DeletePlayerUsecase extends Usecase<string, void> {
-  constructor(public playerContract: TeamContract) {
+export class DeleteTeamUsecase extends Usecase<string, void> {
+  constructor(public teamContract: TeamContract) {
     super();
   }
   call(id: string): Observable<void> {

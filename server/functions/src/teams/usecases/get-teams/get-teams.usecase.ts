@@ -1,14 +1,14 @@
-import { IPlayerModel } from "@deporty/entities/players";
+import { ITeamModel } from "@deporty/entities/teams";
 import { Observable } from "rxjs";
 import { Usecase } from "../../../core/usecase";
 import { TeamContract } from "../../team.contract";
 
 
-export class GetTeamsUsecase extends Usecase<string, IPlayerModel[]> {
+export class GetTeamsUsecase extends Usecase<string, ITeamModel[]> {
   constructor(public teamContract: TeamContract) {
     super();
   }
-  call(): Observable<IPlayerModel[]> {
+  call(): Observable<ITeamModel[]> {
     return this.teamContract.get();
   }
 }

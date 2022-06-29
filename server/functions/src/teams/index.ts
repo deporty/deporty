@@ -5,7 +5,7 @@ import { DataSource } from "../core/datasource";
 import { FirebaseDataSource } from "../core/firebase.datasource";
 import { TeamController } from "./infrastructure/team.controller";
 import { DEPENDENCIES_CONTAINER } from "./modules.config";
-import { PlayersModulesConfig } from "./teams-modules.config";
+import { TeamsModulesConfig } from "./teams-modules.config";
 
 
 const db: Firestore = getFirestore();
@@ -23,7 +23,7 @@ export function configDependencies() {
     override: FirebaseDataSource,
   });
 
-  PlayersModulesConfig.config(DEPENDENCIES_CONTAINER);
+  TeamsModulesConfig.config(DEPENDENCIES_CONTAINER);
 }
 
 export const app = express();

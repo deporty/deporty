@@ -1,20 +1,20 @@
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ICreatePlayerModel, IPlayerModel } from '@deporty/entities/players';
+import {  ITeamModel } from '@deporty/entities/teams';
 import { TeamContract } from '../../team.contract';
 import { DataSource, DataSourceFilter } from '../../../core/datasource';
 import { TeamMapper } from '../team.mapper';
 
-export class PlayerRepository extends TeamContract {
+export class TeamRepository extends TeamContract {
   static entity = 'teams';
   constructor(
     private dataSource: DataSource<any>,
     private teamMapper: TeamMapper
   ) {
     super();
-    this.dataSource.entity = PlayerRepository.entity;
+    this.dataSource.entity = TeamRepository.entity;
   }
-  get(): Observable<IPlayerModel[]> {
+  get(): Observable<ITeamModel[]> {
     return this.dataSource.getByFilter([]).pipe(
       map((docs) => {
         return docs.map(this.teamMapper.fromJson);
@@ -22,7 +22,7 @@ export class PlayerRepository extends TeamContract {
     );
   }
 
-  getByFilter(filters: DataSourceFilter[]): Observable<IPlayerModel[]> {
+  getByFilter(filters: DataSourceFilter[]): Observable<ITeamModel[]> {
     return this.dataSource.getByFilter(filters).pipe(
       map((docs) => {
         return docs.map(this.teamMapper.fromJson);
@@ -30,9 +30,9 @@ export class PlayerRepository extends TeamContract {
     );
   }
 
-  save(player: ICreatePlayerModel): Observable<string> {
-    const mappedPlayer = this.teamMapper.toJson(player);
-    return this.dataSource.save(mappedPlayer);
+  save(team: ITeamModel): Observable<string> {
+    const mappedTeam = this.teamMapper.toJson(team);
+    return this.dataSource.save(mappedTeam);
   }
 
   delete(id: string): Observable<void> {
