@@ -1,60 +1,60 @@
 import { Container } from "../core/DI";
-import { PlayerRepository } from "./infrastructure/repository/player.repository";
-import { PlayerContract } from "./player.contract";
-import { PlayerMapper } from "./infrastructure/player.mapper";
+import { PlayerRepository } from "./infrastructure/repository/team.repository";
+import { TeamContract } from "./team.contract";
+import { TeamMapper } from "./infrastructure/team.mapper";
 import { CreatePlayerUsecase } from "./usecases/create-player/create-player.usecase";
 import { DeletePlayerUsecase } from "./usecases/delete-player/delete-player.usecase";
 import { GetPlayerByDocumentUsecase } from "./usecases/get-player-by-document/get-player-by-document.usecase";
-import { GetPlayersUsecase } from "./usecases/get-players/get-players.usecase";
+import { GetTeamsUsecase } from "./usecases/get-teams/get-teams.usecase";
 import { GetPlayerByEmailUsecase } from "./usecases/get-player-by-email/get-player-by-email.usecase";
 export class PlayersModulesConfig {
   static config(container: Container) {
     container.add({
       id: "PlayerMapper",
-      kind: PlayerMapper,
+      kind: TeamMapper,
       strategy: "singleton",
     });
 
     container.add({
-      id: "PlayerContract",
-      kind: PlayerContract,
+      id: "TeamContract",
+      kind: TeamContract,
       override: PlayerRepository,
       dependencies: ["DataSource", "PlayerMapper"],
       strategy: "singleton",
     });
 
     container.add({
-      id: "GetPlayersUsecase",
-      kind: GetPlayersUsecase,
-      dependencies: ["PlayerContract"],
+      id: "GetTeamsUsecase",
+      kind: GetTeamsUsecase,
+      dependencies: ["TeamContract"],
       strategy: "singleton",
     });
 
     container.add({
       id: "DeletePlayerUsecase",
       kind: DeletePlayerUsecase,
-      dependencies: ["PlayerContract"],
+      dependencies: ["TeamContract"],
       strategy: "singleton",
     });
 
     container.add({
       id: "GetPlayerByDocumentUsecase",
       kind: GetPlayerByDocumentUsecase,
-      dependencies: ["PlayerContract"],
+      dependencies: ["TeamContract"],
       strategy: "singleton",
     });
 
     container.add({
       id: "GetPlayerByEmailUsecase",
       kind: GetPlayerByEmailUsecase,
-      dependencies: ["PlayerContract"],
+      dependencies: ["TeamContract"],
       strategy: "singleton",
     });
 
     container.add({
       id: "CreatePlayerUsecase",
       kind: CreatePlayerUsecase,
-      dependencies: ["PlayerContract", "GetPlayerByDocumentUsecase", "GetPlayerByEmailUsecase"],
+      dependencies: ["TeamContract", "GetPlayerByDocumentUsecase", "GetPlayerByEmailUsecase"],
       strategy: "singleton",
     });
 

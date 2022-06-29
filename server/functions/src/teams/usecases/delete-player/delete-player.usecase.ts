@@ -1,13 +1,13 @@
 import { Observable, of, throwError } from "rxjs";
 import { VariableNotDefinedException } from "../../../core/exceptions";
 import { Usecase } from "../../../core/usecase";
-import { PlayerContract } from "../../player.contract";
+import { TeamContract } from "../../team.contract";
 
 
 
 
 export class DeletePlayerUsecase extends Usecase<string, void> {
-  constructor(public playerContract: PlayerContract) {
+  constructor(public playerContract: TeamContract) {
     super();
   }
   call(id: string): Observable<void> {

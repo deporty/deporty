@@ -1,74 +1,66 @@
 const admin = require("firebase-admin");
 const { getStorage } = require("firebase-admin/storage");
-
+const path = require("path");
 const fs = require("fs");
 const moment = require("moment");
 const PARAMS = process.argv.slice(2);
-const DATA_PATH = "./data";
-const configuration = require("./configuration.json");
+const DATA_PATH = "./storage";
+const CONFIGURATION = require("./configuration.json");
 
 if (
-  PARAMS.length == 0 ||
-  configuration["environments"].indexOf(PARAMS[0]) == -1
+  PARAMS.length < 2 ||
+  CONFIGURATION["environments-list"].indexOf(PARAMS[0]) == -1
 ) {
-  console.log("The environment is not valid, or it is not present");
+  console.log(
+    "You must pass ENV and date to recovery. You cand pass a specific collection to recovery"
+  );
   process.exit();
 }
-
-const ENV = PARAMS[0];
-
-const serviceAccount = require(`./deporty-${ENV}.json`);
-
 const mappers = {
   dev: "dev",
   pdn: "app",
 };
+const ENV = PARAMS[0];
+
+const serviceAccount = require(`./deporty-${ENV}.json`);
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
 
-const today = moment(new Date()).format("YYYY-MM-DD-HH-mm-ss");
+const FILE = PARAMS[1];
+const COLLECTION = PARAMS[2];
+
+const pathFolder = `${DATA_PATH}/${ENV}/${FILE}`;
+
+const getAllFiles = function (dirPath, arrayOfFiles) {
+  files = fs.readdirSync(dirPath);
+
+  arrayOfFiles = arrayOfFiles || [];
+
+  files.forEach(function (file) {
+    if (fs.statSync(dirPath + "/" + file).isDirectory()) {
+      arrayOfFiles = getAllFiles(dirPath + "/" + file, arrayOfFiles);
+    } else {
+      arrayOfFiles.push(path.join(__dirname, dirPath, "/", file));
+    }
+  });
+
+  return arrayOfFiles;
+};
 
 async function main() {
   const bucket = getStorage().bucket(`deporty-${mappers[ENV]}.appspot.com`);
-  const filesPromise = bucket.getFiles();
-  const root = `storage`;
-  const rootEnv = `${root}/${ENV}/`;
-  const rootDate = `${root}/${ENV}/${today}`;
 
-  if (!fs.existsSync(root)) {
-    fs.mkdirSync(root);
-  }
-
-  if (!fs.existsSync(rootEnv)) {
-    fs.mkdirSync(rootEnv);
-  }
-
-  if (!fs.existsSync(rootDate)) {
-    fs.mkdirSync(rootDate);
-  }
-
-  filesPromise.then((files) => {
-    for (const file of files[0]) {
-      const name = file.name;
-      const fragments = name.split(".");
-      if (fragments.length == 2) {
-        console.log(name);
-
-        const remoteFile = bucket.file(name);
-        const localFilename = `${rootDate}/${name}`;
-
-        remoteFile
-          .createReadStream()
-          .on("error", function (err) {})
-          .on("response", function (response) {})
-          .on("end", function () {})
-          .pipe(fs.createWriteStream(localFilename));
-      } else {
-        fs.mkdirSync(`${rootDate}/${name}`);
-      }
-    }
+  const files = getAllFiles(pathFolder).map((item) => {
+    return item.split("\\").join("/");
   });
+  for (const file of files) {
+    console.log(file);
+    bucket.upload(file, {
+      destination: file.split(`${FILE}/`)[1],
+    });
+  }
 }
 
 main();

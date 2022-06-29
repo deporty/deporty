@@ -3,9 +3,9 @@ import * as express from "express";
 import { Firestore, getFirestore } from "firebase-admin/firestore";
 import { DataSource } from "../core/datasource";
 import { FirebaseDataSource } from "../core/firebase.datasource";
-import { PlayerController } from "./infrastructure/player.controller";
+import { TeamController } from "./infrastructure/team.controller";
 import { DEPENDENCIES_CONTAINER } from "./modules.config";
-import { PlayersModulesConfig } from "./players-modules.config";
+import { PlayersModulesConfig } from "./teams-modules.config";
 
 
 const db: Firestore = getFirestore();
@@ -29,4 +29,4 @@ export function configDependencies() {
 export const app = express();
 app.use(cors())
 configDependencies();
-PlayerController.registerEntryPoints(app);
+TeamController.registerEntryPoints(app);

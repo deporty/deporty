@@ -2,14 +2,14 @@ import { IPlayerModel } from "@deporty/entities/players";
 import { Observable, throwError } from "rxjs";
 import { map, mergeMap } from "rxjs/operators";
 import { Usecase } from "../../../core/usecase";
-import { PlayerContract } from "../../player.contract";
+import { TeamContract } from "../../team.contract";
 import { GetPlayerByDocumentUsecase } from "../get-player-by-document/get-player-by-document.usecase";
 import { GetPlayerByEmailUsecase } from "../get-player-by-email/get-player-by-email.usecase";
 import { PlayerAlreadyExistsException } from "./create-player.exceptions";
 
 export class CreatePlayerUsecase extends Usecase<IPlayerModel, string> {
   constructor(
-    public playerContract: PlayerContract,
+    public playerContract: TeamContract,
     private getPlayerByDocumentUsecase: GetPlayerByDocumentUsecase,
     private getPlayerByEmailUsecase: GetPlayerByEmailUsecase
   ) {

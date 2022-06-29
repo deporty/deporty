@@ -3,11 +3,11 @@ const fs = require("fs");
 const moment = require("moment");
 const PARAMS = process.argv.slice(2);
 const DATA_PATH = "./data";
-const configuration = require("./configuration.json");
+const CONFIGURATION = require("./configuration.json");
 
 if (
   PARAMS.length == 0 ||
-  configuration["environments"].indexOf(PARAMS[0]) == -1
+  CONFIGURATION["environments-list"].indexOf(PARAMS[0]) == -1
 ) {
   console.log("The environment is not valid, or it is not present");
   process.exit();
@@ -19,13 +19,13 @@ const serviceAccount = require(`./deporty-${ENV}.json`);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  // databaseURL: "https://deporty-app-default-rtdb.firebaseio.com"
 });
 
 const today = moment(new Date()).format("YYYY-MM-DD-HH-mm-ss");
 
 async function getAllCollections(db) {
   const snapshot = await db.listCollections();
+
   const collections = snapshot.map((snaps) => {
     return snaps["_queryOptions"].collectionId;
   });
@@ -34,10 +34,35 @@ async function getAllCollections(db) {
 
 async function getDataByCollection(db, collection) {
   const snapshot = await db.collection(collection).get();
+
   const registers = [];
-  snapshot.forEach((doc) => {
-    registers.push({ id: doc.id, data: doc.data() });
-  });
+  let collectionConfig = null;
+  if (CONFIGURATION["reference-collections"]) {
+    collectionConfig = CONFIGURATION["reference-collections"][collection];
+  }
+  if (collectionConfig) {
+    for (const doc of snapshot.docs) {
+      const item = { id: doc.id, data: doc.data() };
+
+      const keys = Object.keys(collectionConfig);
+      console.log("Las keys ", keys);
+      for (const key of keys) {
+        const element = await doc.ref.collection(key).get();
+        const elementDoc = element.docs;
+        console.log("Los documentos, ", elementDoc);
+        for (const d of elementDoc) {
+          item['$'+key] = { id: d.id, data: d.data() };
+        }
+      }
+      registers.push(item);
+    }
+  } else {
+    snapshot.forEach((doc) => {
+      const item = { id: doc.id, data: doc.data() };
+      registers.push(item);
+    });
+  }
+
   return registers;
 }
 

@@ -3,11 +3,10 @@ const fs = require("fs");
 
 const PARAMS = process.argv.slice(2);
 const DATA_PATH = "./data";
-const configuration = require("./configuration.json");
-console.log(PARAMS);
+const CONFIGURATION = require("./configuration.json");
 if (
   PARAMS.length < 2 ||
-  configuration["environments"].indexOf(PARAMS[0]) == -1
+  CONFIGURATION["environments-list"].indexOf(PARAMS[0]) == -1
 ) {
   console.log(
     "You must pass ENV and date to recovery. You cand pass a specific collection to recovery"
@@ -21,19 +20,46 @@ const serviceAccount = require(`./deporty-${ENV}.json`);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  // databaseURL: "https://deporty-app-default-rtdb.firebaseio.com"
 });
 const FILE = PARAMS[1];
 const COLLECTION = PARAMS[2];
 
 const pathFolder = `${DATA_PATH}/${ENV}/${FILE}`;
 
+function extractCollections(data) {
+  const keys = Object.keys(data);
+  let collectionKeys = keys.filter((x) => {
+    return x.startsWith("$");
+  });
+  return collectionKeys;
+}
+
+function removeCollections(data, collectionKeys) {
+  const temp = { ...data };
+  for (const key of collectionKeys) {
+    delete temp[key];
+  }
+  return temp;
+}
+
 async function uploadData(db, file, collection) {
-  console.log(collection);
   const collectionRef = db.collection(collection);
+  console.log(collection);
   const registers = JSON.parse(fs.readFileSync(file).toString());
+
   for (const register of registers) {
-    await collectionRef.doc(register["id"]).set(register["data"]);
+    const collectionKeys = extractCollections(register);
+    const data = removeCollections(register, collectionKeys);
+    await collectionRef.doc(register["id"]).set(data['data']);
+    for (const key of collectionKeys) {
+      const newKey = key.replace("$", "");
+      console.log(newKey, "NUEVA");
+      await collectionRef
+        .doc(register["id"])
+        .collection(newKey)
+        .doc(register[key]["id"])
+        .set(register[key]["data"]);
+    }
   }
 }
 

@@ -1,11 +1,12 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IBaseResponse } from '@deporty/entities/general';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { Observable, Subscription } from 'rxjs';
 import { hasPermission } from 'src/app/core/helpers/permission.helper';
+import { TeamAdapter } from 'src/app/features/teams/adapters/team.adapter';
 import { ITeamModel } from 'src/app/features/teams/models/team.model';
-import { GetTeamsUsecase } from 'src/app/features/teams/usecases/get-teams/get-teams.usecase';
 import { RESOURCES_PERMISSIONS_IT, storage } from 'src/app/init-app';
 import { IFixtureStageModel } from '../../../models/fixture-stage.model';
 import { IMatchModel } from '../../../models/match.model';
@@ -41,7 +42,7 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
   tournament!: ITournamentModel;
   statusMapper: any;
   teams: ITeamModel[] = [];
-  $teams!: Observable<ITeamModel[]>;
+  $teams!: Observable<IBaseResponse<ITeamModel[]>>;
   $teamSubscription!: Subscription;
   selectedTeams: any;
 
@@ -55,7 +56,7 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
-    private getTeamsUsecase: GetTeamsUsecase,
+    private teamAdapter: TeamAdapter,
     private addTeamToGroupUsecase: AddTeamToGroupUsecase,
     private createGroupUsecase: CreateGroupUsecase,
     private addMatchToGroupUsecase: AddMatchToGroupUsecase,
@@ -104,9 +105,9 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
       });
     });
 
-    this.$teams = this.getTeamsUsecase.call();
+    this.$teams = this.teamAdapter.getTeams();
     this.$teams.subscribe((teams) => {
-      this.teams = teams;
+      this.teams = teams.data;
     });
   }
 

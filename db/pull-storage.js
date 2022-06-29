@@ -5,11 +5,11 @@ const fs = require("fs");
 const moment = require("moment");
 const PARAMS = process.argv.slice(2);
 const DATA_PATH = "./data";
-const configuration = require("./configuration.json");
+const CONFIGURATION = require("./configuration.json");
 
 if (
   PARAMS.length == 0 ||
-  configuration["environments"].indexOf(PARAMS[0]) == -1
+  CONFIGURATION["environments-list"].indexOf(PARAMS[0]) == -1
 ) {
   console.log("The environment is not valid, or it is not present");
   process.exit();

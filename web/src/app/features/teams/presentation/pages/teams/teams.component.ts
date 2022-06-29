@@ -1,11 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IBaseResponse } from '@deporty/entities/general';
 import { Observable } from 'rxjs';
 import { hasPermission } from 'src/app/core/helpers/permission.helper';
 import { RESOURCES_PERMISSIONS_IT } from 'src/app/init-app';
+import { TeamAdapter } from '../../../adapters/team.adapter';
 import { ITeamModel } from '../../../models/team.model';
 import { DeleteTeamUsecase } from '../../../usecases/delete-team/delete-team.usecase';
-import { GetTeamsUsecase } from '../../../usecases/get-teams/get-teams.usecase';
 
 @Component({
   selector: 'app-teams',
@@ -16,9 +17,9 @@ export class TeamsComponent implements OnInit {
   static route = 'team-list';
   options: any;
   routes: any;
-  $teams!: Observable<ITeamModel[]>;
+  $teams!: Observable<IBaseResponse<ITeamModel[]>>;
   constructor(
-    private getTeamsUsecase: GetTeamsUsecase,
+    private teamAdapter: TeamAdapter,
     private deleteTeamUsecase: DeleteTeamUsecase,
     private route: ActivatedRoute,
     private router: Router,
@@ -36,7 +37,7 @@ export class TeamsComponent implements OnInit {
     if (this.isAllowedToDeleteTeam()) {
       this.routes['Eliminar'] = (team: ITeamModel) => {
         this.deleteTeamUsecase.call(team).subscribe(() => {
-          this.$teams = this.getTeamsUsecase.call();
+          this.$teams = this.teamAdapter.getTeams();
         });
       };
     }
@@ -49,7 +50,7 @@ export class TeamsComponent implements OnInit {
     return hasPermission(identifier, this.resourcesPermissions);
   }
   ngOnInit(): void {
-    this.$teams = this.getTeamsUsecase.call();
+    this.$teams = this.teamAdapter.getTeams();
   }
 
   receiveSelectedOption(option: any) {

@@ -1,9 +1,18 @@
 {
-  "environments": ["dev", "pdn"],
-  "dev": {
-    "databaseURL": "https://deporty-app-default-rtdb.firebaseio.com"
+  "environments-list": ["dev", "pdn"],
+  "environments": {
+    "dev": {
+      "databaseURL": "https://deporty-app-default-rtdb.firebaseio.com"
+    },
+    "pdn": {
+      "databaseURL": "https://deporty-app-default-rtdb.firebaseio.com"
+    }
   },
-  "pdn": {
-    "databaseURL": "https://deporty-app-default-rtdb.firebaseio.com"
+  "reference-collections": {
+    "players": {},
+    "tournaments": {
+      "teams": {},
+      "fixture-stages": {}
+    }
   }
 }

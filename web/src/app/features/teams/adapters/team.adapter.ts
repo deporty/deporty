@@ -1,3 +1,4 @@
+import { IBaseResponse } from '@deporty/entities/general';
 import { IPlayerModel } from '@deporty/entities/players';
 import { Observable } from 'rxjs';
 import { ITeamModel } from '../models/team.model';
@@ -5,7 +6,7 @@ import { ITeamModel } from '../models/team.model';
 
 
 export abstract class TeamAdapter {
-  abstract getTeams(): Observable<ITeamModel[]>;
+  abstract getTeams(): Observable<IBaseResponse<ITeamModel[]>>;
   abstract createTeam(team: ITeamModel): Observable<string>;
   abstract deleteTeam(team: ITeamModel): Observable<void>;
   abstract updateTeam(team: ITeamModel): Observable<void>;

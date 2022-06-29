@@ -2,10 +2,10 @@ import { IPlayerModel } from "@deporty/entities/players";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { Usecase } from "../../../core/usecase";
-import { PlayerContract } from "../../player.contract";
+import { TeamContract } from "../../team.contract";
 
 export class GetPlayerByEmailUsecase extends Usecase<string, IPlayerModel | undefined> {
-  constructor(private playerContract: PlayerContract) {
+  constructor(private playerContract: TeamContract) {
     super();
   }
   call(email: string): Observable<IPlayerModel | undefined> {

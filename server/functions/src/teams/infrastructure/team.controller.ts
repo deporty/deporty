@@ -8,14 +8,14 @@ import { DEPENDENCIES_CONTAINER } from '../modules.config';
 import { CreatePlayerUsecase } from '../usecases/create-player/create-player.usecase';
 import { DeletePlayerUsecase } from '../usecases/delete-player/delete-player.usecase';
 import { GetPlayerByDocumentUsecase } from '../usecases/get-player-by-document/get-player-by-document.usecase';
-import { GetPlayersUsecase } from '../usecases/get-players/get-players.usecase';
+import { GetTeamsUsecase } from '../usecases/get-teams/get-teams.usecase';
 
-export class PlayerController extends BaseController {
+export class TeamController extends BaseController {
   constructor() {
     super();
   }
 
-  static identifier = 'PLAYER';
+  static identifier = 'TEAM';
 
   static registerEntryPoints(app: Express) {
     app.get(`/delete/:id`, (request: Request, response: Response) => {
@@ -56,13 +56,13 @@ export class PlayerController extends BaseController {
         },
         successCode: 'GET:SUCCESS',
         extraData: {
-          entitiesName: 'players',
+          entitiesName: 'teams',
         },
       };
 
-      this.handlerController<GetPlayersUsecase, any>(
+      this.handlerController<GetTeamsUsecase, any>(
         DEPENDENCIES_CONTAINER,
-        'GetPlayersUsecase',
+        'GetTeamsUsecase',
         response,
         config
       );
