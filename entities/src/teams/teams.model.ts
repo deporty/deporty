@@ -14,3 +14,4 @@ export interface ITeamModel {
   members?: Members;
   agent?: string;
 }
+export type ICreateTeamModel = Omit<ITeamModel, "id">;

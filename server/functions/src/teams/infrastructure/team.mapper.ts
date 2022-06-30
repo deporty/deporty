@@ -1,16 +1,20 @@
-import { ITeamModel } from '@deporty/entities/teams';
+import { ITeamModel, ICreateTeamModel } from '@deporty/entities/teams';
 import { Mapper } from '../../core/mapper';
 // import { PlayerMapper } from '../../players/infrastructure/player.mapper';
 
 export class TeamMapper extends Mapper<ITeamModel> {
-  constructor(
-    // private playerMapper: PlayerMapper
-    ) {
+  constructor() { // private playerMapper: PlayerMapper
     super();
   }
 
-  fromJsonWithOutId(obj: any): Omit<ITeamModel, 'id'> {
-    throw new Error('Method not implemented.');
+  fromJsonWithOutId(obj: any): ICreateTeamModel {
+    return {
+      name: obj['name'],
+      athem: obj['athem'] || '',
+      members: obj['members'] || [],
+      shield: obj['shield'] || '',
+      agent: obj['agent'] || '',
+    };
   }
 
   fromJson(obj: any): ITeamModel {
@@ -31,7 +35,7 @@ export class TeamMapper extends Mapper<ITeamModel> {
     };
   }
 
-  toJson(team: ITeamModel) {
+  toJson(team: ICreateTeamModel) {
     return {
       name: team.name,
       athem: team.athem || '',

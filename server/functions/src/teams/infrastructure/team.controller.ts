@@ -68,29 +68,29 @@ export class TeamController extends BaseController {
       );
     });
 
-    app.get(`/document/:document`, (request: Request, response: Response) => {
-      const document = request.params.document;
+    app.get(`/name/:name`, (request: Request, response: Response) => {
+      const name = request.params.name;
 
       const config: IMessagesConfiguration = {
         exceptions: {},
         identifier: this.identifier,
         errorCodes: {},
         successCode: {
-          code: 'GET:DOCUMENT:SUCCESS',
-          message: 'Information for team with document {document}',
+          code: 'GET:NAME:SUCCESS',
+          message: 'Information for team with name {name}',
         },
         extraData: {
-          document,
+          name,
         },
       };
 
       this.handlerController<GetTeamByIdUsecase, any>(
         DEPENDENCIES_CONTAINER,
-        'GetTeamByDocumentUsecase',
+        'GetTeamByNameUsecase',
         response,
         config,
         undefined,
-        document
+        name
       );
     });
 

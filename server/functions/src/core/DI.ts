@@ -26,7 +26,6 @@ export class Container {
 
   getInstance<T>(id: string): T {
     const inst = this.table[id];
-    console.log(id);
     if (!inst) {
       console.log('Id no encontrado', id);
     }

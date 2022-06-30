@@ -7,6 +7,7 @@ import { DeleteTeamUsecase } from './usecases/delete-team/delete-team.usecase';
 import { GetTeamByIdUsecase } from './usecases/get-team-by-id/get-team-by-id.usecase';
 import { GetTeamsUsecase } from './usecases/get-teams/get-teams.usecase';
 import { PlayerMapper } from '../players/infrastructure/player.mapper';
+import { GetTeamByNameUsecase } from './usecases/get-team-by-name/get-team-by-name.usecase';
 export class TeamsModulesConfig {
   static config(container: Container) {
     container.add({
@@ -27,6 +28,16 @@ export class TeamsModulesConfig {
       kind: TeamContract,
       override: TeamRepository,
       dependencies: ['DataSource', 'TeamMapper'],
+      strategy: 'singleton',
+    });
+
+
+    
+
+    container.add({
+      id: 'GetTeamByNameUsecase',
+      kind: GetTeamByNameUsecase,
+      dependencies: ['TeamContract'],
       strategy: 'singleton',
     });
 
@@ -54,7 +65,7 @@ export class TeamsModulesConfig {
     container.add({
       id: 'CreateTeamUsecase',
       kind: CreateTeamUsecase,
-      dependencies: ['TeamContract', 'GetTeamByIdUsecase'],
+      dependencies: ['TeamContract', 'GetTeamByNameUsecase'],
       strategy: 'singleton',
     });
   }

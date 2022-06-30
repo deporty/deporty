@@ -2,17 +2,17 @@ const fs = require("fs");
 const http = require("https");
 const querystring = require("querystring");
 
-const playersData = "players.json";
+const teamsData = "teams.json";
 const apiUrl = "us-central1-deporty-dev.cloudfunctions.net";
 
-const players = JSON.parse(fs.readFileSync(playersData));
+const teams = JSON.parse(fs.readFileSync(teamsData));
 
 const results = [];
 const promises = [];
 
 const options = {
   hostname: apiUrl,
-  path: "/players",
+  path: "/teams",
   method: "POST",
   timeout: 50000,
   headers: {
@@ -20,14 +20,19 @@ const options = {
   },
 };
 
-for (const player of players) {
-  upload(player);
+for (const key in teams) {
+  const team = {
+    name: teams[key],
+  };
+
+  upload(team);
 }
-console.log(promises);
+
 Promise.all(promises).then(() => {
-  fs.writeFileSync("players-status.json", JSON.stringify(results, null, 2));
+  fs.writeFileSync("teams-status.json", JSON.stringify(results, null, 2));
 });
-function upload(player) {
+
+function upload(team) {
   promises.push(
     new Promise((resolve, reject) => {
       const req = http.request(options, (res) => {
@@ -46,15 +51,14 @@ function upload(player) {
             Buffer.concat(chunks_of_data).toString()
           );
           results.push({
-            player,
+            team: team,
             res: response_body,
           });
-          console.log(results);
           resolve();
         });
       });
 
-      req.write(JSON.stringify(player));
+      req.write(JSON.stringify(team));
       req.end();
     })
   );
