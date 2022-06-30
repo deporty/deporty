@@ -25,7 +25,7 @@ export class CreatePlayerUsecase extends Usecase<IPlayerModel, string> {
             new PlayerAlreadyExistsException(playerPrev.document)
           );
         } else {
-          if (player.email != undefined) {
+          if (player.email != undefined && player.email != '') {
             return this.getPlayerByEmailUsecase.call(player.email).pipe(
               map((playerEmailPrev: IPlayerModel | undefined) => {
                 if (playerEmailPrev) {
