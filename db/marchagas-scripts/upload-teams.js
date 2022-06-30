@@ -22,7 +22,7 @@ const options = {
 
 for (const key in teams) {
   const team = {
-    name: teams[key],
+    name: key,
   };
 
   upload(team);

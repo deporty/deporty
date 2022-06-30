@@ -107,7 +107,7 @@ export class TeamController extends BaseController {
         },
         successCode: 'POST:SUCCESS',
         extraData: {
-          entitiesName: 'team',
+          entitiesName: 'Team',
         },
       };
 
