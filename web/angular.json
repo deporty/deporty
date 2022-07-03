@@ -107,6 +107,9 @@
           "configurations": {
             "production": {
               "browserTarget": "deporty:build:production"
+            },
+            "dev": {
+              "browserTarget": "deporty:build:dev"
             }
           }
         },

@@ -3,12 +3,12 @@ export const environment = {
   analytics: true,
   serverEndpoint: 'https://us-central1-deporty-dev.cloudfunctions.net',
   firebaseConfig: {
-    apiKey: "AIzaSyCmfXDNcDTHtWgc8DnieEk0MS6KUogR-Rc",
-    authDomain: "deporty-app.firebaseapp.com",
+    apiKey: "AIzaSyBTy7TeYPAkELnMSrZ7QNm27qvIH62Q4zI",
+    authDomain: "deporty-dev.firebaseapp.com",
     projectId: "deporty-dev",
     storageBucket: "deporty-dev.appspot.com",
-    messagingSenderId: "861456172435",
-    appId: "1:861456172435:web:edaf5251b6866e8fe8d466",
-    measurementId: "G-NLEM82Z201"
+    messagingSenderId: "186958009196",
+    appId: "1:186958009196:web:05533df8a1c7a7e3251949",
+    measurementId: "G-4KH8KW18GH"
   }
 };

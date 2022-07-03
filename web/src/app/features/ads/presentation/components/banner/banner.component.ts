@@ -57,8 +57,8 @@ export class BannerComponent implements OnInit {
   ngOnInit(): void {
     this.getAdsUsecase.call().subscribe((ads) => {
       this.ads = ads;
-    this.getImage();
-
+      console.log(ads, 'ads');
+      this.getImage();
     });
 
     window.addEventListener('resize', () => {
