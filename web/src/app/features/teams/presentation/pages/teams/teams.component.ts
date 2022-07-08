@@ -26,10 +26,11 @@ export class TeamsComponent implements OnInit {
     @Inject(RESOURCES_PERMISSIONS_IT) private resourcesPermissions: string[]
   ) {
     this.routes = {
-      'zoom_in': (team: ITeamModel) => {
-        this.router.navigate(['./team'], {
+      zoom_in: (team: ITeamModel) => {
+        console.log('Navegando, ', team.id);
+        this.router.navigate(['./team', team.id], {
           relativeTo: this.route,
-          queryParams: { team: JSON.stringify(team) },
+          // queryParams: { team: JSON.stringify(team) },
         });
       },
     };

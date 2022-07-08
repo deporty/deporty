@@ -3,26 +3,67 @@ import {
   DocumentReference,
   Firestore,
 } from 'firebase-admin/firestore';
-import { from, Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { from, Observable, of, zip } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { DataSource, DataSourceFilter } from './datasource';
 
 export class FirebaseDataSource extends DataSource<any> {
   constructor(private db: Firestore) {
     super();
   }
+
   getById(id: string): Observable<any> {
-    console.log(this.entity, 'enti', id);
     return from(this.db.collection(this.entity).doc(id).get()).pipe(
       map((item: FirebaseFirestore.DocumentSnapshot<DocumentData>) => {
-        console.log('data data ', item.data());
-        return item.data()
-          ? {
+        const response = {
+          ...item.data(),
+          id: item.id,
+        };
+        return item.data() ? response : undefined;
+      })
+    );
+  }
+
+  getByIdPopulate(id: string, sub: string[]): Observable<any> {
+    if (!sub) {
+      sub = [];
+    }
+    return of(this.db.collection(this.entity).doc(id)).pipe(
+      map((ref: DocumentReference<DocumentData>) => {
+        const data = from(ref.get()).pipe(
+          map((item) => {
+            const response = {
               ...item.data(),
               id: item.id,
+            };
+            return item.data() ? response : undefined;
+          })
+        );
+
+        const $toZip: any = [data];
+        for (const key of sub) {
+          console.log(key)
+          $toZip.push(from(ref.collection(key).get()));
+        }
+        console.log($toZip, 'TO ZIP');
+        return zip(...$toZip).pipe(
+          map((_data: any[]) => {
+            console.log('Lufi ', _data);
+            const res = {
+              ..._data[0],
+            };
+            for (let i = 1; i < _data.length; i++) {
+              const element = _data[i];
+
+              res[sub[i - 1]] = element.docs.map((doc: any) => {
+                return { ...doc.data(), id: doc.id };
+              });
             }
-          : undefined;
-      })
+            return res;
+          })
+        );
+      }),
+      mergeMap((x) => x)
     );
   }
   getByFilter(filters: DataSourceFilter[]): Observable<any[]> {
@@ -60,6 +101,17 @@ export class FirebaseDataSource extends DataSource<any> {
     return from(this.db.collection(this.entity).add(entity)).pipe(
       map((snapshot: DocumentReference<DocumentData>) => {
         return snapshot.id;
+      }),
+      catchError((err) => {
+        return of('');
+      })
+    );
+  }
+
+  update(id: string, entity: any): Observable<any> {
+    return from(this.db.collection(this.entity).doc(id).set(entity)).pipe(
+      map((snapshot: DocumentData) => {
+        return { ...snapshot.data(), id: snapshot.id };
       }),
       catchError((err) => {
         return of('');

@@ -12,7 +12,7 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: TeamComponent.route,
+    path: `${TeamComponent.route}/:id`,
     component: TeamComponent,
     pathMatch: 'full',
   },

@@ -1,4 +1,4 @@
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 
 export interface DataSourceFilter {
   property: string;
@@ -6,7 +6,6 @@ export interface DataSourceFilter {
 }
 
 export abstract class DataSource<T> {
-
   private _entity!: string;
   public get entity(): string {
     return this._entity;
@@ -15,9 +14,10 @@ export abstract class DataSource<T> {
     this._entity = value;
   }
 
-
   abstract getById(id: string): Observable<T>;
+  abstract getByIdPopulate(id: string, sub?: string[] ): Observable<T>;
   abstract getByFilter(filters: DataSourceFilter[]): Observable<T[]>;
   abstract deleteById(id: string): Observable<void>;
   abstract save(entity: any): Observable<string>;
+  abstract update(id: string, entity: any): Observable<any>;
 }

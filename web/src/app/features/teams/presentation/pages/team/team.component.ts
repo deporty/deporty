@@ -6,9 +6,9 @@ import { logEvent } from 'firebase/analytics';
 import { PlayerAdapter } from 'src/app/features/players/player.repository';
 import { analytics } from 'src/app/init-app';
 import { environment } from 'src/environments/environment';
+import { TeamAdapter } from '../../../adapters/team.adapter';
 import { ITeamModel } from '../../../models/team.model';
 import { AddPlayerToTeamUsecase } from '../../../usecases/add-player-to-team/add-player-to-team';
-
 
 @Component({
   selector: 'app-team',
@@ -26,22 +26,29 @@ export class TeamComponent implements OnInit {
   team!: ITeamModel;
   $players: any;
 
+  availablePlayers: IPlayerModel[];
   constructor(
     private activatedRoute: ActivatedRoute,
 
     private playerService: PlayerAdapter,
+    private teamService: TeamAdapter,
     private addPlayerToTeamUsecase: AddPlayerToTeamUsecase
   ) {
     this.membersFormControl = new FormControl();
     this.selectedPlayers = [];
+    this.availablePlayers = [];
   }
 
   ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe((team: Params) => {
-      this.team = JSON.parse(team.team) as ITeamModel;
+    this.activatedRoute.params.subscribe((params: Params) => {
+      this.teamService.getTeamById(params.id).subscribe((team) => {
+        this.team = team.data;
+      });
     });
 
-    this.$players = this.playerService.getAllSummaryPlayers();
+    this.playerService.getAllSummaryPlayers().subscribe((p) => {
+      this.availablePlayers = p.data;
+    });
 
     if (environment.analytics) {
       logEvent(analytics, 'team');

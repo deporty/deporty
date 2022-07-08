@@ -27,7 +27,7 @@ export class TeamsModulesConfig {
       id: 'TeamContract',
       kind: TeamContract,
       override: TeamRepository,
-      dependencies: ['DataSource', 'TeamMapper'],
+      dependencies: ['DataSource', 'TeamMapper', ],
       strategy: 'singleton',
     });
 

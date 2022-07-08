@@ -94,6 +94,37 @@ export class TeamController extends BaseController {
       );
     });
 
+
+    app.get(`/:id`, (request: Request, response: Response) => {
+      const id = request.params.id;
+
+      const config: IMessagesConfiguration = {
+        exceptions: {
+          'TeamDoesNotExist': 'GET:ID:ERROR'
+        },
+        identifier: this.identifier,
+        errorCodes: {
+          'GET:ID:ERROR': '{message}'
+        },
+        successCode: {
+          code: 'GET:ID:SUCCESS',
+          message: 'Information for team with id {id}',
+        },
+        extraData: {
+          id: id,
+        },
+      };
+
+      this.handlerController<GetTeamByIdUsecase, any>(
+        DEPENDENCIES_CONTAINER,
+        'GetTeamByIdUsecase',
+        response,
+        config,
+        undefined,
+        id
+      );
+    });
+
     app.post(`/`, (request: Request, response: Response) => {
       const team = request.body;
 

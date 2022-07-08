@@ -33,6 +33,11 @@ export class TeamService extends TeamAdapter {
     super();
   }
 
+  getTeamById(teamId: string): Observable<IBaseResponse<ITeamModel>> {
+    const path = `${environment.serverEndpoint}/${TeamService.collection}/${teamId}`;
+    return this.httpClient.get<IBaseResponse<ITeamModel>>(path);
+  }
+
   getTeams(): Observable<IBaseResponse<ITeamModel[]>> {
     const path = `${environment.serverEndpoint}/${TeamService.collection}`;
     return this.httpClient.get<IBaseResponse<ITeamModel[]>>(path);
