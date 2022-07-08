@@ -11,7 +11,13 @@
     Crear un nuevo equipo
   </button>
 </header>
-<section *ngIf="teams && teams.length > 0; else noTeams" class="row d-flex flex-wrap items">
+<section
+  *ngIf="teams && teams.length > 0; else noTeams"
+  class="row d-flex flex-wrap items"
+>
+
+
+
   <app-team-card
     *ngFor="let team of teams"
     class="col-xl-2 col-lg-2 col-md-4 col-sm-6 col-12 my-2"
