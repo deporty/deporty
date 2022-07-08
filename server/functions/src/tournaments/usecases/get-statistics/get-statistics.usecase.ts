@@ -1,5 +1,6 @@
-import { from, Observable } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { IPlayerModel } from '@deporty/entities/players';
+import { Observable, of, zip } from 'rxjs';
+import { map, mergeMap, tap } from 'rxjs/operators';
 import { Usecase } from '../../../core/usecase';
 import { GetPlayerByIdUsecase } from '../../../players/usecases/get-player-by-id/get-player-by-id.usecase';
 import { TournamentContract } from '../../tournament.contract';
@@ -10,19 +11,17 @@ export interface StadisticResume {
   goals: number;
 }
 
-export class GetStatisticsUsecase extends Usecase<string, StadisticResume> {
+export class GetStatisticsUsecase extends Usecase<string, StadisticResume[]> {
   constructor(
     private getPlayerByIdUsecase: GetPlayerByIdUsecase,
     private tournamentContract: TournamentContract
   ) {
     super();
   }
-  call(tournamentId: string): Observable<StadisticResume> {
-    // console.log(tournamentId, 'Este es el tournament id')
+  call(tournamentId: string): Observable<StadisticResume[]> {
     return this.tournamentContract.getByIdPopulate(tournamentId).pipe(
       map((tournament) => {
         const scorers: any = {};
-        console.log(tournament,'Este es el tournament ')
         if (tournament && tournament.fixture) {
           for (const stage of tournament.fixture.stages) {
             for (const group of stage.groups) {
@@ -58,7 +57,7 @@ export class GetStatisticsUsecase extends Usecase<string, StadisticResume> {
           }
         }
 
-        const response = [];
+        const response: StadisticResume[] = [];
         for (const playerId in scorers) {
           if (Object.prototype.hasOwnProperty.call(scorers, playerId)) {
             const config = scorers[playerId];
@@ -70,19 +69,29 @@ export class GetStatisticsUsecase extends Usecase<string, StadisticResume> {
             });
           }
         }
-        return from(response).pipe(
-          map((item) => {
-            return this.getPlayerByIdUsecase.call(item.player).pipe(
-              map((p) => {
-                return {
-                  player: `${p.name} ${p.lastName}`,
-                  team: item.team,
-                  goals: item.goals,
-                };
-              })
-            );
+
+        console.log(response, 'RESPONSE');
+        return of(response).pipe(
+          map((item: StadisticResume[]) => {
+            return item.map((x: StadisticResume) => {
+              return this.getPlayerByIdUsecase.call(x.player).pipe(
+                map((p: IPlayerModel) => {
+                  return {
+                    player: `${p.name} ${p.lastName}`,
+                    team: x.team,
+                    goals: x.goals,
+                  } as StadisticResume;
+                })
+              );
+            });
           }),
-          mergeMap((x) => x)
+          map((items:Observable<StadisticResume>[]) => {
+            return zip(...items);
+          }),
+          mergeMap((x) => x),
+          tap((a) => {
+            console.log(a, 'a');
+          })
         );
       }),
       mergeMap((x) => x)

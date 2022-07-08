@@ -18,6 +18,7 @@ export class TeamsComponent implements OnInit {
   options: any;
   routes: any;
   $teams!: Observable<IBaseResponse<ITeamModel[]>>;
+  teams: ITeamModel[];
   constructor(
     private teamAdapter: TeamAdapter,
     private deleteTeamUsecase: DeleteTeamUsecase,
@@ -25,6 +26,7 @@ export class TeamsComponent implements OnInit {
     private router: Router,
     @Inject(RESOURCES_PERMISSIONS_IT) private resourcesPermissions: string[]
   ) {
+    this.teams = [];
     this.routes = {
       zoom_in: (team: ITeamModel) => {
         console.log('Navegando, ', team.id);
@@ -53,7 +55,7 @@ export class TeamsComponent implements OnInit {
   ngOnInit(): void {
     this.$teams = this.teamAdapter.getTeams();
     this.$teams.subscribe((x) => {
-      console.log(x);
+      this.teams = x.data;
     });
   }
 

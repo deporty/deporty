@@ -13,6 +13,7 @@ export class FirebaseDataSource extends DataSource<any> {
   }
 
   getById(id: string): Observable<any> {
+    console.log(id,'id',this.entity,'etnti')
     return from(this.db.collection(this.entity).doc(id).get()).pipe(
       map((item: FirebaseFirestore.DocumentSnapshot<DocumentData>) => {
         const response = {
@@ -42,13 +43,11 @@ export class FirebaseDataSource extends DataSource<any> {
 
         const $toZip: any = [data];
         for (const key of sub) {
-          console.log(key)
           $toZip.push(from(ref.collection(key).get()));
         }
         console.log($toZip, 'TO ZIP');
         return zip(...$toZip).pipe(
           map((_data: any[]) => {
-            console.log('Lufi ', _data);
             const res = {
               ..._data[0],
             };

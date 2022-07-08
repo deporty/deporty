@@ -12,15 +12,17 @@ import { BreadcrumbComponent } from './presentation/components/breadcrumb/breadc
 import { LoggedInContainerComponent } from './presentation/components/logged-in-container/logged-in-container.component';
 import { UploadFileComponent } from './presentation/components/upload-file/upload-file.component';
 import { UploadFileUsecase } from './usecases/upload-file/upload-file';
+import { DefaultLoadingComponent } from './presentation/components/default-loading/default-loading.component';
 
 @NgModule({
-  declarations: [UploadFileComponent, TimestampPipe, BreadcrumbComponent, LoggedInContainerComponent],
+  declarations: [UploadFileComponent, TimestampPipe, BreadcrumbComponent, LoggedInContainerComponent, DefaultLoadingComponent],
   imports: [CommonModule, MatButtonModule,  DirectivesModule],
   exports: [
     UploadFileComponent,
     TimestampPipe,
     BreadcrumbComponent,
-    DirectivesModule
+    DirectivesModule,
+    DefaultLoadingComponent
   ],
   providers: [
     TokenService,

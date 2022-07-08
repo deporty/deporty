@@ -13,7 +13,6 @@ export class GetPlayerByIdUsecase extends Usecase<
     super();
   }
   call(id: string): Observable<IPlayerModel > {
-    console.log(1,id)
     return this.playerContract.getPlayerById(id).pipe(
       map((player: IPlayerModel | undefined) => {
         if (player) {

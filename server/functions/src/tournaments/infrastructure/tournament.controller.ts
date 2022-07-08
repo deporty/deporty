@@ -16,7 +16,6 @@ export class TournamentController extends BaseController {
   static registerEntryPoints(app: Express) {
     app.get(`/stadistics/:id`, (request: Request, response: Response) => {
       const id = request.params.id;
-console.log(id,'455555')
       const config: IMessagesConfiguration = {
         exceptions: {},
         identifier: this.identifier,

@@ -6,8 +6,8 @@ export class FixtureMapper {
 
   fromJson(obj: any): IFixtureModel {
     return {
-      stages: (obj['fixture-stages'] as []).map(
-        this.fixtureStageMapper.fromJson
+      stages: (obj['fixture-stages'] as []).map((s) =>
+        this.fixtureStageMapper.fromJson(s)
       ),
       tournamentBracket: obj['tournamentBracket'],
     };

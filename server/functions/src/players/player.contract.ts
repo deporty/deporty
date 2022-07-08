@@ -1,6 +1,6 @@
-import { ICreatePlayerModel, IPlayerModel } from "@deporty/entities/players";
-import { Observable } from "rxjs";
-import { DataSourceFilter } from "../core/datasource";
+import { ICreatePlayerModel, IPlayerModel } from '@deporty/entities/players';
+import { Observable } from 'rxjs';
+import { DataSourceFilter } from '../core/datasource';
 
 export abstract class PlayerContract {
   abstract getPlayers(): Observable<IPlayerModel[]>;

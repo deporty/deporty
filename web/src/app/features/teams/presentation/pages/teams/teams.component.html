@@ -11,9 +11,9 @@
     Crear un nuevo equipo
   </button>
 </header>
-<section class="row d-flex flex-wrap items">
+<section *ngIf="teams && teams.length > 0; else noTeams" class="row d-flex flex-wrap items">
   <app-team-card
-    *ngFor="let team of ($teams | async)?.data"
+    *ngFor="let team of teams"
     class="col-xl-2 col-lg-2 col-md-4 col-sm-6 col-12 my-2"
     (selectedOption)="receiveSelectedOption($event)"
     [options]="options"
@@ -21,3 +21,9 @@
   >
   </app-team-card>
 </section>
+
+<ng-template #noTeams>
+  <div class="mt-5 d-flex h-100 justify-content-center align-items-center">
+    <app-default-loading class=""> </app-default-loading>
+  </div>
+</ng-template>

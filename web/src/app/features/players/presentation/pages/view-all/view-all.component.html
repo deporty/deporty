@@ -57,17 +57,17 @@
     *ngFor="let player of players"
     class="my-1 px-2 py-1 col-12 col-sm-6 col-md-3 col-lg-2"
   >
-    <app-player-card (onSelectedPlayer)="onSelectedPlayer(player)" [player]="player" [actions]="actions">
+    <app-player-card
+      (onSelectedPlayer)="onSelectedPlayer(player)"
+      [player]="player"
+      [actions]="actions"
+    >
     </app-player-card>
-
   </div>
 </section>
 
 <ng-template #noPlayers>
-  <div class="row mt-5 d-flex justify-content-center">
-    <div class="col d-flex justify-content-center">
-      <mat-progress-spinner color="primary" mode="indeterminate">
-      </mat-progress-spinner>
-    </div>
+  <div class="mt-5 d-flex h-100 justify-content-center align-items-center">
+    <app-default-loading class=""> </app-default-loading>
   </div>
 </ng-template>

@@ -30,7 +30,6 @@ export class TournamentRepository extends TournamentContract {
       .getByIdPopulate(id, ['fixture-stages', 'teams'])
       .pipe(
         map((tournament) => {
-          console.log('TOURNAMENT ', tournament);
           if (tournament) {
             tournament['fixture'] = {
               'fixture-stages': tournament['fixture-stages'],
@@ -321,7 +320,6 @@ export class TournamentRepository extends TournamentContract {
     //     index -= 1;
 
     //     docu.groups[groupIndex].matches[index] = matchDB;
-    //     console.log(docu);
     //     from(updateDoc(stageDoc, docu)).subscribe(() => {
     //       observer.next();
     //       observer.complete();
