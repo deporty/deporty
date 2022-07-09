@@ -11,7 +11,7 @@ import { ScoreMapper } from './infrastructure/score.mapper';
 import { StadisticsMapper } from './infrastructure/stadistics.mapper';
 import { TournamentMapper } from './infrastructure/tournament.mapper';
 import { TournamentContract } from './tournament.contract';
-import { GetStatisticsUsecase } from './usecases/get-statistics/get-statistics.usecase';
+import { GetMarkersTableUsecase } from './usecases/get-markers-table/get-markers-table.usecase';
 export class TournamentsModulesConfig {
   static config(container: Container) {
     PlayersModulesConfig.config(container);
@@ -88,8 +88,8 @@ export class TournamentsModulesConfig {
     });
 
     container.add({
-      id: 'GetStatisticsUsecase',
-      kind: GetStatisticsUsecase,
+      id: 'GetMarkersTableUsecase',
+      kind: GetMarkersTableUsecase,
       dependencies: ['GetPlayerByIdUsecase', 'TournamentContract'],
       strategy: 'singleton',
     });

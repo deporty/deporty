@@ -43,6 +43,29 @@
       </p>
     </div>
   </section>
+  <section class="my-5" *ngIf="markersTable">
+    <div class="row">
+      <h2>Tabla de posiciones</h2>
+    </div>
+    <div class="row">
+      <table class="px-2 text-center">
+        <thead>
+          <tr>
+            <th>Jugador</th>
+            <th>Equipo</th>
+            <th>Goles marcados</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of markersTable">
+            <td>{{ row.player }}</td>
+            <td>{{ row.team }}</td>
+            <td>{{ row.goals }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 
   <section class="my-5" *ngIf="fixtureStages">
     <section *ngFor="let stage of fixtureStages">

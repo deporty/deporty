@@ -1,5 +1,7 @@
 import { ObserversModule } from '@angular/cdk/observers';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { IBaseResponse } from '@deporty/entities/general';
 import {
   collection,
   CollectionReference,
@@ -22,6 +24,7 @@ import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ITeamModel } from 'src/app/features/teams/models/team.model';
 import { firestore } from 'src/app/init-app';
+import { environment } from 'src/environments/environment';
 import { TournamentAdapter } from '../../adapters/tournament.adapter';
 import { IFixtureStageModel } from '../../models/fixture-stage.model';
 import { IGroupModel } from '../../models/group.model';
@@ -40,10 +43,17 @@ export class TournamentService extends TournamentAdapter {
     private tournamentMapper: TournamentMapper,
     private matchMapper: MatchMapper,
     private groupMapper: GroupMapper,
-    private fixtureStageMapper: FixtureStageMapper
+    private fixtureStageMapper: FixtureStageMapper,
+    private httpClient: HttpClient
   ) {
     super();
     this.collectionRef = collection(firestore, TournamentService.collection);
+  }
+
+  getMarkersTableByTornament(id: string): Observable<IBaseResponse<any[]>> {
+    const path = `${environment.serverEndpoint}/${TournamentService.collection}/markers-table/${id}`;
+    console.log(path)
+    return this.httpClient.get<IBaseResponse<any[]>>(path);
   }
   getAllSummaryTournaments(): Observable<ITournamentModel[]> {
     return from(getDocs(this.collectionRef)).pipe(

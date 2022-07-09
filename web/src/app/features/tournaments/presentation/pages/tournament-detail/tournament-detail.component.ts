@@ -8,9 +8,9 @@ import { hasPermission } from 'src/app/core/helpers/permission.helper';
 import { TeamAdapter } from 'src/app/features/teams/adapters/team.adapter';
 import { ITeamModel } from 'src/app/features/teams/models/team.model';
 import { RESOURCES_PERMISSIONS_IT, storage } from 'src/app/init-app';
+import { TournamentAdapter } from '../../../adapters/tournament.adapter';
 import { IFixtureStageModel } from '../../../models/fixture-stage.model';
 import { IMatchModel } from '../../../models/match.model';
-import { IPointsStadisticsModel } from '../../../models/points-stadistics.model';
 import { ITournamentModel } from '../../../models/tournament.model';
 import { TournamentsRoutingModule } from '../../../tournaments-routing.module';
 import { AddMatchToGroupUsecase } from '../../../usecases/add-match-to-group/add-match-to-group';
@@ -18,7 +18,6 @@ import { AddTeamToGroupUsecase } from '../../../usecases/add-team-to-group/add-t
 import { CreateGroupUsecase } from '../../../usecases/create-group/create-group.usecase';
 import { EditMatchOfGroupUsecase } from '../../../usecases/edit-match-of-group/edit-match-of-group';
 import { GetFixtureStagesUsecase } from '../../../usecases/get-fixture-stages/get-fixture-stages.usecase';
-import { GetPositionsTableByGroupUsecase } from '../../../usecases/get-positions-table-by-group/get-positions-table-by-group';
 import { GetTournamentInfoUsecase } from '../../../usecases/get-tournament-info/get-tournament-info';
 import { AddTeamCardComponent } from '../../components/add-team-card/add-team-card.component';
 import { GROUP_LETTERS } from '../../components/components.constants';
@@ -46,6 +45,8 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
   $teamSubscription!: Subscription;
   selectedTeams: any;
 
+  markersTable: any[];
+
   currentIndexGroup!: number;
   stageId!: string;
   img!: string;
@@ -61,12 +62,14 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
     private createGroupUsecase: CreateGroupUsecase,
     private addMatchToGroupUsecase: AddMatchToGroupUsecase,
     private editMatchOfGroupUsecase: EditMatchOfGroupUsecase,
+    private tournamentService: TournamentAdapter,
     @Inject(RESOURCES_PERMISSIONS_IT) private resourcesPermissions: string[]
   ) {
     this.statusMapper = {
       'in progress': 'En progreso',
       canceled: 'Cancelado',
     };
+    this.markersTable = [];
   }
   ngOnDestroy(): void {
     if (this.$teamSubscription) {
@@ -91,6 +94,7 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((params) => {
+ 
       this.getTournamentInfoUsecase.call(params.id).subscribe((tournament) => {
         this.tournament = tournament;
 
@@ -102,6 +106,13 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
           });
         }
         this.getFixtureStages();
+
+        this.tournamentService
+        .getMarkersTableByTornament(params.id)
+        .subscribe((table) => {
+          if (!!table) this.markersTable = table.data;
+        });
+        
       });
     });
 
@@ -134,7 +145,7 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
           match: JSON.stringify(data.match),
           groupIndex: data.index,
           stageId: data.stageId,
-          tournamentId: this.tournament.id
+          tournamentId: this.tournament.id,
         },
         // relativeTo: this.activatedRoute
       }

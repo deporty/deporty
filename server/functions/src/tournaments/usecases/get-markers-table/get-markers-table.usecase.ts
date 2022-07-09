@@ -1,17 +1,18 @@
 import { IPlayerModel } from '@deporty/entities/players';
 import { Observable, of, zip } from 'rxjs';
-import { map, mergeMap, tap } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 import { Usecase } from '../../../core/usecase';
 import { GetPlayerByIdUsecase } from '../../../players/usecases/get-player-by-id/get-player-by-id.usecase';
 import { TournamentContract } from '../../tournament.contract';
 
 export interface StadisticResume {
   team: string;
+  badge: string;
   player: string;
   goals: number;
 }
 
-export class GetStatisticsUsecase extends Usecase<string, StadisticResume[]> {
+export class GetMarkersTableUsecase extends Usecase<string, StadisticResume[]> {
   constructor(
     private getPlayerByIdUsecase: GetPlayerByIdUsecase,
     private tournamentContract: TournamentContract
@@ -42,6 +43,7 @@ export class GetStatisticsUsecase extends Usecase<string, StadisticResume[]> {
                             scorers[playerId] = {
                               goals: 0,
                               team: match.teamA.name,
+                              teamBadge: match.teamA.shield,
                             };
                           }
                           scorers[playerId]['goals'] =
@@ -65,12 +67,12 @@ export class GetStatisticsUsecase extends Usecase<string, StadisticResume[]> {
             response.push({
               team: config.team,
               goals: config.goals,
+              badge: config.teamBadge,
               player: playerId,
             });
           }
         }
 
-        console.log(response, 'RESPONSE');
         return of(response).pipe(
           map((item: StadisticResume[]) => {
             return item.map((x: StadisticResume) => {
@@ -80,18 +82,16 @@ export class GetStatisticsUsecase extends Usecase<string, StadisticResume[]> {
                     player: `${p.name} ${p.lastName}`,
                     team: x.team,
                     goals: x.goals,
+                    badge: x.badge,
                   } as StadisticResume;
                 })
               );
             });
           }),
-          map((items:Observable<StadisticResume>[]) => {
+          map((items: Observable<StadisticResume>[]) => {
             return zip(...items);
           }),
-          mergeMap((x) => x),
-          tap((a) => {
-            console.log(a, 'a');
-          })
+          mergeMap((x) => x)
         );
       }),
       mergeMap((x) => x)

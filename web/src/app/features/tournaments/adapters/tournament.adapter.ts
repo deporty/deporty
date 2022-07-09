@@ -1,3 +1,4 @@
+import { IBaseResponse } from '@deporty/entities/general';
 import { Observable } from 'rxjs';
 import { ITeamModel } from '../../teams/models/team.model';
 import { IFixtureStageModel } from '../models/fixture-stage.model';
@@ -6,6 +7,8 @@ import { IMatchModel } from '../models/match.model';
 import { ITournamentModel } from '../models/tournament.model';
 
 export abstract class TournamentAdapter {
+  abstract getMarkersTableByTornament(id: string): Observable<IBaseResponse<any[]>>;
+
   abstract getAllSummaryTournaments(): Observable<ITournamentModel[]>;
   abstract getTournamentSummaryById(id: string): Observable<ITournamentModel>;
   abstract getTournamentFixtureStagesById(
@@ -30,7 +33,7 @@ export abstract class TournamentAdapter {
   abstract createGroupInsideTournament(
     tournamentId: string,
     stageId: string,
-    group: Omit<IGroupModel,'index'>
+    group: Omit<IGroupModel, 'index'>
   ): Observable<void>;
 
   abstract addMatchToGroupInsideTournament(
@@ -46,5 +49,4 @@ export abstract class TournamentAdapter {
     groupIndex: number,
     match: IMatchModel
   ): Observable<void>;
-
 }
