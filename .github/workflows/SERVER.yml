@@ -38,14 +38,14 @@ jobs:
         run: |
           cd entities
           npm run build:pipeline
-      - name: RUN TEST
-        run: |
-          cd server/functions
-          npm test
-      - name: VALIDATE CONDITIONS OF GOOD SOFTWARE
-        run: |
-          cd server/functions/scripts
-          python3 validate-coverage.py --path ../coverage/lcov-report/index.html
+      # - name: RUN TEST
+      #   run: |
+      #     cd server/functions
+      #     npm test
+      # - name: VALIDATE CONDITIONS OF GOOD SOFTWARE
+      #   run: |
+      #     cd server/functions/scripts
+      #     python3 validate-coverage.py --path ../coverage/lcov-report/index.html
       - name: DEPLOY DEV ENVIRONMENT
         run: |
           cd server
