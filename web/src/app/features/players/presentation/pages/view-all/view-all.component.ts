@@ -24,8 +24,9 @@ export class ViewAllComponent implements OnInit {
   $players!: Observable<IBaseResponse<IPlayerModel[]>>;
   $playersSubscription!: Subscription;
   players: IPlayerModel[];
+  filterPlayers: IPlayerModel[];
   actions: any[];
-  
+
   constructor(
     private playerService: PlayerAdapter,
     private router: Router,
@@ -35,7 +36,7 @@ export class ViewAllComponent implements OnInit {
   ) {
     this.players = [];
     this.actions = [];
-
+    this.filterPlayers = [];
     const isAllowed = hasPermission(
       'players:delete-player:ui',
       this.resourcesPermissions
@@ -54,7 +55,7 @@ export class ViewAllComponent implements OnInit {
     this.formGroup = new FormGroup({
       name: new FormControl(''),
       lastName: new FormControl(''),
-      id: new FormControl(''),
+      document: new FormControl(''),
     });
   }
   createUser() {
@@ -67,6 +68,7 @@ export class ViewAllComponent implements OnInit {
     this.$players = this.playerService.getAllSummaryPlayers();
     this.$players.subscribe((data) => {
       this.players.push(...data.data);
+      this.filterPlayers.push(...data.data);
     });
   }
 
@@ -80,5 +82,33 @@ export class ViewAllComponent implements OnInit {
       data: player,
       maxWidth: '500px',
     });
+  }
+  onChangeForm() {
+    const value = this.formGroup.value;
+    console.log('Eli mi amor', value);
+
+    this.filterPlayers = this.players;
+
+    if (!!value['name']) {
+      this.filterPlayers = this.players.filter((item) => {
+        return item.name.toUpperCase().includes(value['name'].toUpperCase());
+      });
+    }
+
+    if (!!value['lastName']) {
+      this.filterPlayers = this.filterPlayers.filter((item) => {
+        return item.lastName
+          .toUpperCase()
+          .includes(value['lastName'].toUpperCase());
+      });
+    }
+
+    if (!!value['document']) {
+      this.filterPlayers = this.filterPlayers.filter((item) => {
+        return item.document
+          .toUpperCase()
+          .includes(value['document'].toUpperCase());
+      });
+    }
   }
 }

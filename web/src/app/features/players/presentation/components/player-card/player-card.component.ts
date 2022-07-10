@@ -43,7 +43,6 @@ export class PlayerCardComponent implements OnInit, OnChanges {
     if (this.data && !this.player) {
       this.player = this.data;
     }
-    console.log(this.player);
 
     if (this.player.image) {
       const imageRef = ref(storage, this.player.image);

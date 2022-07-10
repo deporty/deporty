@@ -111,32 +111,6 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
           .subscribe((table) => {
             if (!!table) this.markersTable = table.data;
           });
-        // this.markersTable = [
-        //   {
-        //     player: 'Karen Rapado',
-        //     team: 'MONTES F.C',
-        //     goals: 2,
-        //     badge: '',
-        //   },
-        //   {
-        //     player: 'David Contra No',
-        //     team: 'MONTES F.C',
-        //     goals: 3,
-        //     badge: '',
-        //   },
-        //   {
-        //     player: 'Andrés  Erazo Reyes',
-        //     team: 'MONTES F.C',
-        //     goals: 2,
-        //     badge: '',
-        //   },
-        //   {
-        //     player: 'Juan Camilo Morales Sanchez',
-        //     team: 'MONTES F.C',
-        //     goals: 1,
-        //     badge: '',
-        //   },
-        // ];
       });
     });
 

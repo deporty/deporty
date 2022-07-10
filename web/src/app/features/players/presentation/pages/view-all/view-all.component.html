@@ -13,7 +13,7 @@
       Nuevo <mat-icon> add </mat-icon>
     </button>
   </section>
-  <section class="col-12">
+  <section *ngIf="players && players.length > 0" class="col-12">
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title> Filtros </mat-panel-title>
@@ -24,19 +24,19 @@
           <mat-form-field class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
             <mat-label>Nombre</mat-label>
             <mat-icon matSuffix>person</mat-icon>
-            <input matInput formControlName="name" />
+            <input matInput (input)="onChangeForm()" formControlName="name" />
           </mat-form-field>
 
           <mat-form-field class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
             <mat-label>Apellidos</mat-label>
             <mat-icon matSuffix>short_text</mat-icon>
-            <input matInput formControlName="name" />
+            <input matInput (input)="onChangeForm()" formControlName="lastName" />
           </mat-form-field>
 
           <mat-form-field class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
             <mat-label>Cédula</mat-label>
             <mat-icon matSuffix>fingerprint</mat-icon>
-            <input matInput formControlName="name" />
+            <input matInput (input)="onChangeForm()" formControlName="document" />
           </mat-form-field>
         </div>
       </form>
@@ -44,17 +44,10 @@
   </section>
 </header>
 
-<section class="row px-3" *ngIf="players && players.length > 0; else noPlayers">
-  <!-- <app-players-table
-    (onSelectedPlayer)="onSelectedPlayer($event)"
-    [players]="players"
-  >
-  </app-players-table>
-
- -->
+<section class="row px-3" *ngIf="filterPlayers && filterPlayers.length > 0; else noPlayers">
 
   <div
-    *ngFor="let player of players"
+    *ngFor="let player of filterPlayers"
     class="my-1 px-2 py-1 col-12 col-sm-6 col-md-3 col-lg-2"
   >
     <app-player-card
