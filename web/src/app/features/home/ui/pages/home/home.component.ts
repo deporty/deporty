@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
     {
       name: 'Torneos',
       description:
-        'Aquí podrá crear, editar y ver equipos, al igual que sus integrantes y demás información.',
+        'Aquí podrá ver y gestionar, los torneos de más impacto. Sumérgete en esta gran experiencia',
       img: 'assets/tournament-preview.jpg',
       route: 'tournaments',
     },
