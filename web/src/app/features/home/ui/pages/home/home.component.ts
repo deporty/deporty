@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import defaultNew from '../../../../news/infrastructure/default-new';
 import {
   getCurrentGeolocation,
   trackEvent,
@@ -14,12 +15,13 @@ import { PlayersRoutingModule } from 'src/app/features/players/players-routing.m
 export class HomeComponent implements OnInit {
   static route = 'index';
 
+  defaultNew = defaultNew;
   modules = [
     {
       name: 'Jugadores',
       description:
         'Encuentre toda la información de los jugadores que han participado o no en los torneos realizados.',
-      img: 'https://firebasestorage.googleapis.com/v0/b/sports-tournament-13ff7.appspot.com/o/general%2Fhome%2Fplayers-module.png?alt=media&token=3fe0d12e-dbf5-426f-8fda-8e242437b87f',
+      img: 'assets/player-preview.jpg',
       route: PlayersRoutingModule.route,
     },
 
@@ -27,7 +29,7 @@ export class HomeComponent implements OnInit {
       name: 'Equipos',
       description:
         'Aquí podrá crear, editar y ver equipos, al igual que sus integrantes y demás información.',
-      img: 'https://firebasestorage.googleapis.com/v0/b/sports-tournament-13ff7.appspot.com/o/general%2Fhome%2Fteams-module.png?alt=media&token=390c6032-aca7-49b8-bd6d-d310e8154cff',
+      img: 'assets/teams-preview.jpg',
       route: 'teams',
     },
 
@@ -35,8 +37,8 @@ export class HomeComponent implements OnInit {
       name: 'Torneos',
       description:
         'Aquí podrá crear, editar y ver equipos, al igual que sus integrantes y demás información.',
-      img: 'https://firebasestorage.googleapis.com/v0/b/sports-tournament-13ff7.appspot.com/o/general%2Fhome%2Fteams-module.png?alt=media&token=390c6032-aca7-49b8-bd6d-d310e8154cff',
-      route: 'players',
+      img: 'assets/tournament-preview.jpg',
+      route: 'tournaments',
     },
   ];
   constructor(private router: Router) {}

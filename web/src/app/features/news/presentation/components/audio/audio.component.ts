@@ -12,7 +12,7 @@ import {
   styleUrls: ['./audio.component.scss'],
 })
 export class AudioComponent implements OnInit, AfterViewInit {
-  data!: { audio: string | undefined; };
+  data!: any;
   audio!: HTMLAudioElement;
   valueMax: any;
   currentValue!: number;

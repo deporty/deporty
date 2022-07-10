@@ -1,7 +1,11 @@
 <div class="container-fluid p-0">
   <div class="row h-100">
-    <img class="col p-0" src="assets/index/index-1.jpg" alt="" srcset="" />
-    <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 " *ngFor="let module of modules" >
+    <app-new-preview [new]="defaultNew"> </app-new-preview>
+
+    <div
+      class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3"
+      *ngFor="let module of modules"
+    >
       <mat-card (click)="goModule(module.route)" class="example-card">
         <mat-card-header>
           <div mat-card-avatar class="example-header-image"></div>
@@ -14,6 +18,6 @@
           </p>
         </mat-card-content>
       </mat-card>
-    </div> -->
+    </div>
   </div>
 </div>
