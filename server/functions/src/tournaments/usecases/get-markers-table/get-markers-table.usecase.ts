@@ -52,6 +52,31 @@ export class GetMarkersTableUsecase extends Usecase<string, StadisticResume[]> {
                         }
                       }
                     }
+
+
+                    for (const playerId in match.stadistics.teamB) {
+                      if (
+                        Object.prototype.hasOwnProperty.call(
+                          match.stadistics.teamA,
+                          playerId
+                        )
+                      ) {
+                        const playerStadistic =
+                          match.stadistics.teamB[playerId];
+                        if (playerStadistic.goals) {
+                          if (!(playerId in scorers)) {
+                            scorers[playerId] = {
+                              goals: 0,
+                              team: match.teamB.name,
+                              teamBadge: match.teamB.shield,
+                            };
+                          }
+                          scorers[playerId]['goals'] =
+                            scorers[playerId]['goals'] +
+                            playerStadistic.goals.length;
+                        }
+                      }
+                    }
                   }
                 }
               }
