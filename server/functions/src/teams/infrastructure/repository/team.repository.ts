@@ -1,14 +1,14 @@
-import { from, Observable, of, zip } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
-import { ITeamModel, ICreateTeamModel } from '@deporty/entities/teams';
-import { TeamContract } from '../../team.contract';
-import { DataSource, DataSourceFilter } from '../../../core/datasource';
-import { TeamMapper } from '../team.mapper';
+import { ICreateTeamModel, ITeamModel } from '@deporty/entities/teams';
 import {
   DocumentData,
   DocumentReference,
   DocumentSnapshot,
 } from 'firebase-admin/firestore';
+import { from, Observable, of, zip } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
+import { DataSource, DataSourceFilter } from '../../../core/datasource';
+import { TeamContract } from '../../team.contract';
+import { TeamMapper } from '../team.mapper';
 // import { PlayerRepository } from '../../../players/infrastructure/repository/player.repository';
 
 export class TeamRepository extends TeamContract {
@@ -26,11 +26,14 @@ export class TeamRepository extends TeamContract {
       map((team) => {
         if (!!team) {
           const members = !!team.members
-            ? team.members.map((member: DocumentReference) => {
+            ? team.members.map((memberData: any) => {
+                const member: DocumentReference = memberData['player'];
                 return from(member.get()).pipe(
                   map((snapshot: DocumentSnapshot<DocumentData>) => {
+                    const date = new Date(parseInt(memberData['init-date']['_seconds']));
                     return {
                       ...snapshot.data(),
+                      initDate: date,
                       id: snapshot.id,
                     };
                   })
