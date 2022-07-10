@@ -28,7 +28,6 @@ const routes: Routes = [
     path: HomeRoutingModule.route,
     loadChildren: () =>
       import('./features/home/home.module').then((m) => m.HomeModule),
-    // canLoad: [IsLoggedInGuard],
   },
 
   {
