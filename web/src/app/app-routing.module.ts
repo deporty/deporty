@@ -14,7 +14,7 @@ import { TournamentsRoutingModule } from './features/tournaments/tournaments-rou
 const routes: Routes = [
   {
     path: '',
-    redirectTo: TournamentsRoutingModule.route,
+    redirectTo: HomeRoutingModule.route,
     pathMatch: 'full',
   },
 
