@@ -1,6 +1,7 @@
 :host{
     height: 100%;
     display: flex;
+    background-color: white;
     aside{
         overflow-y: auto;
         height: 100%;
@@ -12,5 +13,11 @@
             width: 80%;
           
         }
+    }
+    strong{
+        font-weight: bolder !important;
+    }
+    .w-50{
+        width: 30% !important;
     }
 }

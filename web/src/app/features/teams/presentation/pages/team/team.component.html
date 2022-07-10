@@ -1,25 +1,23 @@
 <!-- <div class="row d-flex h-100 justify-content-center mt-5"> -->
 <ng-container *ngIf="!!team">
-  <div class="pt-3 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+  <div class="pt-3 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
     <app-team-card [team]="team"> </app-team-card>
   </div>
 
   <ng-container>
     <div
-      class="h-100 d-flex flex-column px-3 pt-2 col-12 col-sm-8 col-md-8 col-lg-8 col-xl-8"
+      class="h-100 d-flex flex-column px-3 pt-2 col-12 col-sm-8 col-md-8 col-lg-8 col-xl-10"
     >
-      <div class="d-flex col-12 justify-content-between">
-        <h2>Jugadores</h2>
+      <div class="d-flex col-12 mx-3 mt-3 justify-content-between">
+        <h2 >Jugadores</h2>
       </div>
 
       <div
         appIsAllowed
         identifier="teams:add-player-to-team:ui"
-        class="d-flex col-12"
+        class="d-flex col-12 mb-3"
       >
-        <div
-          class="border py-3 px-2 col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12"
-        >
+        <div class="py-3 px-2 col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12">
           <mat-form-field
             class="w-100 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
             appearance="fill"
@@ -55,10 +53,10 @@
         </div>
 
         <div
-          class="border justify-content-center d-flex py-3 col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12"
+          class="justify-content-center d-flex py-3 col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12"
         >
-          <button (click)="addPlayers()" mat-button color="primary">
-            Agregar
+          <button (click)="addPlayers()" mat-fab color="primary">
+            <mat-icon> add </mat-icon>
           </button>
         </div>
       </div>

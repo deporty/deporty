@@ -1,7 +1,10 @@
-:host{
-    img{
-        max-height: 300px;
-        max-width: 300px;
-        cursor: pointer;
-    }
+:host {
+  mat-card {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  img {
+    width: 100%;
+    cursor: pointer;
+  }
 }
