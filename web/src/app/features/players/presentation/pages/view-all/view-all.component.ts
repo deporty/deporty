@@ -85,9 +85,8 @@ export class ViewAllComponent implements OnInit {
   }
   onChangeForm() {
     const value = this.formGroup.value;
-    console.log('Eli mi amor', value);
 
-    this.filterPlayers = this.players;
+    this.filterPlayers = [...this.players];
 
     if (!!value['name']) {
       this.filterPlayers = this.players.filter((item) => {
@@ -106,8 +105,10 @@ export class ViewAllComponent implements OnInit {
     if (!!value['document']) {
       this.filterPlayers = this.filterPlayers.filter((item) => {
         return item.document
-          .toUpperCase()
-          .includes(value['document'].toUpperCase());
+          ? item.document
+              .toUpperCase()
+              .includes(value['document'].toUpperCase())
+          : false;
       });
     }
   }
