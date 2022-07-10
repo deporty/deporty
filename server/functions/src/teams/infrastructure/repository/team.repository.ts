@@ -37,14 +37,16 @@ export class TeamRepository extends TeamContract {
                 );
               })
             : [];
-          return zip(...members).pipe(
-            map((z) => {
-              return {
-                ...team,
-                members: z,
-              };
-            })
-          );
+          return !!members.length
+            ? zip(...members).pipe(
+                map((z) => {
+                  return {
+                    ...team,
+                    members: z,
+                  };
+                })
+              )
+            : of(team);
         }
         return of(null);
       }),

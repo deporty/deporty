@@ -45,7 +45,6 @@ export class FirebaseDataSource extends DataSource<any> {
         for (const key of sub) {
           $toZip.push(from(ref.collection(key).get()));
         }
-        console.log($toZip, 'TO ZIP');
         return zip(...$toZip).pipe(
           map((_data: any[]) => {
             const res = {
