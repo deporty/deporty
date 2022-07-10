@@ -2,6 +2,17 @@
   img {
     width: 100%;
   }
+  mat-card {
+    figure {
+      width: 50px;
+      margin: 5px;
+    }
+    //   .row {
+    //     & > * {
+    //       padding: 0;
+    //     }
+    //   }
+  }
   height: 100%;
   margin-bottom: 50px;
 }

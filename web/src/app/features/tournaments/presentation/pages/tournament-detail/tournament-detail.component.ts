@@ -94,7 +94,6 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((params) => {
- 
       this.getTournamentInfoUsecase.call(params.id).subscribe((tournament) => {
         this.tournament = tournament;
 
@@ -108,11 +107,36 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
         this.getFixtureStages();
 
         this.tournamentService
-        .getMarkersTableByTornament(params.id)
-        .subscribe((table) => {
-          if (!!table) this.markersTable = table.data;
-        });
-        
+          .getMarkersTableByTornament(params.id)
+          .subscribe((table) => {
+            if (!!table) this.markersTable = table.data;
+          });
+        // this.markersTable = [
+        //   {
+        //     player: 'Karen Rapado',
+        //     team: 'MONTES F.C',
+        //     goals: 2,
+        //     badge: '',
+        //   },
+        //   {
+        //     player: 'David Contra No',
+        //     team: 'MONTES F.C',
+        //     goals: 3,
+        //     badge: '',
+        //   },
+        //   {
+        //     player: 'Andrés  Erazo Reyes',
+        //     team: 'MONTES F.C',
+        //     goals: 2,
+        //     badge: '',
+        //   },
+        //   {
+        //     player: 'Juan Camilo Morales Sanchez',
+        //     team: 'MONTES F.C',
+        //     goals: 1,
+        //     badge: '',
+        //   },
+        // ];
       });
     });
 

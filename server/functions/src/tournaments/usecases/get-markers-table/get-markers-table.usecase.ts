@@ -94,7 +94,12 @@ export class GetMarkersTableUsecase extends Usecase<string, StadisticResume[]> {
           mergeMap((x) => x)
         );
       }),
-      mergeMap((x) => x)
+      mergeMap((x) => x),
+      map((items) => {
+        return items.sort((prev, next) => {
+          return prev.goals > next.goals ? -1 : 1;
+        });
+      })
     );
   }
 }

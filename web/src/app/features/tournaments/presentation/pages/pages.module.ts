@@ -22,6 +22,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatCardModule } from '@angular/material/card';
 
 const COMPONENTS = [
   TournamentListComponent,
@@ -56,7 +57,8 @@ const COMPONENTS = [
     MatChipsModule,
     MatProgressSpinnerModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatCardModule
 
     
   ],

@@ -43,12 +43,60 @@
       </p>
     </div>
   </section>
-  <section class="my-5" *ngIf="markersTable">
+  <section class="my-5" *ngIf="markersTable && markersTable.length > 0">
     <div class="row">
       <h2>Tabla de posiciones</h2>
     </div>
-    <div class="row">
-      <table class="px-2 text-center">
+    <mat-card class="mx-2" *ngFor="let row of markersTable">
+      <div class="row">
+        <div class="col-9">
+          <div class="row d-flex align-items-center">
+            <div class="col-12 col-sm-6  d-flex align-items-center">
+              <figure>
+                <img
+                  [src]="'assets/default-player-profile.png'"
+                  alt=""
+                  srcset=""
+                  class="w-100 rounded-circle"
+                />
+              </figure>
+              <span>
+                {{ row.player }}
+              </span>
+            </div>
+            <div class="col-12 col-sm-6  d-flex align-items-center">
+              <!-- <div class="row"> -->
+              <figure>
+                <img
+                  [src]="row.badge || 'assets/badge-team.png'"
+                  alt=""
+                  srcset=""
+                  class="w-100"
+                />
+              </figure>
+              <span>
+                {{ row.team }}
+              </span>
+
+              <!-- </div> -->
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="col-2 text-center flex-column d-flex align-items-center justify-content-center"
+        >
+          <span>
+            <strong class="text-danger display-6">
+              {{ row.goals }}
+            </strong>
+          </span>
+          <span> Goles </span>
+        </div>
+      </div>
+    </mat-card>
+
+    <!-- <table class="px-2 text-center">
         <thead>
           <tr>
             <th>Jugador</th>
@@ -57,14 +105,13 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let row of markersTable">
+          <tr>
             <td>{{ row.player }}</td>
             <td>{{ row.team }}</td>
             <td>{{ row.goals }}</td>
           </tr>
         </tbody>
-      </table>
-    </div>
+      </table> -->
   </section>
 
   <section class="my-5" *ngIf="fixtureStages">
