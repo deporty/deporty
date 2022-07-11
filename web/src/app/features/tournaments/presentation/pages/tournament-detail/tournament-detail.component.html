@@ -2,7 +2,7 @@
   <mat-drawer-container class="h-100">
     <mat-drawer
       #drawer
-      class="col-11 col-sm-8 col-md-6 col-lg-4 col-xl-3"
+      class="col-11 col-sm-8 col-md-6 col-lg-4 col-xl-3 h-100"
       position="end"
       mode="over"
     >
@@ -42,12 +42,12 @@
         </div>
       </section>
     </mat-drawer>
-    <mat-drawer-content class="px-3">
+    <mat-drawer-content class="px-3 bg-white">
       <mat-toolbar
-        class="my-4 py-2 align-items-start d-flex row justify-content-between"
+        class="my-4 py-2 bg-white align-items-start d-flex row align-items-center justify-content-between"
       >
         <div class="col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2">
-          <span>{{ tournament.name }}</span>
+          <strong class=" display-3">{{ tournament.name }}</strong>
         </div>
         <div
           class="col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 d-flex justify-content-between"
