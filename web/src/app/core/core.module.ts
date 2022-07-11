@@ -13,16 +13,25 @@ import { LoggedInContainerComponent } from './presentation/components/logged-in-
 import { UploadFileComponent } from './presentation/components/upload-file/upload-file.component';
 import { UploadFileUsecase } from './usecases/upload-file/upload-file';
 import { DefaultLoadingComponent } from './presentation/components/default-loading/default-loading.component';
+import { CommingSoonComponent } from './presentation/components/comming-soon/comming-soon.component';
 
 @NgModule({
-  declarations: [UploadFileComponent, TimestampPipe, BreadcrumbComponent, LoggedInContainerComponent, DefaultLoadingComponent],
-  imports: [CommonModule, MatButtonModule,  DirectivesModule],
+  declarations: [
+    UploadFileComponent,
+    TimestampPipe,
+    BreadcrumbComponent,
+    LoggedInContainerComponent,
+    DefaultLoadingComponent,
+    CommingSoonComponent,
+  ],
+  imports: [CommonModule, MatButtonModule, DirectivesModule],
   exports: [
     UploadFileComponent,
     TimestampPipe,
     BreadcrumbComponent,
     DirectivesModule,
-    DefaultLoadingComponent
+    DefaultLoadingComponent,
+    CommingSoonComponent
   ],
   providers: [
     TokenService,

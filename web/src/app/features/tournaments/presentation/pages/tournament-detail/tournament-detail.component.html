@@ -1,161 +1,185 @@
 <ng-container *ngIf="tournament">
-  <header class="d-flex row my-4 align-items-start justify-content-start">
-    <h2 class="col-6 col-sm-8 col-md-9 col-lg-10 col-xl-10">
-      {{ tournament.name }}
-    </h2>
-    <div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl-2">
-      <span
-        class="rounded py-2 px-1"
-        [ngClass]="{
-          'bg-info': tournament.status === 'in progress',
-          'bg-danger': tournament.status === 'canceled'
-        }"
-      >
-        {{ statusMapper[tournament.status] }}
-      </span>
-    </div>
-  </header>
-  <section class="d-flex row">
-    <div *ngIf="img" class="col-12 col-sm-5 col-md-4 col-lg-3 col-xl-3">
-      <img src="{{ img }}" alt="" srcset="" />
-    </div>
-    <div class="col-12 col-sm-7 col-md-8 col-lg-9 col-xl-9 d-flex flex-column">
-      <div class="my-1">
-        <strong>Inscripción</strong> {{ tournament.inscription | currency }}
-      </div>
-      <div class="my-1">
-        <strong>Categoría</strong> {{ tournament.category }}
-      </div>
-      <div class="my-1">
-        <strong>Premiación</strong>
+  <mat-drawer-container class="h-100">
+    <mat-drawer
+      #drawer
+      class="col-11 col-sm-8 col-md-6 col-lg-4 col-xl-3"
+      position="end"
+      mode="over"
+    >
+      <section class="d-flex row justify-content-center">
+        <figure *ngIf="img" class="col-12">
+          <img src="{{ img }}" alt="" srcset="" />
+        </figure>
+      </section>
+      <section class="row">
         <div
-          class="mt-2"
-          *ngFor="let prize of tournament.reward; let i = index"
+          class="col-12 px-3 d-flex flex-column"
         >
-          <strong class="bg-primary text-white py-2 px-2"> {{ i + 1 }}</strong>
-          <span class="py-2 px-2 border">
-            {{ prize | currency }}
-          </span>
-        </div>
-      </div>
-      <p class="mt-4">
-        {{ tournament.description }}
-      </p>
-    </div>
-  </section>
-  <section class="my-5" *ngIf="markersTable && markersTable.length > 0">
-    <div class="row">
-      <h2>Tabla de posiciones</h2>
-    </div>
-    <mat-card class="mx-2" *ngFor="let row of markersTable">
-      <div class="row">
-        <div class="col-9">
-          <div class="row d-flex align-items-center">
-            <div class="col-12 col-sm-6  d-flex align-items-center">
-              <figure>
-                <img
-                  [src]="'assets/default-player-profile.png'"
-                  alt=""
-                  srcset=""
-                  class="w-100 rounded-circle"
-                />
-              </figure>
-              <span>
-                {{ row.player }}
+          <div class="my-1">
+            <strong>Inscripción</strong>
+            {{ tournament.inscription | currency }}
+          </div>
+          <div class="my-1">
+            <strong>Categoría</strong> {{ tournament.category }}
+          </div>
+          <div class="my-1">
+            <strong>Premiación</strong>
+            <div
+              class="mt-2"
+              *ngFor="let prize of tournament.reward; let i = index"
+            >
+              <strong class="bg-primary text-white py-2 px-2">
+                {{ i + 1 }}</strong
+              >
+              <span class="py-2 px-2 border">
+                {{ prize | currency }}
               </span>
-            </div>
-            <div class="col-12 col-sm-6  d-flex align-items-center">
-              <!-- <div class="row"> -->
-              <figure>
-                <img
-                  [src]="row.badge || 'assets/badge-team.png'"
-                  alt=""
-                  srcset=""
-                  class="w-100"
-                />
-              </figure>
-              <span>
-                {{ row.team }}
-              </span>
-
-              <!-- </div> -->
             </div>
           </div>
+          <p class="mt-4">
+            {{ tournament.description }}
+          </p>
         </div>
-
-        <div
-          class="col-2 text-center flex-column d-flex align-items-center justify-content-center"
-        >
-          <span>
-            <strong class="text-danger display-6">
-              {{ row.goals }}
-            </strong>
-          </span>
-          <span> Goles </span>
-        </div>
-      </div>
-    </mat-card>
-
-    <!-- <table class="px-2 text-center">
-        <thead>
-          <tr>
-            <th>Jugador</th>
-            <th>Equipo</th>
-            <th>Goles marcados</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{{ row.player }}</td>
-            <td>{{ row.team }}</td>
-            <td>{{ row.goals }}</td>
-          </tr>
-        </tbody>
-      </table> -->
-  </section>
-
-  <section class="my-5" *ngIf="fixtureStages">
-    <section *ngFor="let stage of fixtureStages">
-      <header>
-        <h2>Fase de Grupos ({{ stage.order }})</h2>
-        <button
-          mat-raised-button
-          appIsAllowed
-          identifier="tournaments:create-group:ui"
-          class="col-12 col-sm-3 col-md-3 col-lg-2 col-xl-2"
-          color="primary"
-          (click)="openCreateGroupDialog(stage.id || '')"
-        >
-          Agregar grupo
-        </button>
-      </header>
-      <div
-        class="border my-1"
-        *ngFor="let group of stage.groups; let i = index"
+      </section>
+    </mat-drawer>
+    <mat-drawer-content class="px-3">
+      <mat-toolbar
+        class="my-4 py-2 align-items-start d-flex row justify-content-between"
       >
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <strong> Grupo {{ group.label }} </strong>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-
-          <app-group-card
-            (on-add-team)="onAddTeam($event)"
-            (on-add-match)="onAddMatch($event)"
-            (on-edit-match)="onEditMatch($event)"
-            [add-match-flag]="isAllowedToAddMatch()"
-            [add-team-flag]="isAllowedToAddTeam()"
-            [edit-match-flag]="isAllowedToEditMatch()"
-            stage-id="{{ stage.id }}"
-            [group]="group"
+        <div class="col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2">
+          <span>{{ tournament.name }}</span>
+        </div>
+        <div
+          class="col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 d-flex justify-content-between"
+        >
+          <span
+            class="rounded text-white py-1 px-2"
+            [ngClass]="{
+              'bg-info': tournament.status === 'in progress',
+              'bg-danger': tournament.status === 'canceled'
+            }"
           >
-          </app-group-card>
-        </mat-expansion-panel>
-      </div>
-    </section>
-  </section>
-  <br />
-  <br />
-  <br />
+            {{ statusMapper[tournament.status] }}
+          </span>
+          <button mat-icon-button (click)="drawer.toggle()">
+            <mat-icon> arrow_forward_ios </mat-icon>
+          </button>
+        </div>
+      </mat-toolbar>
+
+      <section class="my-5" *ngIf="markersTable && markersTable.length > 0">
+        <div>
+          <h2>Estadísticas</h2>
+        </div>
+        <mat-tab-group mat-align-tabs="center" animationDuration="10ms">
+          <mat-tab label="Goleadores">
+            <mat-card class="mx-2" *ngFor="let row of markersTable">
+              <div class="row">
+                <div class="col-9">
+                  <div class="row d-flex align-items-center">
+                    <div class="col-12 col-sm-6 d-flex align-items-center">
+                      <figure>
+                        <img
+                          [src]="'assets/default-player-profile.png'"
+                          alt=""
+                          srcset=""
+                          class="w-100 rounded-circle"
+                        />
+                      </figure>
+                      <span>
+                        {{ row.player }}
+                      </span>
+                    </div>
+                    <div class="col-12 col-sm-6 d-flex align-items-center">
+                      <figure>
+                        <img
+                          [src]="row.badge || 'assets/badge-team.png'"
+                          alt=""
+                          srcset=""
+                          class="w-100"
+                        />
+                      </figure>
+                      <span>
+                        {{ row.team }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="col-2 text-center flex-column d-flex align-items-center justify-content-center"
+                >
+                  <span>
+                    <strong class="text-danger display-6">
+                      {{ row.goals }}
+                    </strong>
+                  </span>
+                  <span> Goles </span>
+                </div>
+              </div>
+            </mat-card>
+          </mat-tab>
+          <mat-tab label="Valla menos vencida">
+            <div class="d-flex justify-content-center">
+              <div class="col-8 col-sm-6 col-md-6 col-lg-4 col-xl-3 my-2">
+                <app-comming-soon> </app-comming-soon>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="Tarjetas Amarillas">
+            <div class="d-flex justify-content-center">
+              <div class="col-8 col-sm-6 col-md-6 col-lg-4 col-xl-3 my-2">
+                <app-comming-soon> </app-comming-soon>
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </section>
+
+      <section class="my-5" *ngIf="fixtureStages">
+        <section *ngFor="let stage of fixtureStages">
+          <header>
+            <h2>Fase de Grupos ({{ stage.order }})</h2>
+            <button
+              mat-raised-button
+              appIsAllowed
+              identifier="tournaments:create-group:ui"
+              class="col-12 col-sm-3 col-md-3 col-lg-2 col-xl-2"
+              color="primary"
+              (click)="openCreateGroupDialog(stage.id || '')"
+            >
+              Agregar grupo
+            </button>
+          </header>
+          <div
+            class="border my-1"
+            *ngFor="let group of stage.groups; let i = index"
+          >
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <strong> Grupo {{ group.label }} </strong>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <app-group-card
+                (on-add-team)="onAddTeam($event)"
+                (on-add-match)="onAddMatch($event)"
+                (on-edit-match)="onEditMatch($event)"
+                [add-match-flag]="isAllowedToAddMatch()"
+                [add-team-flag]="isAllowedToAddTeam()"
+                [edit-match-flag]="isAllowedToEditMatch()"
+                stage-id="{{ stage.id }}"
+                [group]="group"
+              >
+              </app-group-card>
+            </mat-expansion-panel>
+          </div>
+        </section>
+      </section>
+      <br />
+      <br />
+      <br />
+    </mat-drawer-content>
+  </mat-drawer-container>
 </ng-container>
