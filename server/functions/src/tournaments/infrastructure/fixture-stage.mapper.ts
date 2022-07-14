@@ -23,4 +23,18 @@ export class FixtureStageMapper {
       id: obj['id'],
     };
   }
+
+
+  toJson(fixtureStage: IFixtureStageModel) {
+    return {
+      order: fixtureStage.order,
+      groups: !!fixtureStage.groups ? fixtureStage.groups.map((x) =>{
+
+        return this.groupMapper.toJson(x)
+      } 
+      ) : [],
+      id: fixtureStage.id
+    };
+  }
+
 }

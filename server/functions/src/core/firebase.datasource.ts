@@ -1,7 +1,7 @@
 import {
   DocumentData,
   DocumentReference,
-  Firestore,
+  Firestore
 } from 'firebase-admin/firestore';
 import { from, Observable, of, zip } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
@@ -13,7 +13,6 @@ export class FirebaseDataSource extends DataSource<any> {
   }
 
   getById(id: string): Observable<any> {
-    console.log(id,'id',this.entity,'etnti')
     return from(this.db.collection(this.entity).doc(id).get()).pipe(
       map((item: FirebaseFirestore.DocumentSnapshot<DocumentData>) => {
         const response = {
@@ -106,14 +105,72 @@ export class FirebaseDataSource extends DataSource<any> {
     );
   }
 
-  update(id: string, entity: any): Observable<any> {
-    return from(this.db.collection(this.entity).doc(id).set(entity)).pipe(
-      map((snapshot: DocumentData) => {
-        return { ...snapshot.data(), id: snapshot.id };
+  update(id: string, entity: any, relations?: any): Observable<any> {
+    const entityTemp = { ...entity };
+
+    function deleteKeys(obj: any, keys: string[]) {
+
+      const currentKey = [...keys][0];
+      if (keys.length > 1) {
+        const newKeys = [...keys]
+        newKeys.splice(0, 1);
+        const newObj = obj[currentKey];
+        deleteKeys(newObj, newKeys);
+      }
+
+      delete entityTemp[currentKey];
+    }
+
+    console.log("Relations ", relations)
+    if (!!relations) {
+      for (const subCollectionName in relations) {
+        if (
+          Object.prototype.hasOwnProperty.call(relations, subCollectionName)
+        ) {
+          const subCollectionConfig = relations[subCollectionName];
+
+          deleteKeys(entityTemp, subCollectionConfig['path']);
+        }
+      }
+    }
+    const docReference = this.db.collection(this.entity).doc(id);
+    console.log()
+    console.log()
+    console.log("Obj ",entityTemp)
+    console.log()
+    console.log()
+
+    return from(docReference.set(entityTemp)).pipe(
+      map(() => {
+        console.log("LLego : ")
+        let generalResponse: any[] = [];
+        if (!!relations) {
+          for (const subCollectionName in relations) {
+            if (
+              Object.prototype.hasOwnProperty.call(relations, subCollectionName)
+            ) {
+              const subCollectionConfig = relations[subCollectionName];
+              const items = subCollectionConfig['items'];
+              const mapper = subCollectionConfig['mapper'];
+              const observables = [];
+
+              for (const item of items) {
+                const newItem = mapper(item);
+                delete newItem['id'];
+                observables.push(
+                  docReference
+                    .collection(subCollectionName)
+                    .doc(item.id)
+                    .set(newItem)
+                );
+              }
+              generalResponse = generalResponse.concat(observables);
+            }
+          }
+        }
+        return zip(...generalResponse);
       }),
-      catchError((err) => {
-        return of('');
-      })
+      mergeMap((x) => x)
     );
   }
 }

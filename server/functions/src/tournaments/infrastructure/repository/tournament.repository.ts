@@ -3,12 +3,14 @@ import {
   IFixtureStageModel,
   IGroupModel,
   IMatchModel,
-  ITournamentModel,
+  ITournamentModel
 } from '@deporty/entities/tournaments';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DataSource, DataSourceFilter } from '../../../core/datasource';
+import { TeamMapper } from '../../../teams/infrastructure/team.mapper';
 import { TournamentContract } from '../../tournament.contract';
+import { FixtureStageMapper } from '../fixture-stage.mapper';
 import { TournamentMapper } from '../tournament.mapper';
 
 export class TournamentRepository extends TournamentContract {
@@ -27,13 +29,15 @@ export class TournamentRepository extends TournamentContract {
 
   getByIdPopulate(id: string): Observable<ITournamentModel | undefined> {
     return this.dataSource
-      .getByIdPopulate(id, ['fixture-stages', 'teams'])
+      .getByIdPopulate(id, ['fixture-stages', 'registered-teams'])
       .pipe(
         map((tournament) => {
           if (tournament) {
             tournament['fixture'] = {
               'fixture-stages': tournament['fixture-stages'],
             };
+
+
             return this.tournamentMapper.fromJson(tournament);
           }
           return undefined;
@@ -53,11 +57,31 @@ export class TournamentRepository extends TournamentContract {
   constructor(
     private dataSource: DataSource<any>,
 
-    private tournamentMapper: TournamentMapper
+    private tournamentMapper: TournamentMapper,
+    private fixtureStageMapper: FixtureStageMapper,
+    private teamMapper: TeamMapper
   ) {
     super();
 
     this.dataSource.entity = TournamentRepository.entity;
+  }
+
+  update(id: string, tournament: ITournamentModel): Observable<void> {
+    this.dataSource.entity = TournamentRepository.entity;
+    const relations = {
+      'fixture-stages': {
+        path: ['fixture', 'stages'],
+        items: tournament.fixture?.stages,
+        mapper: (x: any) => this.fixtureStageMapper.toJson(x),
+      },
+      'registered-teams': {
+        path: ['registeredTeams'],
+        items: tournament.registeredTeams,
+        mapper:  (x: any) => this.teamMapper.toWeakJson(x),
+      },
+    };
+
+    return this.dataSource.update(id, tournament, relations);
   }
 
   getAllSummaryTournaments(): Observable<ITournamentModel[]> {

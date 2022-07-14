@@ -9,16 +9,19 @@ import { Observable } from 'rxjs';
 import { DataSourceFilter } from '../core/datasource';
 
 export abstract class TournamentContract {
-
   abstract get(): Observable<ITournamentModel[]>;
   abstract getById(id: string): Observable<ITournamentModel | undefined>;
-  abstract getByIdPopulate(id: string): Observable<ITournamentModel | undefined>;
-  abstract getByFilter(filters: DataSourceFilter[]): Observable<ITournamentModel[]>;
+  abstract getByIdPopulate(
+    id: string
+  ): Observable<ITournamentModel | undefined>;
+  abstract getByFilter(
+    filters: DataSourceFilter[]
+  ): Observable<ITournamentModel[]>;
   abstract save(team: any): Observable<string>;
   abstract delete(id: string): Observable<void>;
 
+  abstract update(id: string, tournament: ITournamentModel): Observable<void>;
 
-  
   abstract getAllSummaryTournaments(): Observable<ITournamentModel[]>;
   abstract getTournamentSummaryById(id: string): Observable<ITournamentModel>;
   abstract getTournamentFixtureStagesById(

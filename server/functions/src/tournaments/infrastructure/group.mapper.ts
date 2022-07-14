@@ -21,9 +21,12 @@ export class GroupMapper {
   }
 
   toJson(group: IGroupModel) {
+    console.log("Quedarnos: ", group)
     return {
       label: group.label,
-      matches: group.matches || [],
+      matches: !!group.matches
+        ? group.matches.map((x) => this.matchMapper.toWeakJson(x))
+        : [],
       teams: group.teams.map((x) => this.teamMapper.toWeakJson(x)) || [],
     };
   }

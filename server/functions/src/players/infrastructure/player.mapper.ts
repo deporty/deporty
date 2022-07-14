@@ -45,4 +45,18 @@ export class PlayerMapper extends Mapper<IPlayerModel> {
       image: player.image || "",
     };
   }
+
+  toFullJson(player: IPlayerModel) {
+    return {
+      name: player.name,
+      "last-name": player.lastName || "",
+      document: player.document,
+      alias: player.alias || "",
+      number: player.number || "",
+      role: player.role || "",
+      email: player.email || "",
+      phone: player.phone || "",
+      image: player.image || "",
+    };
+  }
 }

@@ -7,3 +7,4 @@ export * from './points-stadistics.model';
 export * from './score.mode';
 export * from './stadistics.model';
 export * from './tournament.model';
+export * from './registered-teams.model';

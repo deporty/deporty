@@ -1,7 +1,7 @@
 import * as cors from 'cors';
 import * as express from 'express';
-import { Firestore, getFirestore } from 'firebase-admin/firestore';
-import { Storage, getStorage } from 'firebase-admin/storage';
+import { Firestore } from 'firebase-admin/firestore';
+import { getStorage, Storage } from 'firebase-admin/storage';
 import { DataSource } from '../core/datasource';
 import { FileAdapter } from '../core/file/file.adapter';
 import { FileRepository } from '../core/file/file.repository';
@@ -10,11 +10,9 @@ import { PlayerController } from './infrastructure/player.controller';
 import { DEPENDENCIES_CONTAINER } from './modules.config';
 import { PlayersModulesConfig } from './players-modules.config';
 
-export function main(firebaseApp: any) {
+export function main(firebaseApp: any, db: Firestore) {
   const app = express();
   app.use(cors());
-
-  const db: Firestore = getFirestore(firebaseApp);
 
   const storage: Storage = getStorage(firebaseApp);
 
@@ -37,8 +35,6 @@ export function main(firebaseApp: any) {
       override: FirebaseDataSource,
     });
 
-
-    
     DEPENDENCIES_CONTAINER.add({
       id: 'FileAdapter',
       kind: FileAdapter,
@@ -52,5 +48,5 @@ export function main(firebaseApp: any) {
 
   configDependencies();
   PlayerController.registerEntryPoints(app);
-  return app
+  return app;
 }

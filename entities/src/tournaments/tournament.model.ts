@@ -1,5 +1,5 @@
-import { ITeamModel } from '../teams/index';
 import { IFixtureModel } from './fixture.model';
+import { IRegisteredTeamsModel } from './registered-teams.model';
 
 export interface ITournamentModel {
   id: string;
@@ -12,6 +12,6 @@ export interface ITournamentModel {
   flayer: string;
   inscription: number;
   startsDate: Date;
-  teams: ITeamModel[];
+  registeredTeams: IRegisteredTeamsModel[];
   fixture?: IFixtureModel;
 }
