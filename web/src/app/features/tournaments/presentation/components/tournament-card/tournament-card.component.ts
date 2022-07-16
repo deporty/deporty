@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ITournamentModel } from '@deporty/entities/tournaments';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from 'src/app/init-app';
-import { ITournamentModel } from '../../../models/tournament.model';
+
 
 @Component({
   selector: 'app-tournament-card',

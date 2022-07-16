@@ -1,7 +1,7 @@
 import {
   DocumentData,
   DocumentReference,
-  Firestore
+  Firestore,
 } from 'firebase-admin/firestore';
 import { from, Observable, of, zip } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
@@ -105,14 +105,13 @@ export class FirebaseDataSource extends DataSource<any> {
     );
   }
 
-  update(id: string, entity: any, relations?: any): Observable<any> {
+  update(id: string, entity: any, relations?: any): Observable<void> {
     const entityTemp = { ...entity };
 
     function deleteKeys(obj: any, keys: string[]) {
-
       const currentKey = [...keys][0];
       if (keys.length > 1) {
-        const newKeys = [...keys]
+        const newKeys = [...keys];
         newKeys.splice(0, 1);
         const newObj = obj[currentKey];
         deleteKeys(newObj, newKeys);
@@ -121,7 +120,6 @@ export class FirebaseDataSource extends DataSource<any> {
       delete entityTemp[currentKey];
     }
 
-    console.log("Relations ", relations)
     if (!!relations) {
       for (const subCollectionName in relations) {
         if (
@@ -134,15 +132,9 @@ export class FirebaseDataSource extends DataSource<any> {
       }
     }
     const docReference = this.db.collection(this.entity).doc(id);
-    console.log()
-    console.log()
-    console.log("Obj ",entityTemp)
-    console.log()
-    console.log()
 
     return from(docReference.set(entityTemp)).pipe(
       map(() => {
-        console.log("LLego : ")
         let generalResponse: any[] = [];
         if (!!relations) {
           for (const subCollectionName in relations) {
@@ -170,7 +162,8 @@ export class FirebaseDataSource extends DataSource<any> {
         }
         return zip(...generalResponse);
       }),
-      mergeMap((x) => x)
+      mergeMap((x) => x),
+      map((x) => {})
     );
   }
 }

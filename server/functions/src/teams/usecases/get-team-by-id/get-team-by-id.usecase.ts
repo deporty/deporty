@@ -7,13 +7,12 @@ import { TeamDoesNotExist } from './get-team-by-id.exceptions';
 
 export class GetTeamByIdUsecase extends Usecase<
   string,
-  ITeamModel | undefined
+  ITeamModel 
 > {
   constructor(private teamContract: TeamContract) {
     super();
   }
-  call(id: string): Observable<ITeamModel | undefined> {
-    console.log(this.teamContract);
+  call(id: string): Observable<ITeamModel > {
     return this.teamContract.getByIdPopulate(id).pipe(
       map((team: ITeamModel | undefined) => {
         if (!!team) {

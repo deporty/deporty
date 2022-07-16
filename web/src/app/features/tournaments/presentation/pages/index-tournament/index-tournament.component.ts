@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { ITournamentModel } from '@deporty/entities/tournaments';
+import { Observable } from 'rxjs';
 import {
   getCurrentGeolocation,
-  trackEvent,
+  trackEvent
 } from 'src/app/core/helpers/log-events.helper';
-import { ITournamentModel } from '../../../models/tournament.model';
 import { GetAllSummaryTournamentsUsecase } from '../../../usecases/get-all-summary-tournaments/get-all-summary-tournaments';
 import { GetCurrentTournamentUsecase } from '../../../usecases/get-current-tournament/get-current-tournament';
 import { TournamentDetailComponent } from '../tournament-detail/tournament-detail.component';
 import { TournamentListComponent } from '../tournament-list/tournament-list.component';
+
 
 @Component({
   selector: 'app-index-tournament',

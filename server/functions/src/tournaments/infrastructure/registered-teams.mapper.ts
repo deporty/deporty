@@ -8,10 +8,13 @@ export class RegisteredTeamMapper {
     private playerMapper: PlayerMapper
   ) {}
   fromJson(obj: any): IRegisteredTeamsModel {
+    console.log("PaREDDDDDDDDD ", obj)
     return {
       enrollmentDate: new Date(obj['enrollment-date'].seconds * 1000),
       members: !!obj['members']
-        ? (obj['members'] as []).map((x) => this.playerMapper.fromJson(x))
+        ? (obj['members'] as []).map((x) => {
+            return this.playerMapper.fromJson(x);
+          })
         : [],
       team: this.teamMapper.fromJson(obj['team']),
     };
@@ -19,13 +22,9 @@ export class RegisteredTeamMapper {
 
   toJson(registeredTeam: IRegisteredTeamsModel) {
     return {
-      'enrollment-date': (registeredTeam.enrollmentDate as Date).toTimeString(),
-      members: !!registeredTeam.members
-        ? (registeredTeam.members as []).map((x) =>
-            this.playerMapper.toFullJson(x)
-          )
-        : [],
-      team: this.teamMapper.toWeakJson(registeredTeam.team),
+      'enrollment-date': (registeredTeam.enrollmentDate as Date),
+      members: registeredTeam.members,
+      team: registeredTeam.team,
     };
   }
 }

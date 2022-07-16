@@ -25,6 +25,7 @@ import { EditMatchComponent } from './edit-match/edit-match.component';
 import { CurrentTournamentComponent } from './index-tournament/index-tournament.component';
 import { TournamentDetailComponent } from './tournament-detail/tournament-detail.component';
 import { TournamentListComponent } from './tournament-list/tournament-list.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 const COMPONENTS = [
   TournamentListComponent,
@@ -62,7 +63,8 @@ const COMPONENTS = [
     MatProgressSpinnerModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatCardModule
+    MatCardModule,
+    MatTooltipModule
 
     
   ],

@@ -3,17 +3,37 @@ import {
   IFixtureStageModel,
   IGroupModel,
   IMatchModel,
-  ITournamentModel
+  ITournamentModel,
 } from '@deporty/entities/tournaments';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {
+  DocumentData,
+  DocumentReference,
+  DocumentSnapshot,
+  Firestore,
+} from 'firebase-admin/firestore';
+import { from, Observable, of, zip } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
 import { DataSource, DataSourceFilter } from '../../../core/datasource';
-import { TeamMapper } from '../../../teams/infrastructure/team.mapper';
+import { PlayerRepository } from '../../../players/infrastructure/repository/player.repository';
+import { TeamRepository } from '../../../teams/infrastructure/repository/team.repository';
 import { TournamentContract } from '../../tournament.contract';
 import { FixtureStageMapper } from '../fixture-stage.mapper';
 import { TournamentMapper } from '../tournament.mapper';
 
 export class TournamentRepository extends TournamentContract {
+  static entity = 'tournaments';
+  constructor(
+    private dataSource: DataSource<any>,
+
+    private tournamentMapper: TournamentMapper,
+    private fixtureStageMapper: FixtureStageMapper,
+    private db: Firestore
+  ) {
+    super();
+
+    this.dataSource.entity = TournamentRepository.entity;
+  }
+
   get(): Observable<ITournamentModel[]> {
     throw new Error('Method not implemented.');
   }
@@ -28,21 +48,80 @@ export class TournamentRepository extends TournamentContract {
   }
 
   getByIdPopulate(id: string): Observable<ITournamentModel | undefined> {
-    return this.dataSource
-      .getByIdPopulate(id, ['fixture-stages', 'registered-teams'])
-      .pipe(
-        map((tournament) => {
-          if (tournament) {
-            tournament['fixture'] = {
-              'fixture-stages': tournament['fixture-stages'],
-            };
+    this.dataSource.entity = TournamentRepository.entity;
 
+    return this.dataSource.getByIdPopulate(id, ['fixture-stages']).pipe(
+      map((tournament) => {
+        if (tournament) {
+          tournament['fixture'] = {
+            'fixture-stages': tournament['fixture-stages'],
+          };
 
-            return this.tournamentMapper.fromJson(tournament);
+          const $registeredTeams = !!tournament['registered-teams']
+            ? (tournament['registered-teams'] as []).map((register) => {
+                const $members = zip(
+                  ...(register['members'] as []).map((x: DocumentReference) => {
+                    return from(x.get()).pipe(
+                      map((snapshot: DocumentSnapshot<DocumentData>) => {
+                        return {
+                          ...snapshot.data(),
+                          id: snapshot.id,
+                        };
+                      })
+                    );
+                  })
+                );
+
+                const $team = from(
+                  (register['team'] as DocumentReference).get()
+                ).pipe(
+                  map((snapshot: DocumentSnapshot<DocumentData>) => {
+                    return {
+                      ...snapshot.data(),
+                      id: snapshot.id,
+                    };
+                  })
+                );
+
+                const $register = of(register);
+
+                return zip($register, $members, $team).pipe(
+                  map((x: any[]) => {
+                    return {
+                      'enrollment-date': x[0]['enrollment-date'],
+                      team: x[2],
+                      members: x[1],
+                    };
+                  })
+                );
+              })
+            : [];
+
+          if ($registeredTeams.length > 0) {
+            return zip(of(tournament), zip(...$registeredTeams));
           }
-          return undefined;
-        })
-      );
+          return of(tournament);
+        }
+        return of(undefined);
+      }),
+
+      mergeMap((x) => x),
+      map((x: any) => {
+        let t;
+        if (Array.isArray(x)) {
+          t = {
+            ...x[0],
+            'registered-teams': x[1],
+          };
+        } else {
+          t = {
+            ...x,
+            'registered-teams': [],
+          };
+        }
+        return this.tournamentMapper.fromJson(t);
+      })
+    );
   }
   getByFilter(filters: DataSourceFilter[]): Observable<ITournamentModel[]> {
     throw new Error('Method not implemented.');
@@ -53,18 +132,6 @@ export class TournamentRepository extends TournamentContract {
   delete(id: string): Observable<void> {
     throw new Error('Method not implemented.');
   }
-  static entity = 'tournaments';
-  constructor(
-    private dataSource: DataSource<any>,
-
-    private tournamentMapper: TournamentMapper,
-    private fixtureStageMapper: FixtureStageMapper,
-    private teamMapper: TeamMapper
-  ) {
-    super();
-
-    this.dataSource.entity = TournamentRepository.entity;
-  }
 
   update(id: string, tournament: ITournamentModel): Observable<void> {
     this.dataSource.entity = TournamentRepository.entity;
@@ -74,14 +141,21 @@ export class TournamentRepository extends TournamentContract {
         items: tournament.fixture?.stages,
         mapper: (x: any) => this.fixtureStageMapper.toJson(x),
       },
-      'registered-teams': {
-        path: ['registeredTeams'],
-        items: tournament.registeredTeams,
-        mapper:  (x: any) => this.teamMapper.toWeakJson(x),
-      },
     };
 
-    return this.dataSource.update(id, tournament, relations);
+    (tournament.registeredTeams as any) = tournament.registeredTeams.map(
+      (x) => {
+        return {
+          ...x,
+          team: this.db.collection(TeamRepository.entity).doc(x.team.id),
+          members: x.members.map((y) => {
+            return this.db.collection(PlayerRepository.entity).doc(y.id);
+          }),
+        };
+      }
+    );
+    const mappedTournament = this.tournamentMapper.toJson(tournament);
+    return this.dataSource.update(id, mappedTournament, relations);
   }
 
   getAllSummaryTournaments(): Observable<ITournamentModel[]> {

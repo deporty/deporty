@@ -1,25 +1,15 @@
-import { ObserversModule } from '@angular/cdk/observers';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IBaseResponse } from '@deporty/entities/general';
+import { ITournamentModel } from '@deporty/entities/tournaments';
 import {
   collection,
-  CollectionReference,
-  DocumentData,
-  DocumentReference,
-  DocumentSnapshot,
-  getDoc,
-  getDocs,
-  doc,
-  where,
-  query,
-  Query,
-  limit,
-  QuerySnapshot,
+  CollectionReference, doc, DocumentData,
+  DocumentReference, getDoc,
+  getDocs, limit, query, QuerySnapshot,
   setDoc,
-  updateDoc,
+  updateDoc, where
 } from 'firebase/firestore/lite';
-
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ITeamModel } from 'src/app/features/teams/models/team.model';
@@ -29,11 +19,12 @@ import { TournamentAdapter } from '../../adapters/tournament.adapter';
 import { IFixtureStageModel } from '../../models/fixture-stage.model';
 import { IGroupModel } from '../../models/group.model';
 import { IMatchModel } from '../../models/match.model';
-import { ITournamentModel } from '../../models/tournament.model';
 import { FixtureStageMapper } from './fixture-stage.mapper';
 import { GroupMapper } from './group.mapper';
 import { MatchMapper } from './match.mapper';
 import { TournamentMapper } from './tournament.mapper';
+
+
 
 @Injectable()
 export class TournamentService extends TournamentAdapter {
@@ -67,20 +58,15 @@ export class TournamentService extends TournamentAdapter {
     );
   }
 
-  getTournamentSummaryById(id: string): Observable<ITournamentModel> {
-    const docReference: DocumentReference<DocumentData> = doc(
-      this.collectionRef,
-      id
-    );
+  getTournamentSummaryById(id: string): Observable<IBaseResponse<ITournamentModel>> {
 
-    const tournamentDoc: Promise<DocumentSnapshot<DocumentData>> =
-      getDoc(docReference);
-    return from(tournamentDoc).pipe(
-      map((doc: DocumentSnapshot) => {
-        return { ...doc.data(), id: doc.id };
-      }),
-      map(this.tournamentMapper.fromJson)
-    );
+    
+    const path = `${environment.serverEndpoint}/${TournamentService.collection}/${id}`;
+    console.log(path)
+    return this.httpClient.get<IBaseResponse<ITournamentModel>>(path);
+
+
+
   }
 
   getCurrentTournamentSummaryByLocation(

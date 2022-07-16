@@ -12,6 +12,7 @@ import { ScoreMapper } from './infrastructure/score.mapper';
 import { StadisticsMapper } from './infrastructure/stadistics.mapper';
 import { TournamentMapper } from './infrastructure/tournament.mapper';
 import { TournamentContract } from './tournament.contract';
+import { AddTeamToTournamentUsecase } from './usecases/add-team-to-tournament/add-team-to-tournament.usecase';
 import { CreateFixtureByGroupUsecase } from './usecases/create-fixture-by-group/create-fixture-by-group.usecase';
 import { GetMarkersTableUsecase } from './usecases/get-markers-table/get-markers-table.usecase';
 import { GetTournamentByIdUsecase } from './usecases/get-tournament-by-id/get-tournament-by-id.usecase';
@@ -76,7 +77,7 @@ export class TournamentsModulesConfig {
       strategy: 'singleton',
     });
     container.add({
-      id: 'RegisteredMapper',
+      id: 'RegisteredTeamMapper',
       kind: RegisteredTeamMapper,
       dependencies: ['TeamMapper', 'PlayerMapper'],
       strategy: 'singleton',
@@ -85,7 +86,7 @@ export class TournamentsModulesConfig {
     container.add({
       id: 'TournamentMapper',
       kind: TournamentMapper,
-      dependencies: ['TeamMapper', 'FixtureMapper'],
+      dependencies: ['RegisteredTeamMapper', 'FixtureMapper'],
       strategy: 'singleton',
     });
 
@@ -93,7 +94,7 @@ export class TournamentsModulesConfig {
       id: 'TournamentContract',
       kind: TournamentContract,
       override: TournamentRepository,
-      dependencies: ['DataSource', 'TournamentMapper', 'FixtureStageMapper','TeamMapper'],
+      dependencies: ['DataSource', 'TournamentMapper', 'FixtureStageMapper', 'FirebaseDatabase'],
       strategy: 'singleton',
     });
 
@@ -120,6 +121,12 @@ export class TournamentsModulesConfig {
       id: 'CreateFixtureByGroupUsecase',
       kind: CreateFixtureByGroupUsecase,
       dependencies: ['GetTournamentByIdUsecase', 'UpdateTournamentUsecase'],
+      strategy: 'singleton',
+    });
+    container.add({
+      id: 'AddTeamToTournamentUsecase',
+      kind: AddTeamToTournamentUsecase,
+      dependencies: ['GetTournamentByIdUsecase', 'GetTeamByIdUsecase', 'UpdateTournamentUsecase'],
       strategy: 'singleton',
     });
   }

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ITournamentModel } from '@deporty/entities/tournaments';
 import { Observable } from 'rxjs';
-import { ITournamentModel } from '../../../models/tournament.model';
 import { GetAllSummaryTournamentsUsecase } from '../../../usecases/get-all-summary-tournaments/get-all-summary-tournaments';
-import { GetTournamentInfoUsecase } from '../../../usecases/get-tournament-info/get-tournament-info';
 import { TournamentDetailComponent } from '../tournament-detail/tournament-detail.component';
+
 
 @Component({
   selector: 'app-tournament-list',

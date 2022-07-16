@@ -2,6 +2,7 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IBaseResponse } from '@deporty/entities/general';
+import { ITournamentModel } from '@deporty/entities/tournaments';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { Observable, Subscription } from 'rxjs';
 import { hasPermission } from 'src/app/core/helpers/permission.helper';
@@ -11,14 +12,12 @@ import { RESOURCES_PERMISSIONS_IT, storage } from 'src/app/init-app';
 import { TournamentAdapter } from '../../../adapters/tournament.adapter';
 import { IFixtureStageModel } from '../../../models/fixture-stage.model';
 import { IMatchModel } from '../../../models/match.model';
-import { ITournamentModel } from '../../../models/tournament.model';
 import { TournamentsRoutingModule } from '../../../tournaments-routing.module';
 import { AddMatchToGroupUsecase } from '../../../usecases/add-match-to-group/add-match-to-group';
 import { AddTeamToGroupUsecase } from '../../../usecases/add-team-to-group/add-team-to-group.usecase';
 import { CreateGroupUsecase } from '../../../usecases/create-group/create-group.usecase';
 import { EditMatchOfGroupUsecase } from '../../../usecases/edit-match-of-group/edit-match-of-group';
 import { GetFixtureStagesUsecase } from '../../../usecases/get-fixture-stages/get-fixture-stages.usecase';
-import { GetTournamentInfoUsecase } from '../../../usecases/get-tournament-info/get-tournament-info';
 import { AddTeamCardComponent } from '../../components/add-team-card/add-team-card.component';
 import { GROUP_LETTERS } from '../../components/components.constants';
 import { CreateGroupComponent } from '../../components/create-group/create-group.component';
@@ -52,7 +51,6 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
   img!: string;
 
   constructor(
-    private getTournamentInfoUsecase: GetTournamentInfoUsecase,
     private getFixtureStagesUsecase: GetFixtureStagesUsecase,
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -94,43 +92,26 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((params) => {
-      this.getTournamentInfoUsecase.call(params.id).subscribe((tournament) => {
-        this.tournament = tournament;
+      this.tournamentService
+        .getTournamentSummaryById(params.id)
+        .subscribe((tournament) => {
+          this.tournament = tournament.data;
+          this.tournament.registeredTeams;
+          if (this.tournament.flayer) {
+            const flayerRef = ref(storage, this.tournament.flayer);
 
-        if (this.tournament.flayer) {
-          const flayerRef = ref(storage, this.tournament.flayer);
+            getDownloadURL(flayerRef).then((data) => {
+              this.img = data;
+            });
+          }
+          this.getFixtureStages();
 
-          getDownloadURL(flayerRef).then((data) => {
-            this.img = data;
-          });
-        }
-        this.getFixtureStages();
-        // this.markersTable = [
-        //   {
-        //     player: 'Karen Rapado',
-        //     team: 'MONTES F.C',
-        //     goals: 2,
-        //     badge: '',
-        //   },
-        //   {
-        //     player: 'Andrés  Erazo Reyes',
-        //     team: 'MONTES F.C',
-        //     goals: 2,
-        //     badge: '',
-        //   },
-        //   {
-        //     player: 'Juan Camilo Morales Sanchez',
-        //     team: 'MONTES F.C',
-        //     goals: 1,
-        //     badge: '',
-        //   },
-        // ];
-        this.tournamentService
-          .getMarkersTableByTornament(params.id)
-          .subscribe((table) => {
-            if (!!table) this.markersTable = table.data;
-          });
-      });
+          this.tournamentService
+            .getMarkersTableByTornament(params.id)
+            .subscribe((table) => {
+              if (!!table) this.markersTable = table.data;
+            });
+        });
     });
 
     this.$teams = this.teamAdapter.getTeams();

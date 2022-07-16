@@ -22,6 +22,8 @@ export class TeamRepository extends TeamContract {
   }
 
   getByIdPopulate(id: string): Observable<ITeamModel | undefined> {
+    this.dataSource.entity = TeamRepository.entity;
+
     return this.dataSource.getByIdPopulate(id, []).pipe(
       map((team) => {
         if (!!team) {

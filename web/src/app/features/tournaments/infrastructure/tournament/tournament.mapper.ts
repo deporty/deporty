@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TeamMapper } from 'src/app/features/teams/infrastructure/team/team.mapper';
-import { ITournamentModel } from '../../models/tournament.model';
+import { ITournamentModel } from '@deporty/entities/tournaments';
 import { FixtureMapper } from './fixture.mapper';
 @Injectable()
 export class TournamentMapper {
@@ -20,12 +20,8 @@ export class TournamentMapper {
       inscription: obj['inscription'],
       regulation: obj['regulation'],
       startsDate: obj['starts-date'],
-      // fixture: obj['fixture']
-      //   ? this.fixtureMapper.fromJson(obj['fixture'])
-      //   : undefined,
-      teams: obj['teams']
-        ? (obj['teams'] as any[]).map((x) => this.teamMapper.fromJson(x))
-        : [],
+
+      registeredTeams: obj['registered-teams'],
     };
   }
 }

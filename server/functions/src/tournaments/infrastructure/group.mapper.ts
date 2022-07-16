@@ -21,7 +21,6 @@ export class GroupMapper {
   }
 
   toJson(group: IGroupModel) {
-    console.log("Quedarnos: ", group)
     return {
       label: group.label,
       matches: !!group.matches

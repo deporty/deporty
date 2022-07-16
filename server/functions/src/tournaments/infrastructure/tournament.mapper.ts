@@ -21,9 +21,28 @@ export class TournamentMapper {
         ? this.fixtureMapper.fromJson(obj['fixture'])
         : undefined,
       registeredTeams: !!obj['registered-teams']
-        ? (obj['registered-teams'] as any[]).map((x) =>
-            this.registeredTeamMapper.fromJson(x)
-          )
+        ? (obj['registered-teams'] as any[]).map((x) => {
+            return this.registeredTeamMapper.fromJson(x);
+          })
+        : [],
+    };
+  }
+
+  toJson(obj: ITournamentModel): any {
+    return {
+      id: obj.id,
+      name: obj.name,
+      flayer: obj.flayer,
+      category: obj.category,
+      reward: obj.reward,
+      status: obj.status,
+      description: obj.description,
+      inscription: obj.inscription || 0,
+
+      'registered-teams': obj.registeredTeams
+        ? (obj.registeredTeams as any[]).map((x) => {
+            return this.registeredTeamMapper.toJson(x);
+          })
         : [],
     };
   }
