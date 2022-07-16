@@ -149,7 +149,9 @@
           <section class="my-5" *ngIf="fixtureStages">
             <section *ngFor="let stage of fixtureStages">
               <header>
-                <h2>Fase de Grupos ({{ stage.order }})</h2>
+                <h2>Fase de Grupos ({{ getNameByStage(stage.order) }})</h2>
+                <mat-divider></mat-divider>
+
                 <button
                   mat-icon-button
                   appIsAllowed
@@ -161,7 +163,9 @@
                 >
                   <mat-icon>group_work</mat-icon>
                 </button>
+                <mat-divider></mat-divider>
               </header>
+
               <div
                 class="border my-1"
                 *ngFor="let group of stage.groups; let i = index"
@@ -190,9 +194,9 @@
           </section>
         </mat-tab>
         <mat-tab label="Equipos Registrados">
-          <div class="w-100 h-100 d-flex">
+          <div class="w-100 h-100 d-flex justify-content-center row pt-3">
             <app-team-card
-              class="col-xs-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 col-xxl-1"
+              class="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 col-xxl-2"
               *ngFor="let item of tournament.registeredTeams"
               [team]="item.team"
             ></app-team-card>

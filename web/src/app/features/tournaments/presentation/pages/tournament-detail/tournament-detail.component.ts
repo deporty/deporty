@@ -120,6 +120,11 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
     });
   }
 
+  getNameByStage(index: number) {
+    const orders = ['Inicial', 'Complementaria'];
+    return orders[index];
+  }
+
   private getFixtureStages() {
     this.$fixtureStages = this.getFixtureStagesUsecase.call(this.tournament.id);
     this.$fixtureStages.subscribe((data: IFixtureStageModel[]) => {
