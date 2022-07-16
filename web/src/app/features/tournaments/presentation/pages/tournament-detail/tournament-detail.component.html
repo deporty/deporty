@@ -13,6 +13,15 @@
       </section>
       <section class="row">
         <div class="col-12 px-3 d-flex flex-column">
+          <span
+            class="rounded text-white py-1 px-2"
+            [ngClass]="{
+              'bg-info': tournament.status === 'in progress',
+              'bg-danger': tournament.status === 'canceled'
+            }"
+          >
+            {{ statusMapper[tournament.status] }}
+          </span>
           <div class="my-1">
             <strong>Inscripción</strong>
             {{ tournament.inscription | currency }}
@@ -44,12 +53,10 @@
       <mat-toolbar
         class="my-4 py-2 bg-white align-items-start d-flex row align-items-center justify-content-between"
       >
-        <div class="col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2">
-          <strong class="display-3">{{ tournament.name }}</strong>
-        </div>
         <div
-          class="col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 d-flex justify-content-between"
+          class="col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 d-flex flex-column border-bottom-0"
         >
+          <strong class="display-3">{{ tournament.name }}</strong>
           <button
             mat-icon-button
             appIsAllowed
@@ -60,19 +67,10 @@
           >
             <mat-icon> group_add </mat-icon>
           </button>
-          <span
-            class="rounded text-white py-1 px-2"
-            [ngClass]="{
-              'bg-info': tournament.status === 'in progress',
-              'bg-danger': tournament.status === 'canceled'
-            }"
-          >
-            {{ statusMapper[tournament.status] }}
-          </span>
-          <button mat-icon-button (click)="drawer.toggle()">
-            <mat-icon> arrow_forward_ios </mat-icon>
-          </button>
         </div>
+        <button mat-icon-button (click)="drawer.toggle()">
+          <mat-icon> arrow_forward_ios </mat-icon>
+        </button>
       </mat-toolbar>
 
       <mat-tab-group>
@@ -148,22 +146,23 @@
 
           <section class="my-5" *ngIf="fixtureStages">
             <section *ngFor="let stage of fixtureStages">
-              <header>
-                <h2>Fase de Grupos ({{ getNameByStage(stage.order) }})</h2>
-                <mat-divider></mat-divider>
-
-                <button
-                  mat-icon-button
-                  appIsAllowed
-                  identifier="tournaments:create-group:ui"
-                  class="col-12 col-sm-3 col-md-3 col-lg-1 col-xl-1"
-                  color="primary"
-                  (click)="openCreateGroupDialog(stage.id || '')"
-                  matTooltip="Agregar grupo"
-                >
-                  <mat-icon>group_work</mat-icon>
-                </button>
-                <mat-divider></mat-divider>
+              <header class="d-flex align-items-center justify-content-between">
+                <h2 class="m-0">
+                  Fase de Grupos ({{ getNameByStage(stage.order) }})
+                </h2>
+                <section>
+                  <button
+                    mat-icon-button
+                    appIsAllowed
+                    identifier="tournaments:create-group:ui"
+                    class="col-12 col-sm-3 col-md-3 col-lg-1 col-xl-1"
+                    color="primary"
+                    (click)="openCreateGroupDialog(stage.id || '')"
+                    matTooltip="Agregar grupo"
+                  >
+                    <mat-icon>group_work</mat-icon>
+                  </button>
+                </section>
               </header>
 
               <div
