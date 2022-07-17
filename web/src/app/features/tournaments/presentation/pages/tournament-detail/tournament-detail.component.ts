@@ -161,6 +161,9 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
                   dialogProcess.close();
 
                   this.tournament.registeredTeams.push(response.data);
+                  this.teams = this.teams.filter((item) => {
+                    return item.id != response.data.team.id;
+                  });
                   const dialogSuccess = this.dialog.open(ModalComponent, {
                     data: {
                       kind: 'text',
@@ -186,6 +189,8 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
               complete: () => {},
             });
         }
+      } else {
+        dialogProcess.close();
       }
     });
   }
