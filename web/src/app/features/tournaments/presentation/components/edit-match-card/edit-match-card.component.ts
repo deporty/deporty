@@ -52,7 +52,6 @@ export class EditMatchCardComponent implements OnInit {
       this._teams = this.teams;
       this._match = this.match;
     }
-    console.log(this._teams)
 
     const teamA = this._match?.teamA.name || '';
     if (teamA) {
@@ -63,7 +62,6 @@ export class EditMatchCardComponent implements OnInit {
     if (teamB) {
       this.optionSelected('teamB', this._match.teamB);
     }
-    console.log(this._match);
     this.formGroup = new FormGroup({
       teamA: new FormControl(teamA),
       teamB: new FormControl(teamB),

@@ -5,7 +5,9 @@ import { IBaseResponse } from '@deporty/entities/general';
 import { ITournamentModel } from '@deporty/entities/tournaments';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { Observable, Subscription } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { hasPermission } from 'src/app/core/helpers/permission.helper';
+import { ModalComponent } from 'src/app/core/presentation/components/modal/modal.component';
 import { TeamAdapter } from 'src/app/features/teams/adapters/team.adapter';
 import { ITeamModel } from 'src/app/features/teams/models/team.model';
 import { RESOURCES_PERMISSIONS_IT, storage } from 'src/app/init-app';
@@ -96,7 +98,6 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
         .getTournamentSummaryById(params.id)
         .subscribe((tournament) => {
           this.tournament = tournament.data;
-          this.tournament.registeredTeams;
           if (this.tournament.flayer) {
             const flayerRef = ref(storage, this.tournament.flayer);
 
@@ -111,18 +112,82 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
             .subscribe((table) => {
               if (!!table) this.markersTable = table.data;
             });
-        });
-    });
 
-    this.$teams = this.teamAdapter.getTeams();
-    this.$teams.subscribe((teams) => {
-      this.teams = teams.data;
+          this.$teams = this.tournamentService.getAvailableTeamsToAdd(
+            this.tournament.id
+          );
+          this.$teams.subscribe((teams) => {
+            this.teams = teams.data;
+          });
+        });
     });
   }
 
   getNameByStage(index: number) {
     const orders = ['Inicial', 'Complementaria'];
     return orders[index];
+  }
+
+  registerTeamIntoTournament() {
+    const dialogRef = this.dialog.open(AddTeamCardComponent, {
+      width: '400px',
+      height: '400px',
+      data: { teams: this.teams },
+    });
+
+    dialogRef.afterClosed().subscribe((result: ITeamModel[]) => {
+      const teamsToAdd = result;
+      console.log(teamsToAdd);
+
+      const dialogProcess = this.dialog.open(ModalComponent, {
+        data: {
+          kind: 'loading',
+        },
+      });
+
+      if (result) {
+        for (const iterator of result) {
+          this.tournamentService
+            .addTeamToTournament(this.tournament.id, iterator.id)
+            .subscribe({
+              next: (response) => {
+                console.log(
+                  response.meta.code,
+                  response.meta.code == 'TOURNAMENT-TEAM-REGISTERED:SUCCESS'
+                );
+                if (
+                  response.meta.code == 'TOURNAMENT-TEAM-REGISTERED:SUCCESS'
+                ) {
+                  dialogProcess.close();
+
+                  this.tournament.registeredTeams.push(response.data);
+                  const dialogSuccess = this.dialog.open(ModalComponent, {
+                    data: {
+                      kind: 'text',
+                      title: `El equipo ${iterator.name} se agregó correctamente.`,
+                      text: 'Si no ve el equipo registrado, recargue la página por favor.',
+                    },
+                  });
+                } else if (
+                  response.meta.code == 'TOURNAMENT-TEAM-WITH-OUT-MEMBERS:ERROR'
+                ) {
+                  dialogProcess.close();
+
+                  const dialogNoMebers = this.dialog.open(ModalComponent, {
+                    data: {
+                      kind: 'text',
+                      title: `El equipo ${iterator.name} no tiene miembros.`,
+                      text: 'Primero agregue los integrantes al equipo, editanto el mismo.',
+                    },
+                  });
+                }
+              },
+              error: () => {},
+              complete: () => {},
+            });
+        }
+      }
+    });
   }
 
   private getFixtureStages() {
@@ -139,8 +204,6 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
   }
 
   onEditMatch(data: any) {
-    console.log(data);
-
     this.router.navigate(
       [TournamentsRoutingModule.route, EditMatchComponent.route],
       {
@@ -241,7 +304,6 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log(result);
         const match: IMatchModel = {
           teamA: result.teamA,
           teamB: result.teamB,
@@ -313,13 +375,6 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
           })
           .pop();
         if (group) {
-          console.log({
-            match,
-            groupIndex: group.index,
-            stageIndex: this.stageId,
-            tournamentId: this.tournament.id,
-          });
-
           this.editMatchOfGroupUsecase
             .call({
               match,

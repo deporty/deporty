@@ -23,7 +23,6 @@ export class FileRepository extends FileAdapter {
     const tmp = tmpdir();
 
     const filepath = join(tmp, location).replace(/\\/g, '/');
-    console.log(filepath, 'SOnido d');
     writeFileSync(filepath, data, {
       encoding: 'base64',
     });

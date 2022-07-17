@@ -29,7 +29,6 @@ export class TeamsComponent implements OnInit {
     this.teams = [];
     this.routes = {
       zoom_in: (team: ITeamModel) => {
-        console.log('Navegando, ', team.id);
         this.router.navigate(['./team', team.id], {
           relativeTo: this.route,
           // queryParams: { team: JSON.stringify(team) },

@@ -1,0 +1,8 @@
+<ng-container *ngIf="kind == 'loading'">
+  <app-default-loading> </app-default-loading>
+</ng-container>
+
+<div class="d-flex flex-column " *ngIf="kind == 'text'">
+  <h2>{{ title }}</h2>
+  <p class="py-3 my-3 text-center">{{ text }}</p>
+</div>

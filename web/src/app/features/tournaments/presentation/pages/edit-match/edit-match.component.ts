@@ -64,7 +64,6 @@ export class EditMatchComponent implements OnInit {
 
       this.stadistics = this.match.stadistics || this.stadistics;
 
-      console.log(this.match);
 
       this.stageId = x.stageId;
 
@@ -73,10 +72,8 @@ export class EditMatchComponent implements OnInit {
       this.tournamentId = x.tournamentId;
 
       this.match.date = this.match.date ? new Date(this.match.date) : undefined;
-      console.log(this.match);
 
       this.getPlayersByTeamUsecase.call(this.match.teamA).subscribe((data) => {
-        console.log(data);
         this.playersA = data;
       });
 
@@ -85,7 +82,6 @@ export class EditMatchComponent implements OnInit {
       });
 
       const a = this.getDate(this.match.date);
-      console.log(a);
       this.formGroup = new FormGroup({
         date: new FormControl(this.match.date),
         hour: new FormControl(this.getHour(this.match.date)),
@@ -105,14 +101,12 @@ export class EditMatchComponent implements OnInit {
   }
 
   updateTeamA(event: any) {
-    console.log(event);
     this.playersForm['teamA'] = event['playersForm'];
     this.stadistics['teamA'] = event['stadistics'];
     this.calculateGoals();
   }
 
   updateTeamB(event: any) {
-    console.log(event);
     this.playersForm['teamB'] = event['playersForm'];
     this.stadistics['teamB'] = event['stadistics'];
     this.calculateGoals();
@@ -135,7 +129,6 @@ export class EditMatchComponent implements OnInit {
     const teamAGoals = calc(this.stadistics, 'teamA');
     const teamBGoals = calc(this.stadistics, 'teamB');
 
-    console.log(this.match);
     if (this.match.score) {
       this.match.score.teamA = teamAGoals;
       this.match.score.teamB = teamBGoals;
@@ -148,7 +141,6 @@ export class EditMatchComponent implements OnInit {
     const hourWithMinute: string = this.formGroup.get('hour')?.value;
     const hour = hourWithMinute.split(':')[0];
     const minute = hourWithMinute.split(':')[1];
-    console.log(hour);
     date.setHours(parseInt(hour), parseInt(minute));
     this.editMatchOfGroupUsecase
       .call({

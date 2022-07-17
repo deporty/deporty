@@ -32,7 +32,6 @@ playground: obj['playground'],
 
   toWeakJson(team: IMatchModel) {
 
-    console.log(team,456)
     return {
       'team-a': this.teamMapper.toWeakJson(team.teamA),
       'team-b': this.teamMapper.toWeakJson(team.teamB),

@@ -8,7 +8,6 @@ export class RegisteredTeamMapper {
     private playerMapper: PlayerMapper
   ) {}
   fromJson(obj: any): IRegisteredTeamsModel {
-    console.log("PaREDDDDDDDDD ", obj)
     return {
       enrollmentDate: new Date(obj['enrollment-date'].seconds * 1000),
       members: !!obj['members']

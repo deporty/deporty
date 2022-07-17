@@ -38,6 +38,8 @@ export class TournamentRepository extends TournamentContract {
     throw new Error('Method not implemented.');
   }
   getById(id: string): Observable<ITournamentModel | undefined> {
+    this.dataSource.entity = TournamentRepository.entity;
+
     return this.dataSource.getById(id).pipe(
       map((tournament) => {
         return tournament

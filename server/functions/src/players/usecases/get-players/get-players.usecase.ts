@@ -9,7 +9,6 @@ export class GetPlayersUsecase extends Usecase<string, IPlayerModel[]> {
     super();
   }
   call(): Observable<IPlayerModel[]> {
-    console.log(this.playerContract)
     return this.playerContract.getPlayers();
   }
 }

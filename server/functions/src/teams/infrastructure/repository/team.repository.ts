@@ -63,6 +63,8 @@ export class TeamRepository extends TeamContract {
   }
 
   get(): Observable<ITeamModel[]> {
+    this.dataSource.entity = TeamRepository.entity;
+
     return this.dataSource.getByFilter([]).pipe(
       map((docs) => {
         return docs.map(this.teamMapper.fromJson);

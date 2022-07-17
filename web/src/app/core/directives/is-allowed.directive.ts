@@ -13,7 +13,6 @@ export class IsAllowedDirective implements OnInit {
     private eR: ElementRef
   ) {}
   ngOnInit(): void {
-    console.log(this.identifier, this.resourcesPermissions);
     const response = hasPermission(this.identifier, this.resourcesPermissions);
 
     if (!response) {

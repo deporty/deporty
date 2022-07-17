@@ -1,6 +1,9 @@
 import { IPlayerModel } from '@deporty/entities/players';
 import { ITeamModel } from '@deporty/entities/teams';
-import { ITournamentModel } from '@deporty/entities/tournaments';
+import {
+  IRegisteredTeamsModel,
+  ITournamentModel,
+} from '@deporty/entities/tournaments';
 import { Observable, throwError, zip } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { Usecase } from '../../../core/usecase';
@@ -17,7 +20,7 @@ export interface Param {
   teamId: string;
 }
 
-export class AddTeamToTournamentUsecase extends Usecase<Param, void> {
+export class AddTeamToTournamentUsecase extends Usecase<Param, IRegisteredTeamsModel> {
   constructor(
     private getTournamentByIdUsecase: GetTournamentByIdUsecase,
     private getTeamByIdUsecase: GetTeamByIdUsecase,
@@ -26,7 +29,7 @@ export class AddTeamToTournamentUsecase extends Usecase<Param, void> {
     super();
   }
 
-  call(param: Param): Observable<void> {
+  call(param: Param): Observable<IRegisteredTeamsModel> {
     const $team = this.getTeamByIdUsecase.call(param.teamId);
     const $tournament = this.getTournamentByIdUsecase.call(param.tournamentId);
     return zip($team, $tournament).pipe(
@@ -48,12 +51,17 @@ export class AddTeamToTournamentUsecase extends Usecase<Param, void> {
           }).length > 0;
 
         if (!exists) {
-          tournament.registeredTeams.push({
+          const register: IRegisteredTeamsModel = {
             enrollmentDate: new Date(),
             members: (team.members as IPlayerModel[]) || [],
             team: team,
-          });
-          return this.updateTournamentUsecase.call(tournament);
+          };
+          tournament.registeredTeams.push(register);
+          return this.updateTournamentUsecase.call(tournament).pipe(
+            map((data: any) => {
+              return register;
+            })
+          );
         } else {
           return throwError(new TeamWasAlreadyRegistered(team.name));
         }

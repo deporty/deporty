@@ -1,14 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IBaseResponse } from '@deporty/entities/general';
-import { ITournamentModel } from '@deporty/entities/tournaments';
+import { IRegisteredTeamsModel, ITournamentModel } from '@deporty/entities/tournaments';
 import {
   collection,
-  CollectionReference, doc, DocumentData,
-  DocumentReference, getDoc,
-  getDocs, limit, query, QuerySnapshot,
+  CollectionReference,
+  doc,
+  DocumentData,
+  DocumentReference,
+  getDoc,
+  getDocs,
+  limit,
+  query,
+  QuerySnapshot,
   setDoc,
-  updateDoc, where
+  updateDoc,
+  where,
 } from 'firebase/firestore/lite';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -23,8 +30,6 @@ import { FixtureStageMapper } from './fixture-stage.mapper';
 import { GroupMapper } from './group.mapper';
 import { MatchMapper } from './match.mapper';
 import { TournamentMapper } from './tournament.mapper';
-
-
 
 @Injectable()
 export class TournamentService extends TournamentAdapter {
@@ -41,9 +46,26 @@ export class TournamentService extends TournamentAdapter {
     this.collectionRef = collection(firestore, TournamentService.collection);
   }
 
+  addTeamToTournament(
+    tournamentId: string,
+    teamId: string
+  ): Observable<IBaseResponse<IRegisteredTeamsModel>> {
+    const path = `${environment.serverEndpoint}/${TournamentService.collection}/team`;
+    return this.httpClient.put<IBaseResponse<IRegisteredTeamsModel>>(path, {
+      tournamentId,
+      teamId,
+    });
+  }
+
+  getAvailableTeamsToAdd(
+    tournamentId: string
+  ): Observable<IBaseResponse<ITeamModel[]>> {
+    const path = `${environment.serverEndpoint}/${TournamentService.collection}/available-teams/${tournamentId}`;
+    return this.httpClient.get<IBaseResponse<ITeamModel[]>>(path);
+  }
+
   getMarkersTableByTornament(id: string): Observable<IBaseResponse<any[]>> {
     const path = `${environment.serverEndpoint}/${TournamentService.collection}/markers-table/${id}`;
-    console.log(path)
     return this.httpClient.get<IBaseResponse<any[]>>(path);
   }
   getAllSummaryTournaments(): Observable<ITournamentModel[]> {
@@ -58,15 +80,12 @@ export class TournamentService extends TournamentAdapter {
     );
   }
 
-  getTournamentSummaryById(id: string): Observable<IBaseResponse<ITournamentModel>> {
-
-    
+  getTournamentSummaryById(
+    id: string
+  ): Observable<IBaseResponse<ITournamentModel>> {
     const path = `${environment.serverEndpoint}/${TournamentService.collection}/${id}`;
     console.log(path)
     return this.httpClient.get<IBaseResponse<ITournamentModel>>(path);
-
-
-
   }
 
   getCurrentTournamentSummaryByLocation(
@@ -285,7 +304,6 @@ export class TournamentService extends TournamentAdapter {
         index -= 1;
 
         docu.groups[groupIndex].matches[index] = matchDB;
-        console.log(docu);
         from(updateDoc(stageDoc, docu)).subscribe(() => {
           observer.next();
           observer.complete();
