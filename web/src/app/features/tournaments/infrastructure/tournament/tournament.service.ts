@@ -50,7 +50,7 @@ export class TournamentService extends TournamentAdapter {
     tournamentId: string,
     teamId: string
   ): Observable<IBaseResponse<IRegisteredTeamsModel>> {
-    const path = `${environment.serverEndpoint}/${TournamentService.collection}/team`;
+    const path = `${environment.serverEndpoint}/${TournamentService.collection}/add-team`;
     return this.httpClient.put<IBaseResponse<IRegisteredTeamsModel>>(path, {
       tournamentId,
       teamId,
@@ -60,7 +60,7 @@ export class TournamentService extends TournamentAdapter {
   getAvailableTeamsToAdd(
     tournamentId: string
   ): Observable<IBaseResponse<ITeamModel[]>> {
-    const path = `${environment.serverEndpoint}/${TournamentService.collection}/available-teams/${tournamentId}`;
+    const path = `${environment.serverEndpoint}/${TournamentService.collection}/available-teams-to-add/${tournamentId}`;
     return this.httpClient.get<IBaseResponse<ITeamModel[]>>(path);
   }
 
