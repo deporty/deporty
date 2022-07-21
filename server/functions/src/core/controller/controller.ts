@@ -34,7 +34,7 @@ export abstract class BaseController {
   ) {
     let func = null;
     if (mapper) {
-      const mapperObj = container.getInstance<Mapper<M>>(mapper);
+      const mapperObj = container.getInstance<Mapper<M>>(mapper).instance;
       func = mapperObj.fromJsonWithOutId;
     }
 
@@ -59,7 +59,7 @@ export abstract class BaseController {
   ) {
     let func = null;
     if (mapper) {
-      const mapperObj = container.getInstance<Mapper<M>>(mapper);
+      const mapperObj = container.getInstance<Mapper<M>>(mapper).instance;
       func = mapperObj.fromJson;
     }
 
@@ -83,7 +83,7 @@ export abstract class BaseController {
     response: Response<any, Record<string, any>>,
     config: IMessagesConfiguration
   ) {
-    const usecase = container.getInstance<T>(usecaseIdentifier);
+    const usecase = container.getInstance<T>(usecaseIdentifier).instance;
     let dataRes = null;
     let params = param;
 

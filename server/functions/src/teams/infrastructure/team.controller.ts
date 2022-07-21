@@ -4,9 +4,11 @@ import {
   BaseController,
   IMessagesConfiguration,
 } from '../../core/controller/controller';
-import { DEPENDENCIES_CONTAINER } from '../modules.config';
+import { Container } from '../../core/DI';
+import { AsignPlayerToTeamUsecase } from '../usecases/asign-player-to-team/asign-player-to-team.usecase';
 import { CreateTeamUsecase } from '../usecases/create-team/create-team.usecase';
 import { DeleteTeamUsecase } from '../usecases/delete-team/delete-team.usecase';
+import { GetActiveTournamentsByRegisteredTeamUsecase } from '../usecases/get-active-tournaments-by-registered-team/get-active-tournaments-by-registered-team.usecase';
 import { GetTeamByIdUsecase } from '../usecases/get-team-by-id/get-team-by-id.usecase';
 import { GetTeamsUsecase } from '../usecases/get-teams/get-teams.usecase';
 
@@ -17,7 +19,7 @@ export class TeamController extends BaseController {
 
   static identifier = 'TEAM';
 
-  static registerEntryPoints(app: Express) {
+  static registerEntryPoints(app: Express, container: Container) {
     app.get(`/delete/:id`, (request: Request, response: Response) => {
       const id = request.params.id;
 
@@ -36,7 +38,7 @@ export class TeamController extends BaseController {
       };
 
       this.handlerController<DeleteTeamUsecase, any>(
-        DEPENDENCIES_CONTAINER,
+        container,
         'DeleteTeamUsecase',
         response,
         config,
@@ -61,7 +63,7 @@ export class TeamController extends BaseController {
       };
 
       this.handlerController<GetTeamsUsecase, any>(
-        DEPENDENCIES_CONTAINER,
+        container,
         'GetTeamsUsecase',
         response,
         config
@@ -85,7 +87,7 @@ export class TeamController extends BaseController {
       };
 
       this.handlerController<GetTeamByIdUsecase, any>(
-        DEPENDENCIES_CONTAINER,
+        container,
         'GetTeamByNameUsecase',
         response,
         config,
@@ -94,17 +96,16 @@ export class TeamController extends BaseController {
       );
     });
 
-
     app.get(`/:id`, (request: Request, response: Response) => {
       const id = request.params.id;
 
       const config: IMessagesConfiguration = {
         exceptions: {
-          'TeamDoesNotExist': 'GET:ID:ERROR'
+          TeamDoesNotExist: 'GET:ID:ERROR',
         },
         identifier: this.identifier,
         errorCodes: {
-          'GET:ID:ERROR': '{message}'
+          'GET:ID:ERROR': '{message}',
         },
         successCode: {
           code: 'GET:ID:SUCCESS',
@@ -116,7 +117,7 @@ export class TeamController extends BaseController {
       };
 
       this.handlerController<GetTeamByIdUsecase, any>(
-        DEPENDENCIES_CONTAINER,
+        container,
         'GetTeamByIdUsecase',
         response,
         config,
@@ -143,7 +144,7 @@ export class TeamController extends BaseController {
       };
 
       this.handlerPostController<CreateTeamUsecase, ITeamModel>(
-        DEPENDENCIES_CONTAINER,
+        container,
         'CreateTeamUsecase',
         response,
         config,
@@ -151,5 +152,64 @@ export class TeamController extends BaseController {
         team
       );
     });
+
+    app.put(`/assign-player`, (request: Request, response: Response) => {
+      const data = request.body;
+
+      const config: IMessagesConfiguration = {
+        exceptions: {
+          PlayerIsAlreadyInTeamException: 'PLAYER-ALREADY-EXISTS:ERROR',
+        },
+        identifier: this.identifier,
+        errorCodes: {
+          'PLAYER-ALREADY-EXISTS:ERROR': '{message}',
+        },
+        successCode: {
+          code: 'PLAYER-ASSIGNED:SUCCESS',
+          message: 'The player was assigned.',
+        },
+        extraData: {
+          entitiesName: 'Team',
+        },
+      };
+
+      this.handlerPostController<AsignPlayerToTeamUsecase, ITeamModel>(
+        container,
+        'AsignPlayerToTeamUsecase',
+        response,
+        config,
+        undefined,
+        data
+      );
+    });
+
+    app.get(
+      `/by-registered-team/:id`,
+      (request: Request, response: Response) => {
+        const id = request.params.id;
+
+        const config: IMessagesConfiguration = {
+          exceptions: {},
+          identifier: this.identifier,
+          errorCodes: {},
+          successCode: 'BY-REGISTERED-TEAM:SUCCESS',
+          extraData: {
+            name: id,
+          },
+        };
+
+        this.handlerController<
+          GetActiveTournamentsByRegisteredTeamUsecase,
+          any
+        >(
+          container,
+          'GetActiveTournamentsByRegisteredTeamUsecase',
+          response,
+          config,
+          undefined,
+          id
+        );
+      }
+    );
   }
 }

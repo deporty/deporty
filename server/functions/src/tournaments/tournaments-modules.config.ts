@@ -1,6 +1,4 @@
 import { Container } from '../core/DI';
-import { PlayersModulesConfig } from '../players/players-modules.config';
-import { TeamsModulesConfig } from '../teams/teams-modules.config';
 import { FixtureStageMapper } from './infrastructure/fixture-stage.mapper';
 import { FixtureMapper } from './infrastructure/fixture.mapper';
 import { GroupMapper } from './infrastructure/group.mapper';
@@ -17,17 +15,10 @@ import { CreateFixtureByGroupUsecase } from './usecases/create-fixture-by-group/
 import { GetMarkersTableUsecase } from './usecases/get-markers-table/get-markers-table.usecase';
 import { GetPosibleTeamsToAddUsecase } from './usecases/get-posible-teams-to-add/get-posible-teams-to-add.usecase';
 import { GetTournamentByIdUsecase } from './usecases/get-tournament-by-id/get-tournament-by-id.usecase';
+import { GetTournamentsUsecase } from './usecases/get-tournaments/get-tournaments.usecase';
 import { UpdateTournamentUsecase } from './usecases/update-tournament/update-tournament.usecase';
 export class TournamentsModulesConfig {
   static config(container: Container) {
-    PlayersModulesConfig.config(container);
-    TeamsModulesConfig.config(container);
-
-    // private scoreMapper: ScoreMapper,
-    // private teamMapper: TeamMapper,
-    // private stadisticsMapper: StadisticsMapper,
-    // private playerFormMapper: PlayerFormMapper
-
     container.add({
       id: 'ScoreMapper',
       kind: ScoreMapper,
@@ -57,6 +48,7 @@ export class TournamentsModulesConfig {
       ],
       strategy: 'singleton',
     });
+
     container.add({
       id: 'GroupMapper',
       kind: GroupMapper,
@@ -77,6 +69,7 @@ export class TournamentsModulesConfig {
       dependencies: ['FixtureStageMapper'],
       strategy: 'singleton',
     });
+
     container.add({
       id: 'RegisteredTeamMapper',
       kind: RegisteredTeamMapper,
@@ -95,7 +88,12 @@ export class TournamentsModulesConfig {
       id: 'TournamentContract',
       kind: TournamentContract,
       override: TournamentRepository,
-      dependencies: ['DataSource', 'TournamentMapper', 'FixtureStageMapper', 'FirebaseDatabase'],
+      dependencies: [
+        'DataSource',
+        'TournamentMapper',
+        'FixtureStageMapper',
+        'FirebaseDatabase',
+      ],
       strategy: 'singleton',
     });
 
@@ -105,6 +103,7 @@ export class TournamentsModulesConfig {
       dependencies: ['GetPlayerByIdUsecase', 'TournamentContract'],
       strategy: 'singleton',
     });
+
     container.add({
       id: 'GetTournamentByIdUsecase',
       kind: GetTournamentByIdUsecase,
@@ -118,25 +117,36 @@ export class TournamentsModulesConfig {
       dependencies: ['TournamentContract'],
       strategy: 'singleton',
     });
+
     container.add({
       id: 'CreateFixtureByGroupUsecase',
       kind: CreateFixtureByGroupUsecase,
       dependencies: ['GetTournamentByIdUsecase', 'UpdateTournamentUsecase'],
       strategy: 'singleton',
     });
+
     container.add({
       id: 'AddTeamToTournamentUsecase',
       kind: AddTeamToTournamentUsecase,
-      dependencies: ['GetTournamentByIdUsecase', 'GetTeamByIdUsecase', 'UpdateTournamentUsecase'],
+      dependencies: [
+        'GetTournamentByIdUsecase',
+        'GetTeamByIdUsecase',
+        'UpdateTournamentUsecase',
+      ],
       strategy: 'singleton',
     });
+
     container.add({
       id: 'GetPosibleTeamsToAddUsecase',
       kind: GetPosibleTeamsToAddUsecase,
       dependencies: ['GetTeamsUsecase', 'GetTournamentByIdUsecase'],
       strategy: 'singleton',
     });
-
-
+    container.add({
+      id: 'GetTournamentsUsecase',
+      kind: GetTournamentsUsecase,
+      dependencies: ['TournamentContract'],
+      strategy: 'singleton',
+    });
   }
 }

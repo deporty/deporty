@@ -35,7 +35,20 @@ export class TournamentRepository extends TournamentContract {
   }
 
   get(): Observable<ITournamentModel[]> {
-    throw new Error('Method not implemented.');
+    this.dataSource.entity = TournamentRepository.entity;
+
+    return this.dataSource.getByFilter([]).pipe(
+      map((docs) => {
+        const response = docs.map((x) => {
+          return this.getByIdPopulate(x.id);
+        });
+        return !!response && response.length > 0 ? zip(...response) : of([]);
+      }),
+      mergeMap((x) => x),
+      map((docs) => {
+        return docs as ITournamentModel[];
+      })
+    );
   }
   getById(id: string): Observable<ITournamentModel | undefined> {
     this.dataSource.entity = TournamentRepository.entity;
@@ -61,18 +74,26 @@ export class TournamentRepository extends TournamentContract {
 
           const $registeredTeams = !!tournament['registered-teams']
             ? (tournament['registered-teams'] as []).map((register) => {
-                const $members = zip(
-                  ...(register['members'] as []).map((x: DocumentReference) => {
-                    return from(x.get()).pipe(
-                      map((snapshot: DocumentSnapshot<DocumentData>) => {
-                        return {
-                          ...snapshot.data(),
-                          id: snapshot.id,
-                        };
-                      })
-                    );
-                  })
-                );
+                const $members =
+                  !!register['members'] &&
+                  (register['members'] as []).length > 0
+                    ? zip(
+                        ...(register['members'] as []).map(
+                          (x: DocumentReference) => {
+                            return from(x.get()).pipe(
+                              map(
+                                (snapshot: DocumentSnapshot<DocumentData>) => {
+                                  return {
+                                    ...snapshot.data(),
+                                    id: snapshot.id,
+                                  };
+                                }
+                              )
+                            );
+                          }
+                        )
+                      )
+                    : of([]);
 
                 const $team = from(
                   (register['team'] as DocumentReference).get()

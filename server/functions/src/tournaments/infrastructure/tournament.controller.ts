@@ -1,12 +1,13 @@
 import { Express, Request, Response } from 'express';
 import {
   BaseController,
-  IMessagesConfiguration,
+  IMessagesConfiguration
 } from '../../core/controller/controller';
-import { DEPENDENCIES_CONTAINER } from '../modules.config';
+import { Container } from '../../core/DI';
 import { GetMarkersTableUsecase } from '../usecases/get-markers-table/get-markers-table.usecase';
 import { GetPosibleTeamsToAddUsecase } from '../usecases/get-posible-teams-to-add/get-posible-teams-to-add.usecase';
 import { GetTournamentByIdUsecase } from '../usecases/get-tournament-by-id/get-tournament-by-id.usecase';
+import { GetTournamentsUsecase } from '../usecases/get-tournaments/get-tournaments.usecase';
 
 export class TournamentController extends BaseController {
   constructor() {
@@ -15,7 +16,7 @@ export class TournamentController extends BaseController {
 
   static identifier = 'TOURNAMENT';
 
-  static registerEntryPoints(app: Express) {
+  static registerEntryPoints(app: Express, container: Container) {
     
     
     app.get(`/markers-table/:id`, (request: Request, response: Response) => {
@@ -32,7 +33,7 @@ export class TournamentController extends BaseController {
       };
 
       this.handlerController<GetMarkersTableUsecase, any>(
-        DEPENDENCIES_CONTAINER,
+        container,
         'GetMarkersTableUsecase',
         response,
         config,
@@ -58,7 +59,7 @@ export class TournamentController extends BaseController {
       };
 
       this.handlerController<GetMarkersTableUsecase, any>(
-        DEPENDENCIES_CONTAINER,
+        container,
         'CreateFixtureByGroupUsecase',
         response,
         config,
@@ -70,7 +71,7 @@ export class TournamentController extends BaseController {
  
 
 
-    app.put(`/team`, (request: Request, response: Response) => {
+    app.put(`/add-team`, (request: Request, response: Response) => {
       const params = request.body;
 
       const config: IMessagesConfiguration = {
@@ -90,7 +91,7 @@ export class TournamentController extends BaseController {
       };
 
       this.handlerController<GetMarkersTableUsecase, any>(
-        DEPENDENCIES_CONTAINER,
+        container,
         'AddTeamToTournamentUsecase',
         response,
         config,
@@ -101,9 +102,8 @@ export class TournamentController extends BaseController {
 
 
 
-    app.get(`/available-teams/:id`, (request: Request, response: Response) => {
+    app.get(`/available-teams-to-add/:id`, (request: Request, response: Response) => {
       const id = request.params.id;
-      console.log(5655);
 
       const config: IMessagesConfiguration = {
         exceptions: {},
@@ -119,7 +119,7 @@ export class TournamentController extends BaseController {
       };
 
       this.handlerController<GetPosibleTeamsToAddUsecase, any>(
-        DEPENDENCIES_CONTAINER,
+        container,
         'GetPosibleTeamsToAddUsecase',
         response,
         config,
@@ -132,6 +132,27 @@ export class TournamentController extends BaseController {
 
 
     
+
+    app.get(`/`, (request: Request, response: Response) => {
+      
+      const config: IMessagesConfiguration = {
+        exceptions: {},
+        identifier: this.identifier,
+        errorCodes: {},
+        successCode: 'GET:SUCCESS',
+        extraData: {
+        },
+      };
+
+      this.handlerController<GetTournamentsUsecase, any>(
+        container,
+        'GetTournamentsUsecase',
+        response,
+        config,
+        undefined,
+      );
+    });
+
 
     app.get(`/:id`, (request: Request, response: Response) => {
       
@@ -147,7 +168,7 @@ export class TournamentController extends BaseController {
       };
 
       this.handlerController<GetTournamentByIdUsecase, any>(
-        DEPENDENCIES_CONTAINER,
+        container,
         'GetTournamentByIdUsecase',
         response,
         config,
@@ -156,6 +177,9 @@ export class TournamentController extends BaseController {
       );
     });
 
+
+
+  
 
   }
 }

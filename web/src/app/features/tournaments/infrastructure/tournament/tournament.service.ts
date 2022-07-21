@@ -84,7 +84,6 @@ export class TournamentService extends TournamentAdapter {
     id: string
   ): Observable<IBaseResponse<ITournamentModel>> {
     const path = `${environment.serverEndpoint}/${TournamentService.collection}/${id}`;
-    console.log(path)
     return this.httpClient.get<IBaseResponse<ITournamentModel>>(path);
   }
 

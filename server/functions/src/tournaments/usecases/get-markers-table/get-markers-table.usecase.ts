@@ -114,7 +114,7 @@ export class GetMarkersTableUsecase extends Usecase<string, StadisticResume[]> {
             });
           }),
           map((items: Observable<StadisticResume>[]) => {
-            return zip(...items);
+            return !!items && items.length >0 ?  zip(...items): of([]);
           }),
           mergeMap((x) => x)
         );

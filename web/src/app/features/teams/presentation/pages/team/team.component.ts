@@ -63,10 +63,16 @@ export class TeamComponent implements OnInit {
   }
 
   addPlayers() {
-    this.addPlayerToTeamUsecase.call({
-      team: this.team,
-      players: this.selectedPlayers,
-    });
+    for (const player of this.selectedPlayers) {
+      this.teamService
+        .asignPlayerToTeam(this.team.id, player.id)
+        .subscribe((data) => {
+          if (data.meta.code == 'TEAM-PLAYER-ASSIGNED:SUCCESS') {
+            this.team.members?.push(data.data);
+          }
+        });
+    }
+    this.selectedPlayers = [];
   }
   optionSelected(player: IPlayerModel) {
     const index = this.selectedPlayers.indexOf(player);

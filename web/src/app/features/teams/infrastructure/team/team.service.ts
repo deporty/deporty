@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IBaseResponse } from '@deporty/entities/general';
 import { IPlayerModel } from '@deporty/entities/players';
+import { IMemberModel } from '@deporty/entities/teams';
 import {
   addDoc,
   collection,
@@ -31,6 +32,17 @@ export class TeamService extends TeamAdapter {
     private httpClient: HttpClient
   ) {
     super();
+  }
+
+  asignPlayerToTeam(
+    teamId: String,
+    playerId: String
+  ): Observable<IBaseResponse<IMemberModel>> {
+    const path = `${environment.serverEndpoint}/${TeamService.collection}/assign-player`;
+    return this.httpClient.put<IBaseResponse<IMemberModel>>(path, {
+      teamId,
+      playerId,
+    });
   }
 
   getTeamById(teamId: string): Observable<IBaseResponse<ITeamModel>> {

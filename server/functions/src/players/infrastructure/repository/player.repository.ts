@@ -17,6 +17,8 @@ export class PlayerRepository extends PlayerContract {
     this.dataSource.entity = PlayerRepository.entity;
   }
   getPlayers(): Observable<IPlayerModel[]> {
+    this.dataSource.entity = PlayerRepository.entity;
+
     return this.dataSource.getByFilter([]).pipe(
       map((docs) => {
         return docs.map(this.playerMapper.fromJson);
@@ -25,6 +27,8 @@ export class PlayerRepository extends PlayerContract {
   }
 
   getByFilter(filters: DataSourceFilter[]): Observable<IPlayerModel[]> {
+    this.dataSource.entity = PlayerRepository.entity;
+
     return this.dataSource.getByFilter(filters).pipe(
       map((docs) => {
         return docs.map(this.playerMapper.fromJson);
@@ -33,11 +37,15 @@ export class PlayerRepository extends PlayerContract {
   }
 
   save(player: ICreatePlayerModel): Observable<string> {
+    this.dataSource.entity = PlayerRepository.entity;
+
     const mappedPlayer = this.playerMapper.toJson(player);
     return this.dataSource.save(mappedPlayer);
   }
 
   delete(id: string): Observable<void> {
+    this.dataSource.entity = PlayerRepository.entity;
+
     return this.dataSource.deleteById(id).pipe(
       tap(() => {
         this.fileAdapter.deleteFile('');
@@ -48,9 +56,10 @@ export class PlayerRepository extends PlayerContract {
   getPlayerById(id: string): Observable<IPlayerModel | undefined> {
     this.dataSource.entity = PlayerRepository.entity;
 
+    this.dataSource.entity = PlayerRepository.entity;
+
     return this.dataSource.getById(id).pipe(
       map((player) => {
-
         return player ? this.playerMapper.fromJson(player) : undefined;
       })
     );

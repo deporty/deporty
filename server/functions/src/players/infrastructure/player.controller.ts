@@ -4,7 +4,7 @@ import {
   BaseController,
   IMessagesConfiguration,
 } from '../../core/controller/controller';
-import { DEPENDENCIES_CONTAINER } from '../modules.config';
+import { Container } from '../../core/DI';
 import { CreatePlayerUsecase } from '../usecases/create-player/create-player.usecase';
 import { DeletePlayerUsecase } from '../usecases/delete-player/delete-player.usecase';
 import { GetPlayerByDocumentUsecase } from '../usecases/get-player-by-document/get-player-by-document.usecase';
@@ -17,7 +17,7 @@ export class PlayerController extends BaseController {
 
   static identifier = 'PLAYER';
 
-  static registerEntryPoints(app: Express) {
+  static registerEntryPoints(app: Express, container: Container) {
     app.delete(`/:id`, (request: Request, response: Response) => {
       const id = request.params.id;
 
@@ -37,7 +37,7 @@ export class PlayerController extends BaseController {
       };
 
       this.handlerController<DeletePlayerUsecase, any>(
-        DEPENDENCIES_CONTAINER,
+        container,
         'DeletePlayerUsecase',
         response,
         config,
@@ -62,7 +62,7 @@ export class PlayerController extends BaseController {
       };
 
       this.handlerController<GetPlayersUsecase, any>(
-        DEPENDENCIES_CONTAINER,
+        container,
         'GetPlayersUsecase',
         response,
         config
@@ -71,7 +71,6 @@ export class PlayerController extends BaseController {
 
     app.get(`/:id`, (request: Request, response: Response) => {
       const id = request.params.id;
-      console.log('ID ', id);
 
       const config: IMessagesConfiguration = {
         exceptions: {
@@ -91,7 +90,7 @@ export class PlayerController extends BaseController {
       };
 
       this.handlerController<GetPlayersUsecase, any>(
-        DEPENDENCIES_CONTAINER,
+        container,
         'GetPlayerByIdUsecase',
         response,
         config,
@@ -118,7 +117,7 @@ export class PlayerController extends BaseController {
       };
 
       this.handlerController<GetPlayerByDocumentUsecase, any>(
-        DEPENDENCIES_CONTAINER,
+        container,
         'GetPlayerByDocumentUsecase',
         response,
         config,
@@ -148,7 +147,7 @@ export class PlayerController extends BaseController {
       };
 
       this.handlerPostController<CreatePlayerUsecase, IPlayerModel>(
-        DEPENDENCIES_CONTAINER,
+        container,
         'CreatePlayerUsecase',
         response,
         config,

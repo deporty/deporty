@@ -11,4 +11,6 @@ export abstract class TeamContract {
 
   abstract save(team: ICreateTeamModel): Observable<string>;
   abstract delete(id: string): Observable<void>;
+  abstract update(id: string, tournament: ITeamModel): Observable<ITeamModel>;
+
 }

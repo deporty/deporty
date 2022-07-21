@@ -105,7 +105,7 @@ export class FirebaseDataSource extends DataSource<any> {
     );
   }
 
-  update(id: string, entity: any, relations?: any): Observable<void> {
+  update(id: string, entity: any, relations?: any): Observable<any> {
     const entityTemp = { ...entity };
 
     function deleteKeys(obj: any, keys: string[]) {
@@ -160,10 +160,10 @@ export class FirebaseDataSource extends DataSource<any> {
             }
           }
         }
-        return zip(...generalResponse);
+        return !!generalResponse && generalResponse.length >0 ? zip(...generalResponse): of('')
       }),
       mergeMap((x) => x),
-      map((x) => {})
+   
     );
   }
 }

@@ -1,15 +1,13 @@
 import { Container } from '../core/DI';
+import { PlayerMapper } from './infrastructure/player.mapper';
 import { PlayerRepository } from './infrastructure/repository/player.repository';
 import { PlayerContract } from './player.contract';
-import { PlayerMapper } from './infrastructure/player.mapper';
 import { CreatePlayerUsecase } from './usecases/create-player/create-player.usecase';
 import { DeletePlayerUsecase } from './usecases/delete-player/delete-player.usecase';
 import { GetPlayerByDocumentUsecase } from './usecases/get-player-by-document/get-player-by-document.usecase';
-import { GetPlayersUsecase } from './usecases/get-players/get-players.usecase';
 import { GetPlayerByEmailUsecase } from './usecases/get-player-by-email/get-player-by-email.usecase';
-import { FileAdapter } from '../core/file/file.adapter';
-import { FileRepository } from '../core/file/file.repository';
 import { GetPlayerByIdUsecase } from './usecases/get-player-by-id/get-player-by-id.usecase';
+import { GetPlayersUsecase } from './usecases/get-players/get-players.usecase';
 export class PlayersModulesConfig {
   static config(container: Container) {
     container.add({
@@ -18,13 +16,6 @@ export class PlayersModulesConfig {
       strategy: 'singleton',
     });
 
-    container.add({
-      id: 'FileAdapter',
-      kind: FileAdapter,
-      override: FileRepository,
-      dependencies: ['FirebaseStorage'],
-      strategy: 'singleton',
-    });
 
     container.add({
       id: 'PlayerContract',

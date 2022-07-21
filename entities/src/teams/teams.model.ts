@@ -1,11 +1,11 @@
 import { IPlayerModel } from '../players';
 
-export interface Member extends Partial<IPlayerModel> {
-  ingressDate?: Date;
+export interface IMemberModel extends Partial<IPlayerModel> {
+  initDate?: Date;
   retirementDate?: Date;
-  position?: string;
+  role?: string;
 }
-type Members = Member[];
+type Members = IMemberModel[];
 export interface ITeamModel {
   id: string;
   name: string;

@@ -137,7 +137,6 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result: ITeamModel[]) => {
       const teamsToAdd = result;
-      console.log(teamsToAdd);
 
       const dialogProcess = this.dialog.open(ModalComponent, {
         data: {
@@ -151,10 +150,7 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
             .addTeamToTournament(this.tournament.id, iterator.id)
             .subscribe({
               next: (response) => {
-                console.log(
-                  response.meta.code,
-                  response.meta.code == 'TOURNAMENT-TEAM-REGISTERED:SUCCESS'
-                );
+               
                 if (
                   response.meta.code == 'TOURNAMENT-TEAM-REGISTERED:SUCCESS'
                 ) {

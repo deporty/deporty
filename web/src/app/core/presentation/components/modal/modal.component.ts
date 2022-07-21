@@ -14,7 +14,6 @@ export class ModalComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.data) {
-      console.log(this.data);
 
       this.kind = this.data['kind'];
       this.title = this.data['title'];

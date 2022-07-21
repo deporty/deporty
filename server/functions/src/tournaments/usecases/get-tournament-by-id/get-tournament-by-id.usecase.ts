@@ -13,9 +13,10 @@ export class GetTournamentByIdUsecase extends Usecase<
     super();
   }
   call(tournamentId: string): Observable<ITournamentModel> {
+
     return this.tournamentContract.getByIdPopulate(tournamentId).pipe(
       map((tournament: ITournamentModel | undefined) => {
-        
+    
         if (!tournament) {
           return throwError(new TournamentDoesNotExist(tournamentId));
         }

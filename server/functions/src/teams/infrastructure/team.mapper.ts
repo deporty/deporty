@@ -1,9 +1,9 @@
-import { ITeamModel, ICreateTeamModel } from '@deporty/entities/teams';
+import { ICreateTeamModel, ITeamModel } from '@deporty/entities/teams';
 import { Mapper } from '../../core/mapper';
-// import { PlayerMapper } from '../../players/infrastructure/player.mapper';
+import { MemberMapper } from './member.mapper';
 
 export class TeamMapper extends Mapper<ITeamModel> {
-  constructor() { // private playerMapper: PlayerMapper
+  constructor(private memberMapper: MemberMapper) {
     super();
   }
 
@@ -11,7 +11,12 @@ export class TeamMapper extends Mapper<ITeamModel> {
     return {
       name: obj['name'],
       athem: obj['athem'] || '',
-      members: obj['members'] || [],
+      members: !!obj['members']
+        ? (obj['members'] as []).map((item) => {
+            const obj = this.memberMapper.fromJson(item);
+            return obj;
+          })
+        : [],
       shield: obj['shield'] || '',
       agent: obj['agent'] || '',
     };
@@ -22,28 +27,27 @@ export class TeamMapper extends Mapper<ITeamModel> {
       name: obj['name'],
       id: obj['id'],
       athem: obj['athem'],
-      // members: obj['members']
-      //   ? (obj['members'] as []).map((item) => {
-      //       const obj = this.playerMapper.fromJson(item);
-      //       return obj;
-      //     })
-      //   : [],
-      members: obj['members'],
+      members: !!obj['members']
+        ? (obj['members'] as []).map((item) => {
+            return this.memberMapper.fromJson(item);
+          })
+        : [],
 
       shield: obj['shield'],
       agent: obj['agent'],
     };
   }
 
-  toJson(team: ICreateTeamModel) {
+  toJson(team: ITeamModel) {
     return {
       name: team.name,
       athem: team.athem || '',
-      members: team.members
+      members: !!team.members
         ? (team.members as []).map((member) => {
-            return member;
+            return this.memberMapper.toJson(member);
           })
         : [],
+
       shield: team.shield || '',
       agent: team.agent || '',
     };

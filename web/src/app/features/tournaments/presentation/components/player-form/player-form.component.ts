@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IPlayerModel } from '@deporty/entities/players';
 
-
 @Component({
   selector: 'app-player-form',
   templateUrl: './player-form.component.html',
@@ -32,7 +31,6 @@ export class PlayerFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.stadistics);
     if (this.playersForm) {
       this.selectedPlayers = this.playersForm;
     }
