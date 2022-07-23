@@ -9,7 +9,7 @@ name: WEB
       - .github/workflows/WEB.yml
 
 jobs:
-  build_and_deploy_dev:
+  BUILD_AND_DEPLOY_DEV:
     runs-on: ubuntu-latest
     environment: dev
     steps:
@@ -45,7 +45,7 @@ jobs:
           firebase use dev --token "${{secrets.FIREBASE_TOKEN}}"
           firebase deploy --token "${{secrets.FIREBASE_TOKEN}}" 
 
-  build_and_deploy_pdn:
+  BUILD_AND_DEPLOY_PDN:
     needs: [build_and_deploy_dev]
     runs-on: ubuntu-latest
     environment: pdn
