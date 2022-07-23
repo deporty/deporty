@@ -2,7 +2,7 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IBaseResponse } from '@deporty/entities/general';
-import { ITournamentModel } from '@deporty/entities/tournaments';
+import { ITournamentModel, IMatchModel } from '@deporty/entities/tournaments';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -13,7 +13,6 @@ import { ITeamModel } from 'src/app/features/teams/models/team.model';
 import { RESOURCES_PERMISSIONS_IT, storage } from 'src/app/init-app';
 import { TournamentAdapter } from '../../../adapters/tournament.adapter';
 import { IFixtureStageModel } from '../../../models/fixture-stage.model';
-import { IMatchModel } from '../../../models/match.model';
 import { TournamentsRoutingModule } from '../../../tournaments-routing.module';
 import { AddMatchToGroupUsecase } from '../../../usecases/add-match-to-group/add-match-to-group';
 import { AddTeamToGroupUsecase } from '../../../usecases/add-team-to-group/add-team-to-group.usecase';
@@ -150,7 +149,6 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
             .addTeamToTournament(this.tournament.id, iterator.id)
             .subscribe({
               next: (response) => {
-               
                 if (
                   response.meta.code == 'TOURNAMENT-TEAM-REGISTERED:SUCCESS'
                 ) {
@@ -255,7 +253,7 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(AddTeamCardComponent, {
       width: '400px',
       height: '400px',
-      data: { teams: this.teams },
+      data: { teams: this.tournament.registeredTeams.map((x) => x.team) },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -276,7 +274,7 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(CreateGroupComponent, {
       width: '400px',
       height: '400px',
-      data: { teams: this.teams },
+      data: { teams: this.tournament.registeredTeams.map((x) => x.team) },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -308,7 +306,7 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
         const match: IMatchModel = {
           teamA: result.teamA,
           teamB: result.teamB,
-          date: new Date(result.date),
+          date: result.date ? new Date(result.date): undefined,
           // scoreÑ
         };
 

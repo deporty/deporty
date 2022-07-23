@@ -15,6 +15,7 @@ import { UploadFileUsecase } from './usecases/upload-file/upload-file';
 import { DefaultLoadingComponent } from './presentation/components/default-loading/default-loading.component';
 import { CommingSoonComponent } from './presentation/components/comming-soon/comming-soon.component';
 import { ModalComponent } from './presentation/components/modal/modal.component';
+import { NoContentComponent } from './presentation/components/no-content/no-content.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { ModalComponent } from './presentation/components/modal/modal.component'
     DefaultLoadingComponent,
     CommingSoonComponent,
     ModalComponent,
+    NoContentComponent,
   ],
   imports: [CommonModule, MatButtonModule, DirectivesModule],
   exports: [
@@ -34,7 +36,8 @@ import { ModalComponent } from './presentation/components/modal/modal.component'
     DirectivesModule,
     DefaultLoadingComponent,
     CommingSoonComponent,
-    ModalComponent
+    ModalComponent,
+    NoContentComponent
   ],
   providers: [
     TokenService,

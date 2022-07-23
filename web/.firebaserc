@@ -2,6 +2,7 @@
   "projects": {
     "default": "deporty-dev",
     "dev": "deporty-dev",
-    "pdn": "deporty-pdn"
-  }
+    "pdn": "deporty-app"
+  },
+  "targets": {}
 }

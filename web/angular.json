@@ -42,7 +42,7 @@
             "namedChunks": true
           },
           "configurations": {
-            "production": {
+            "pdn": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -96,6 +96,7 @@
                 }
               ]
             }
+          
           },
           "defaultConfiguration": ""
         },

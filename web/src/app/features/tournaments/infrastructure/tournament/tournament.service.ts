@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IBaseResponse } from '@deporty/entities/general';
-import { IRegisteredTeamsModel, ITournamentModel } from '@deporty/entities/tournaments';
+import {
+  IRegisteredTeamsModel,
+  ITournamentModel,
+} from '@deporty/entities/tournaments';
 import {
   collection,
   CollectionReference,
@@ -199,6 +202,9 @@ export class TournamentService extends TournamentAdapter {
 
         for (const team of group.teams) {
           team.members = undefined;
+        }
+        if (!docu.groups) {
+          docu.groups = [];
         }
         (docu.groups as any[]).push(this.groupMapper.toJson(group as any));
         from(setDoc(stageDoc, docu)).subscribe(() => {

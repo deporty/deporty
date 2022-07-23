@@ -35,7 +35,7 @@ export class CreateGroupComponent implements OnInit {
 
   sendData() {
     const value = {
-      teams: this.selectedTeams,
+      teams: this.selectedTeams || [],
       label: this.labelFormControl.value
     };
     this.dialogRef.close(value);

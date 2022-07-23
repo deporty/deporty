@@ -192,6 +192,13 @@
               </div>
             </section>
           </section>
+
+          <div
+            *ngIf="!fixtureStages || fixtureStages.length == 0"
+            class=" d-flex justify-content-center"
+          >
+            <app-no-content class=" col-12 col-sm-8 col-md-6" text="No hay etapas en el torneo"></app-no-content>
+          </div>
         </mat-tab>
         <mat-tab label="Equipos Registrados">
           <div class="w-100 h-100 d-flex justify-content-center row pt-3">

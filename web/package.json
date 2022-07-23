@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "build:dev": "ng build -c=dev",
+    "build:pdn": "ng build -c=pdn",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

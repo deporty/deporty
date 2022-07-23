@@ -3,10 +3,8 @@ import { getAnalytics } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import {
-  getFirestore,
-  collection,
-  getDocs,
   Firestore,
+  initializeFirestore
 } from 'firebase/firestore/lite';
 import { getStorage } from 'firebase/storage';
 import { environment } from 'src/environments/environment';
@@ -14,7 +12,11 @@ import { environment } from 'src/environments/environment';
 const firebaseConfig = environment.firebaseConfig;
 
 export const app = initializeApp(firebaseConfig);
-export const firestore = getFirestore(app);
+export const firestore: Firestore = initializeFirestore(app, {
+  ignoreUndefinedProperties: true,
+});
+
+
 export const analytics = getAnalytics(app);
 export const storage = getStorage(app);
 
