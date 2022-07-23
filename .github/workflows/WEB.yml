@@ -46,7 +46,7 @@ jobs:
           firebase deploy --token "${{secrets.FIREBASE_TOKEN}}" 
 
   BUILD_AND_DEPLOY_PDN:
-    needs: [build_and_deploy_dev]
+    needs: [BUILD_AND_DEPLOY_DEV]
     runs-on: ubuntu-latest
     environment: pdn
     steps:

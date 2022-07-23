@@ -55,6 +55,7 @@ jobs:
 
 
   BUILD_AND_DEPLOY_PDN:
+    needs: [BUILD_AND_DEPLOY_DEV]
     runs-on: ubuntu-latest
     environment: pdn
     steps:
