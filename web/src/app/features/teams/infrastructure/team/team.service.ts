@@ -89,9 +89,4 @@ export class TeamService extends TeamAdapter {
       })
     );
   }
-
-  // addPlayerToTeam(player: IPlayerModel, team: ITeamModel): Observable<void> {
-  //   const teamCollection = doc(firestore, TeamService.collection, team.id);
-  //   throw new Error('Method not implemented.');
-  // }
 }
