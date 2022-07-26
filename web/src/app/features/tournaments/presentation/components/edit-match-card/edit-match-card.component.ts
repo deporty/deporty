@@ -2,8 +2,8 @@ import { formatDate } from '@angular/common';
 import { Component, Inject, Input, OnInit, Optional } from '@angular/core';
 import { FormControl, FormControlName, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { IMatchModel } from '@deporty/entities/tournaments';
 import { ITeamModel } from 'src/app/features/teams/models/team.model';
-import { IMatchModel } from '../../../models/match.model';
 
 @Component({
   selector: 'app-edit-match-card',

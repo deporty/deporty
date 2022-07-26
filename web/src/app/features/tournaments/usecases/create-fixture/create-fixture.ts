@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
+import { IFixtureModel } from '@deporty/entities/tournaments';
 import { Observable } from 'rxjs';
 import { BaseUsecase } from 'src/app/core/usecases/base.usecase';
 import { ITeamModel } from 'src/app/features/teams/models/team.model';
-import { IFixtureModel } from '../../models/fixture.model';
 
 export interface IFixtureConfig {
   fixtureSteps: {

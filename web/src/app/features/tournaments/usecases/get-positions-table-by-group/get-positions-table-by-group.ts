@@ -1,9 +1,9 @@
+import {
+  IMatchModel,
+  IPointsStadisticsModel,
+} from '@deporty/entities/tournaments';
 import { Observable, of } from 'rxjs';
 import { BaseUsecase } from 'src/app/core/usecases/base.usecase';
-import { ITeamModel } from 'src/app/features/teams/models/team.model';
-import { TournamentAdapter } from '../../adapters/tournament.adapter';
-import { IMatchModel } from '../../models/match.model';
-import { IPointsStadisticsModel } from '../../models/points-stadistics.model';
 
 export interface Params {
   matches?: IMatchModel[];

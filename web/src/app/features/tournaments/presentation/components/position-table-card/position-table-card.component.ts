@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IPointsStadisticsModel } from '../../../models/points-stadistics.model';
+import { IPointsStadisticsModel } from '@deporty/entities/tournaments';
 
 @Component({
   selector: 'app-position-table-card',

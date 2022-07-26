@@ -7,9 +7,11 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
-import { IGroupModel } from '../../../models/group.model';
-import { IMatchModel } from '../../../models/match.model';
-import { IPointsStadisticsModel } from '../../../models/points-stadistics.model';
+import {
+  IGroupModel,
+  IMatchModel,
+  IPointsStadisticsModel,
+} from '@deporty/entities/tournaments';
 import { GetPositionsTableByGroupUsecase } from '../../../usecases/get-positions-table-by-group/get-positions-table-by-group';
 import { GROUP_LETTERS } from '../components.constants';
 
@@ -57,11 +59,12 @@ export class GroupCardComponent implements OnInit {
 
   addTeam() {}
   ngOnInit(): void {
-    if(this.group.matches){
-
-      this.matches = this.group.matches?.sort((x,y)=>{
-        return x.date !== undefined && y.date !== undefined && x.date > y.date ? -1 : 1
-      })
+    if (this.group.matches) {
+      this.matches = this.group.matches?.sort((x, y) => {
+        return x.date !== undefined && y.date !== undefined && x.date > y.date
+          ? -1
+          : 1;
+      });
     }
     this.getPositionsTableByGroupUsecase
       .call({
