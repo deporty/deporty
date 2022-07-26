@@ -1,9 +1,10 @@
 import { IPlayerModel } from '../players';
 
-export interface IMemberModel extends Partial<IPlayerModel> {
+export interface IMemberModel {
   initDate?: Date;
   retirementDate?: Date;
   role?: string;
+  player: IPlayerModel;
 }
 type Members = IMemberModel[];
 export interface ITeamModel {
@@ -14,4 +15,4 @@ export interface ITeamModel {
   members?: Members;
   agent?: string;
 }
-export type ICreateTeamModel = Omit<ITeamModel, "id">;
+export type ICreateTeamModel = Omit<ITeamModel, 'id'>;

@@ -20,35 +20,24 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore/lite';
-import { from, Observable } from 'rxjs';
+import { from, Observable, zip } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ITeamModel } from 'src/app/features/teams/models/team.model';
+import { ITeamModel } from '@deporty/entities/teams';
 import { firestore } from 'src/app/init-app';
 import { environment } from 'src/environments/environment';
 import { TournamentAdapter } from '../../adapters/tournament.adapter';
-import { IFixtureStageModel } from '../../models/fixture-stage.model';
-import { IGroupModel } from '../../models/group.model';
-import { IMatchModel } from '../../models/match.model';
-import { FixtureStageMapper } from './fixture-stage.mapper';
-import { GroupMapper } from './group.mapper';
-import { MatchMapper } from './match.mapper';
-import { TournamentMapper } from './tournament.mapper';
+import { IMatchModel,IGroupModel, IFixtureStageModel } from '@deporty/entities/tournaments';
 
 @Injectable()
 export class TournamentService extends TournamentAdapter {
   static collection = 'tournaments';
   private collectionRef: CollectionReference<DocumentData>;
-  constructor(
-    private tournamentMapper: TournamentMapper,
-    private matchMapper: MatchMapper,
-    private groupMapper: GroupMapper,
-    private fixtureStageMapper: FixtureStageMapper,
-    private httpClient: HttpClient
-  ) {
+  constructor(private httpClient: HttpClient) {
     super();
     this.collectionRef = collection(firestore, TournamentService.collection);
   }
 
+  //Terminado
   addTeamToTournament(
     tournamentId: string,
     teamId: string
@@ -60,6 +49,7 @@ export class TournamentService extends TournamentAdapter {
     });
   }
 
+  //Terminado
   getAvailableTeamsToAdd(
     tournamentId: string
   ): Observable<IBaseResponse<ITeamModel[]>> {
@@ -67,22 +57,24 @@ export class TournamentService extends TournamentAdapter {
     return this.httpClient.get<IBaseResponse<ITeamModel[]>>(path);
   }
 
+  //Terminado
   getMarkersTableByTornament(id: string): Observable<IBaseResponse<any[]>> {
     const path = `${environment.serverEndpoint}/${TournamentService.collection}/markers-table/${id}`;
     return this.httpClient.get<IBaseResponse<any[]>>(path);
   }
+
+  //No Terminado
   getAllSummaryTournaments(): Observable<ITournamentModel[]> {
     return from(getDocs(this.collectionRef)).pipe(
       map((snapshot) => {
-        return snapshot.docs
-          .map((doc) => {
-            return { ...doc.data(), id: doc.id };
-          })
-          .map(this.tournamentMapper.fromJson);
+        return snapshot.docs.map((doc) => {
+          return { ...doc.data(), id: doc.id } as ITournamentModel;
+        });
       })
     );
   }
 
+  //Terminado
   getTournamentSummaryById(
     id: string
   ): Observable<IBaseResponse<ITournamentModel>> {
@@ -90,6 +82,7 @@ export class TournamentService extends TournamentAdapter {
     return this.httpClient.get<IBaseResponse<ITournamentModel>>(path);
   }
 
+  //Terminado
   getCurrentTournamentSummaryByLocation(
     location: string
   ): Observable<ITournamentModel> {
@@ -98,11 +91,16 @@ export class TournamentService extends TournamentAdapter {
     );
     return from(tournamentDoc).pipe(
       map((doc: QuerySnapshot) => {
-        return { ...doc.docs[0].data(), id: doc.docs[0].id };
-      }),
-      map(this.tournamentMapper.fromJson)
+        return {
+          ...doc.docs[0].data(),
+          id: doc.docs[0].id,
+        } as ITournamentModel;
+      })
+      // map(this.tournamentMapper.fromJson)
     );
   }
+
+  //No Terminado
   getTournamentFixtureStagesById(id: string): Observable<IFixtureStageModel[]> {
     const docReference1: DocumentReference<DocumentData> = doc(
       this.collectionRef,
@@ -122,12 +120,13 @@ export class TournamentService extends TournamentAdapter {
       map((snapshot: QuerySnapshot<DocumentData>) => {
         return snapshot.docs.map((doc) => {
           const data = { ...doc.data(), id: doc.id };
-          return this.fixtureStageMapper.fromJson(data);
+          return data as IFixtureStageModel;
         });
       })
     );
   }
 
+  //No Terminado
   getGroupsMatchesByTournamentId(
     tournamentId: string,
     stageIndex: number,
@@ -136,54 +135,24 @@ export class TournamentService extends TournamentAdapter {
     throw new Error('Method not implemented.');
   }
 
+  //Terminado
   addTeamToGroupTournament(
     tournamentId: string,
     stageId: string,
     groupIndex: number,
-    teams: ITeamModel[]
-  ): Observable<void> {
-    const stageDoc = doc(
-      firestore,
-      TournamentService.collection,
+    teams: string[]
+  ): Observable<IBaseResponse<IGroupModel>> {
+    const path = `${environment.serverEndpoint}/${TournamentService.collection}/add-teams-into-group`;
+
+    return this.httpClient.put<IBaseResponse<any>>(path, {
       tournamentId,
-      'fixture-stages',
-      stageId
-    );
-    return new Observable((observer) => {
-      from(getDoc(stageDoc)).subscribe((data) => {
-        const docu = { ...data.data() };
-        if (!docu.groups[groupIndex].teams) {
-          docu.groups[groupIndex].teams = [];
-        }
-
-        if (!docu.groups[groupIndex].matches) {
-          docu.groups[groupIndex].matches = [];
-        }
-        for (const team of teams) {
-          let isExists = false;
-          for (const _team of docu.groups[groupIndex].teams) {
-            isExists = _team['name'] == team['name'];
-            if (isExists) {
-              break;
-            }
-          }
-
-          if (!isExists) {
-            (docu.groups[groupIndex].teams as any[]).push({
-              id: team.id,
-              name: team.name,
-              shield: team.shield || '',
-            });
-          }
-        }
-        from(setDoc(stageDoc, docu)).subscribe(() => {
-          observer.next();
-          observer.complete();
-        });
-      });
+      stageId,
+      groupIndex,
+      teamIds: teams,
     });
   }
 
+  //No Terminado
   createGroupInsideTournament(
     tournamentId: string,
     stageId: string,
@@ -206,7 +175,7 @@ export class TournamentService extends TournamentAdapter {
         if (!docu.groups) {
           docu.groups = [];
         }
-        (docu.groups as any[]).push(this.groupMapper.toJson(group as any));
+        (docu.groups as any[]).push(group as any);
         from(setDoc(stageDoc, docu)).subscribe(() => {
           observer.next();
           observer.complete();
@@ -215,61 +184,28 @@ export class TournamentService extends TournamentAdapter {
     });
   }
 
+  //No Terminado
   addMatchToGroupInsideTournament(
     tournamentId: string,
     stageId: string,
     groupIndex: number,
-    match: IMatchModel
-  ): Observable<void> {
-    const stageDoc = doc(
-      firestore,
-      TournamentService.collection,
+    teamAId: string,
+    teamBId: string,
+    date: Date | undefined
+  ): Observable<IBaseResponse<IFixtureStageModel>> {
+    const path = `${environment.serverEndpoint}/${TournamentService.collection}/add-match`;
+
+    return this.httpClient.put<IBaseResponse<IFixtureStageModel>>(path, {
       tournamentId,
-      'fixture-stages',
-      stageId
-    );
-    return new Observable((observer) => {
-      from(getDoc(stageDoc)).subscribe((data) => {
-        const docu = { ...data.data() };
-        if (!docu.groups[groupIndex].teams) {
-          docu.groups[groupIndex].teams = [];
-        }
-
-        if (!docu.groups[groupIndex].matches) {
-          docu.groups[groupIndex].matches = [];
-        }
-        const matchDB = this.matchMapper.toWeakJson(match);
-
-        if (!docu.groups[groupIndex].matches) {
-          docu.groups[groupIndex].matches = [];
-        }
-        let isPresent = false;
-
-        for (const _match of docu.groups[groupIndex].matches) {
-          isPresent =
-            (_match['team-a'].name == match.teamA.name &&
-              _match['team-b'].name == match.teamB.name) ||
-            (_match['team-a'].name == match.teamB.name &&
-              _match['team-b'].name == match.teamA.name);
-          if (isPresent) {
-            break;
-          }
-        }
-        if (!isPresent) {
-          docu.groups[groupIndex].matches.push(matchDB);
-
-          from(setDoc(stageDoc, docu)).subscribe(() => {
-            observer.next();
-            observer.complete();
-          });
-        } else {
-          observer.next();
-          observer.complete();
-        }
-      });
+      stageId,
+      groupIndex,
+      teamAId,
+      teamBId,
+      date: !!date ? date.getTime(): undefined,
     });
   }
 
+  //No Terminado
   editMatchOfGroupInsideTournament(
     tournamentId: string,
     stageId: string,
@@ -288,7 +224,7 @@ export class TournamentService extends TournamentAdapter {
       from(getDoc(stageDoc)).subscribe((data) => {
         const docu = { ...data.data() };
 
-        const matchDB = this.matchMapper.toWeakJson(match);
+        const matchDB = match as IMatchModel;
 
         if (!docu.groups[groupIndex].matches) {
           docu.groups[groupIndex].matches = [];

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseUsecase } from 'src/app/core/usecases/base.usecase';
 import { TeamAdapter } from '../../adapters/team.adapter';
-import { ITeamModel } from '../../models/team.model';
+import { ITeamModel } from '@deporty/entities/teams';
 
 @Injectable()
 export class DeleteTeamUsecase extends BaseUsecase<ITeamModel, void> {

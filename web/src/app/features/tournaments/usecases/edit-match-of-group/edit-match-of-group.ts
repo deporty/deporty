@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseUsecase } from 'src/app/core/usecases/base.usecase';
 import { TournamentAdapter } from '../../adapters/tournament.adapter';
-import { IGroupModel } from '../../models/group.model';
-import { IMatchModel } from '../../models/match.model';
+import { IMatchModel } from '@deporty/entities/tournaments';
 
 export interface Params {
   match: IMatchModel;

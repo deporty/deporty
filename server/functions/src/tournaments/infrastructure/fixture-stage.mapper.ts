@@ -26,6 +26,7 @@ export class FixtureStageMapper {
 
 
   toJson(fixtureStage: IFixtureStageModel) {
+    
     return {
       order: fixtureStage.order,
       groups: !!fixtureStage.groups ? fixtureStage.groups.map((x) =>{

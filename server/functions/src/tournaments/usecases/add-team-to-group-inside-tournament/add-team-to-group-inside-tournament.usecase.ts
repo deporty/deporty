@@ -1,58 +1,58 @@
+import { ITeamModel } from '@deporty/entities/teams';
 import {
   IFixtureStageModel,
   IGroupModel,
-  IMatchModel
+  ITournamentModel,
 } from '@deporty/entities/tournaments';
 import { Observable, throwError, zip } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { getDateFromSeconds } from '../../../core/helpers';
 import { Usecase } from '../../../core/usecase';
 import { GetTeamByIdUsecase } from '../../../teams/usecases/get-team-by-id/get-team-by-id.usecase';
-import { existSMatchInList } from '../../helpers/match.helper';
+import {
+  GroupDoesNotExist,
+  StageDoesNotExist,
+} from '../add-match-to-group-inside-tournament/add-match-to-group-inside-tournament.exceptions';
 import { GetTournamentByIdUsecase } from '../get-tournament-by-id/get-tournament-by-id.usecase';
 import { UpdateTournamentUsecase } from '../update-tournament/update-tournament.usecase';
 import {
-  GroupDoesNotExist,
-  MatchWasAlreadyRegistered,
-  StageDoesNotExist
-} from './add-match-to-group-inside-tournament.exceptions';
-
+  TeamDoesNotHaveMembers,
+  TeamIsAlreadyInTheGroup,
+} from './add-team-to-group-inside-tournament.exceptions';
 
 export interface Param {
   tournamentId: string;
   stageId: string;
   groupIndex: number;
-  teamAId: string;
-  teamBId: string;
-  date: number;
+  teamId: string;
 }
 
-export class AddMatchToGroupInsideTournamentUsecase extends Usecase<
+export class AddTeamToGroupInsideTournamentUsecase extends Usecase<
   Param,
-  IFixtureStageModel
+  IGroupModel
 > {
   constructor(
     private getTournamentByIdUsecase: GetTournamentByIdUsecase,
-    private updateTournamentUsecase: UpdateTournamentUsecase,
-    private getTeamByIdUsecase: GetTeamByIdUsecase
+    private getTeamByIdUsecase: GetTeamByIdUsecase,
+    private updateTournamentUsecase: UpdateTournamentUsecase
   ) {
     super();
   }
 
-  call(param: Param): Observable<IFixtureStageModel> {
-    const $teamA = this.getTeamByIdUsecase.call(param.teamAId);
-    const $teamB = this.getTeamByIdUsecase.call(param.teamBId);
+  call(param: Param): Observable<IGroupModel> {
+    const $team = this.getTeamByIdUsecase.call(param.teamId);
     const $tournament = this.getTournamentByIdUsecase.call(param.tournamentId);
-
-    return zip($tournament, $teamA, $teamB).pipe(
-      catchError((error) => throwError(error)),
+    return zip($team, $tournament).pipe(
+      catchError((error) => {
+        return throwError(error);
+      }),
       map((data) => {
-        const tournament = data[0];
-        const match = {
-          teamA: data[1],
-          teamB: data[2],
-          date: param.date ? getDateFromSeconds(param.date) : undefined,
-        } as IMatchModel;
+        const team: ITeamModel = data[0];
+
+        if (team.members?.length == 0) {
+          return throwError(new TeamDoesNotHaveMembers(team.name));
+        }
+        const tournament: ITournamentModel = data[1];
+
         const stage: IFixtureStageModel[] = tournament.fixture?.stages.filter(
           (stage) => stage.id == param.stageId
         ) as IFixtureStageModel[];
@@ -71,23 +71,16 @@ export class AddMatchToGroupInsideTournamentUsecase extends Usecase<
         }
 
         const currentGroup: IGroupModel = group.pop() as IGroupModel;
-
-        if (!!currentGroup.matches) {
-          currentGroup.matches = [];
+        const exists =
+          currentGroup.teams.filter((x) => x.id === team.id).length > 0;
+        if (exists) {
+          return throwError(new TeamIsAlreadyInTheGroup(team.name));
         }
+        currentGroup.teams.push(team);
 
-        const exist = existSMatchInList(
-          match,
-          currentGroup.matches as IMatchModel[]
-        );
-        if (!exist) {
-          currentGroup.matches?.push(match);
-        } else {
-          return throwError(new MatchWasAlreadyRegistered(match));
-        }
         return this.updateTournamentUsecase.call(tournament).pipe(
-          map((t) => {
-            return currentStage;
+          map((data: any) => {
+            return currentGroup;
           })
         );
       }),

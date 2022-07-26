@@ -1,5 +1,6 @@
 import { IMatchModel, ITournamentModel } from '@deporty/entities/tournaments';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Usecase } from '../../../core/usecase';
 import { TournamentContract } from '../../tournament.contract';
 
@@ -16,6 +17,9 @@ export class UpdateTournamentUsecase extends Usecase<ITournamentModel, void> {
   }
 
   call(tournament: ITournamentModel): Observable<void> {
-    return this.tournamentContract.update(tournament.id, tournament);
+    return this.tournamentContract.update(tournament.id, tournament).pipe(
+      tap((x) => {
+      })
+    );
   }
 }

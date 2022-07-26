@@ -1,8 +1,7 @@
 import { IBaseResponse } from '@deporty/entities/general';
 import { IPlayerModel } from '@deporty/entities/players';
-import { IMemberModel } from '@deporty/entities/teams';
+import { IMemberModel, ITeamModel } from '@deporty/entities/teams';
 import { Observable } from 'rxjs';
-import { ITeamModel } from '../models/team.model';
 
 
 

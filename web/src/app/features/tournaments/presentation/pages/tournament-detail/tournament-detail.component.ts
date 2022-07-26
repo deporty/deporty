@@ -2,20 +2,21 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IBaseResponse } from '@deporty/entities/general';
-import { ITournamentModel, IMatchModel } from '@deporty/entities/tournaments';
+import { ITeamModel } from '@deporty/entities/teams';
+import {
+  IFixtureStageModel,
+  IGroupModel,
+  IMatchModel,
+  ITournamentModel
+} from '@deporty/entities/tournaments';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { Observable, Subscription } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
 import { hasPermission } from 'src/app/core/helpers/permission.helper';
 import { ModalComponent } from 'src/app/core/presentation/components/modal/modal.component';
 import { TeamAdapter } from 'src/app/features/teams/adapters/team.adapter';
-import { ITeamModel } from 'src/app/features/teams/models/team.model';
 import { RESOURCES_PERMISSIONS_IT, storage } from 'src/app/init-app';
 import { TournamentAdapter } from '../../../adapters/tournament.adapter';
-import { IFixtureStageModel } from '../../../models/fixture-stage.model';
 import { TournamentsRoutingModule } from '../../../tournaments-routing.module';
-import { AddMatchToGroupUsecase } from '../../../usecases/add-match-to-group/add-match-to-group';
-import { AddTeamToGroupUsecase } from '../../../usecases/add-team-to-group/add-team-to-group.usecase';
 import { CreateGroupUsecase } from '../../../usecases/create-group/create-group.usecase';
 import { EditMatchOfGroupUsecase } from '../../../usecases/edit-match-of-group/edit-match-of-group';
 import { GetFixtureStagesUsecase } from '../../../usecases/get-fixture-stages/get-fixture-stages.usecase';
@@ -57,9 +58,7 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
     private router: Router,
     public dialog: MatDialog,
     private teamAdapter: TeamAdapter,
-    private addTeamToGroupUsecase: AddTeamToGroupUsecase,
     private createGroupUsecase: CreateGroupUsecase,
-    private addMatchToGroupUsecase: AddMatchToGroupUsecase,
     private editMatchOfGroupUsecase: EditMatchOfGroupUsecase,
     private tournamentService: TournamentAdapter,
     @Inject(RESOURCES_PERMISSIONS_IT) private resourcesPermissions: string[]
@@ -97,6 +96,7 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
         .getTournamentSummaryById(params.id)
         .subscribe((tournament) => {
           this.tournament = tournament.data;
+
           if (this.tournament.flayer) {
             const flayerRef = ref(storage, this.tournament.flayer);
 
@@ -104,8 +104,10 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
               this.img = data;
             });
           }
-          this.getFixtureStages();
-
+          // this.getFixtureStages();
+          this.fixtureStages = !!this.tournament.fixture
+            ? this.tournament.fixture?.stages
+            : [];
           this.tournamentService
             .getMarkersTableByTornament(params.id)
             .subscribe((table) => {
@@ -258,15 +260,43 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result) => {
       this.selectedTeams = result;
-      this.addTeamToGroupUsecase
-        .call({
-          groupIndex: this.currentIndexGroup,
-          stageIndex: this.stageId,
-          teams: this.selectedTeams,
-          tournamentId: this.tournament.id,
-        })
-        .subscribe(() => {
-          this.getFixtureStages();
+
+      const dialogNoMebers = this.dialog.open(ModalComponent, {
+        data: {
+          kind: 'loading',
+        },
+      });
+
+      this.tournamentService
+        .addTeamToGroupTournament(
+          this.tournament.id,
+          this.stageId,
+          this.currentIndexGroup,
+          this.selectedTeams.map((x: ITeamModel) => x.id)
+        )
+        .subscribe((data) => {
+          dialogNoMebers.close();
+          if (
+            data.meta.code === 'TOURNAMENT-TEAM-REGISTERED-INTO-GROUP:SUCCESS'
+          ) {
+            const stageGroups: IGroupModel[] = this.tournament.fixture?.stages
+              .filter((s) => {
+                return s.id === this.stageId;
+              })
+              .pop()?.groups as IGroupModel[];
+
+            stageGroups[this.currentIndexGroup] = data.data.group;
+
+            this.dialog.open(ModalComponent, {
+              data: {
+                kind: 'text',
+                title: 'Equipos asignados adecuadamente',
+                text: Object.values(data.data.results).filter(
+                  (x) => x != 'SUCCESS'
+                ),
+              },
+            });
+          }
         });
     });
   }
@@ -306,8 +336,7 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
         const match: IMatchModel = {
           teamA: result.teamA,
           teamB: result.teamB,
-          date: result.date ? new Date(result.date): undefined,
-          // scoreÑ
+          date: result.date ? new Date(result.date) : undefined,
         };
 
         if (result.scoreA >= 0 && result.scoreB >= 0) {
@@ -327,16 +356,55 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
           })
           .pop();
         if (group) {
-          this.addMatchToGroupUsecase
-            .call({
-              match,
-              groupIndex: group.index,
-              stageIndex: this.stageId,
-              tournamentId: this.tournament.id,
-            })
-            .subscribe(() => {
-              this.getFixtureStages();
+          const loading = this.dialog.open(ModalComponent, {
+            data: {
+              kind: 'loading',
+            },
+          });
+
+          this.tournamentService
+            .addMatchToGroupInsideTournament(
+              this.tournament.id,
+              this.stageId,
+              group.index,
+              match.teamA.id,
+              match.teamB.id,
+              match.date
+            )
+            .subscribe((response) => {
+              loading.close();
+              if (
+                response.meta.code === 'TOURNAMENT-MATCH-REGISTERED:SUCCESS'
+              ) {
+                this.dialog.open(ModalComponent, {
+                  data: {
+                    kind: 'text',
+                    title: 'Partido agregado',
+                  },
+                });
+                const currentStagesId = this.fixtureStages.map((x) => x.id);
+                const index = currentStagesId.indexOf(this.stageId);
+                this.fixtureStages[index] = response.data;
+              } else {
+                this.dialog.open(ModalComponent, {
+                  data: {
+                    kind: 'text',
+                    title: 'Error con el servidor. Comuníquese con el administrador de la plataforma.',
+                  },
+                });
+              }
             });
+
+          // this.addMatchToGroupUsecase
+          //   .call({
+          //     match,
+          //     groupIndex: group.index,
+          //     stageIndex: this.stageId,
+          //     tournamentId: this.tournament.id,
+          //   })
+          //   .subscribe(() => {
+          //     this.getFixtureStages();
+          //   });
         }
       }
     });

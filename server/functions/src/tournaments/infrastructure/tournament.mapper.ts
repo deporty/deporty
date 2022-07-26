@@ -1,11 +1,24 @@
 import { ITournamentModel } from '@deporty/entities/tournaments';
+import { Observable } from 'rxjs';
+import { Mapper } from '../../core/mapper';
 import { FixtureMapper } from './fixture.mapper';
 import { RegisteredTeamMapper } from './registered-teams.mapper';
-export class TournamentMapper {
+export class TournamentMapper extends Mapper<ITournamentModel> {
+  fromJsonWithOutId(obj: any): Omit<ITournamentModel, 'id'> {
+    throw new Error('Method not implemented.');
+  }
+  toReferenceJson(obj: ITournamentModel) {
+    throw new Error('Method not implemented.');
+  }
+  fromReferenceJson(obj: any): Observable<ITournamentModel> {
+    return this.mapInsideReferences(obj);
+  }
   constructor(
     private registeredTeamMapper: RegisteredTeamMapper,
     private fixtureMapper: FixtureMapper
-  ) {}
+  ) {
+    super();
+  }
   fromJson(obj: any): ITournamentModel {
     return {
       id: obj['id'],
@@ -39,11 +52,13 @@ export class TournamentMapper {
       description: obj.description,
       inscription: obj.inscription || 0,
 
-      'registered-teams': obj.registeredTeams
-        ? (obj.registeredTeams as any[]).map((x) => {
+      'registered-teams': !!obj.registeredTeams
+        ? obj.registeredTeams.map((x) => {
             return this.registeredTeamMapper.toJson(x);
           })
         : [],
+
+      fixture: !!obj.fixture ? this.fixtureMapper.toJson(obj.fixture) : {},
     };
   }
 }

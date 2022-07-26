@@ -9,7 +9,15 @@ export class FixtureMapper {
       stages: (obj['fixture-stages'] as []).map((s) => {
         return this.fixtureStageMapper.fromJson(s);
       }),
-      tournamentBracket: obj['tournamentBracket'],
+      tournamentBracket: obj['tournament-bracket'],
+    };
+  }
+  toJson(fixture: IFixtureModel) {
+    return {
+      'fixture-stages': fixture.stages.map((x) => {
+        return this.fixtureStageMapper.toJson(x);
+      }),
+      'tournament-bracket': fixture.tournamentBracket
     };
   }
 }

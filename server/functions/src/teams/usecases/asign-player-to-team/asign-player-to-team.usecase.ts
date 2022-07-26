@@ -49,11 +49,11 @@ export class AsignPlayerToTeamUsecase extends Usecase<
         }
         const existsPlayer =
           team.members.filter((p: IMemberModel) => {
-            return p.id === player.id;
+            return p.player.id === player.id;
           }).length > 0;
         if (!existsPlayer) {
           const newMember: IMemberModel = {
-            ...player,
+            player,
             initDate: new Date(),
             role: '',
           };
@@ -77,9 +77,7 @@ export class AsignPlayerToTeamUsecase extends Usecase<
                     if (!registeredTeam.team.members) {
                       registeredTeam.team.members = [];
                     }
-                    tournament.registeredTeams[j].members.push(
-                      newMember as IPlayerModel
-                    );
+                    tournament.registeredTeams[j].members.push(newMember);
                   }
                 }
 

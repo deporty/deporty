@@ -1,8 +1,7 @@
-import { IPlayerModel } from '../players';
-import { ITeamModel } from '../teams/index';
+import { IMemberModel, ITeamModel } from '../teams/index';
 
 export interface IRegisteredTeamsModel {
   enrollmentDate: Date;
-  members: IPlayerModel[];
+  members: IMemberModel[];
   team: ITeamModel;
 }

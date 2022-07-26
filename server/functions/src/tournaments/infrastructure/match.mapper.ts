@@ -12,7 +12,6 @@ export class MatchMapper {
     private playerFormMapper: PlayerFormMapper
   ) {}
   fromJson(obj: any): IMatchModel {
-
     return {
       score: obj['score'] ? this.scoreMapper.fromJson(obj['score']) : undefined,
       teamA: this.teamMapper.fromJson(obj['team-a']),
@@ -29,20 +28,20 @@ export class MatchMapper {
     };
   }
 
-  toWeakJson(team: IMatchModel) {
+  toJson(match: IMatchModel) {
     return {
-      'team-a': this.teamMapper.toWeakJson(team.teamA),
-      'team-b': this.teamMapper.toWeakJson(team.teamB),
-      date: team.date,
-      playground: team.playground,
-      stadistics: team.stadistics
-        ? this.stadisticsMapper.toJson(team.stadistics)
+      'team-a': this.teamMapper.toReferenceJson( match.teamA),
+      'team-b': this.teamMapper.toReferenceJson( match.teamB),
+      date: match.date,
+      playground: match.playground,
+      stadistics: match.stadistics
+        ? this.stadisticsMapper.toJson(match.stadistics)
         : {},
 
-      'player-form': team.playerForm
-        ? this.playerFormMapper.toJson(team.playerForm)
+      'player-form': match.playerForm
+        ? this.playerFormMapper.toJson(match.playerForm)
         : {},
-      score: team.score ? this.scoreMapper.toJson(team.score) : null,
+      score: match.score ? this.scoreMapper.toJson(match.score) : null,
     };
   }
 }

@@ -1,8 +1,7 @@
-import { IPlayerModel } from '@deporty/entities/players';
 import { ITeamModel } from '@deporty/entities/teams';
 import {
   IRegisteredTeamsModel,
-  ITournamentModel,
+  ITournamentModel
 } from '@deporty/entities/tournaments';
 import { Observable, throwError, zip } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
@@ -12,7 +11,7 @@ import { GetTournamentByIdUsecase } from '../get-tournament-by-id/get-tournament
 import { UpdateTournamentUsecase } from '../update-tournament/update-tournament.usecase';
 import {
   TeamDoesNotHaveMembers,
-  TeamWasAlreadyRegistered,
+  TeamWasAlreadyRegistered
 } from './add-team-to-tournament.exceptions';
 
 export interface Param {
@@ -53,7 +52,7 @@ export class AddTeamToTournamentUsecase extends Usecase<Param, IRegisteredTeamsM
         if (!exists) {
           const register: IRegisteredTeamsModel = {
             enrollmentDate: new Date(),
-            members: (team.members as IPlayerModel[]) || [],
+            members: (team.members) || [],
             team: team,
           };
           tournament.registeredTeams.push(register);

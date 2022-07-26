@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from 'src/app/init-app';
-import { ITeamModel } from '../../../models/team.model';
+import { ITeamModel } from '@deporty/entities/teams';
 
 @Component({
   selector: 'app-team-card',

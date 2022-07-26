@@ -1,18 +1,26 @@
 import { IBaseResponse } from '@deporty/entities/general';
-import { IRegisteredTeamsModel, ITournamentModel } from '@deporty/entities/tournaments';
+import {
+  IRegisteredTeamsModel,
+  ITournamentModel,
+  IFixtureStageModel,
+  IGroupModel,
+  IMatchModel,
+} from '@deporty/entities/tournaments';
 import { Observable } from 'rxjs';
-import { ITeamModel } from '../../teams/models/team.model';
-import { IFixtureStageModel } from '../models/fixture-stage.model';
-import { IGroupModel } from '../models/group.model';
-import { IMatchModel } from '../models/match.model';
-
+import { ITeamModel } from '@deporty/entities/teams';
 
 export abstract class TournamentAdapter {
-  abstract getMarkersTableByTornament(id: string): Observable<IBaseResponse<any[]>>;
+  abstract getMarkersTableByTornament(
+    id: string
+  ): Observable<IBaseResponse<any[]>>;
 
   abstract getAllSummaryTournaments(): Observable<ITournamentModel[]>;
-  abstract getTournamentSummaryById(id: string): Observable<IBaseResponse<ITournamentModel>>;
-  abstract getAvailableTeamsToAdd(id: string): Observable<IBaseResponse<ITeamModel[]>>;
+  abstract getTournamentSummaryById(
+    id: string
+  ): Observable<IBaseResponse<ITournamentModel>>;
+  abstract getAvailableTeamsToAdd(
+    id: string
+  ): Observable<IBaseResponse<ITeamModel[]>>;
   abstract getTournamentFixtureStagesById(
     id: string
   ): Observable<IFixtureStageModel[]>;
@@ -29,8 +37,8 @@ export abstract class TournamentAdapter {
     tournamentId: string,
     stageId: string,
     groupIndex: number,
-    teams: ITeamModel[]
-  ): Observable<void>;
+    teams: string[]
+  ): Observable<IBaseResponse<any>>;
 
   abstract createGroupInsideTournament(
     tournamentId: string,
@@ -42,13 +50,14 @@ export abstract class TournamentAdapter {
     tournamentId: string,
     stageId: string,
     groupIndex: number,
-    match: IMatchModel
-  ): Observable<void>;
-
+    teamAId: string,
+    teamBId: string,
+    date: Date | undefined
+  ): Observable<IBaseResponse<IFixtureStageModel>>;
 
   abstract addTeamToTournament(
     tournamentId: string,
-    teamId: string,
+    teamId: string
   ): Observable<IBaseResponse<IRegisteredTeamsModel>>;
 
   abstract editMatchOfGroupInsideTournament(

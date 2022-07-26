@@ -133,10 +133,15 @@ export class FirebaseDataSource extends DataSource<any> {
     }
     const docReference = this.db.collection(this.entity).doc(id);
 
+
     return from(docReference.set(entityTemp)).pipe(
-      map(() => {
+      catchError((e) => {
+        return of()
+      }),
+      map((item) => {
         let generalResponse: any[] = [];
         if (!!relations) {
+
           for (const subCollectionName in relations) {
             if (
               Object.prototype.hasOwnProperty.call(relations, subCollectionName)
@@ -145,9 +150,8 @@ export class FirebaseDataSource extends DataSource<any> {
               const items = subCollectionConfig['items'];
               const mapper = subCollectionConfig['mapper'];
               const observables = [];
-
               for (const item of items) {
-                const newItem = mapper(item);
+                const newItem = !!mapper ? { ...mapper(item) } : { ...item };
                 delete newItem['id'];
                 observables.push(
                   docReference
@@ -160,10 +164,11 @@ export class FirebaseDataSource extends DataSource<any> {
             }
           }
         }
-        return !!generalResponse && generalResponse.length >0 ? zip(...generalResponse): of('')
+        return !!generalResponse && generalResponse.length > 0
+          ? zip(...generalResponse)
+          : of('');
       }),
-      mergeMap((x) => x),
-   
+      mergeMap((x) => x)
     );
   }
 }

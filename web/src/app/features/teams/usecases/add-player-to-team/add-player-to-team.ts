@@ -3,7 +3,7 @@ import { IPlayerModel } from '@deporty/entities/players';
 import { Observable } from 'rxjs';
 import { BaseUsecase } from 'src/app/core/usecases/base.usecase';
 import { TeamAdapter } from '../../adapters/team.adapter';
-import { ITeamModel } from '../../models/team.model';
+import { ITeamModel } from '@deporty/entities/teams';
 
 
 export interface Param {
@@ -23,9 +23,8 @@ export class AddPlayerToTeamUsecase extends BaseUsecase<Param, void> {
     }
     for (const player of param.players) {
       const isPresent =
-        team.members.filter((x) => x.document == player.document).length > 0;
+        team.members.filter((x) => x.player.document == player.document).length > 0;
       if (!isPresent) {
-        team.members.push(player);
       }
     }
     return this.teamService.updateTeam(team);

@@ -10,7 +10,10 @@ import { ScoreMapper } from './infrastructure/score.mapper';
 import { StadisticsMapper } from './infrastructure/stadistics.mapper';
 import { TournamentMapper } from './infrastructure/tournament.mapper';
 import { TournamentContract } from './tournament.contract';
+import { AddMatchToGroupInsideTournamentUsecase } from './usecases/add-match-to-group-inside-tournament/add-match-to-group-inside-tournament.usecase';
+import { AddTeamToGroupInsideTournamentUsecase } from './usecases/add-team-to-group-inside-tournament/add-team-to-group-inside-tournament.usecase';
 import { AddTeamToTournamentUsecase } from './usecases/add-team-to-tournament/add-team-to-tournament.usecase';
+import { AddTeamsToGroupInsideTournamentUsecase } from './usecases/add-teams-to-group-inside-tournament/add-teams-to-group-inside-tournament.usecase';
 import { CreateFixtureByGroupUsecase } from './usecases/create-fixture-by-group/create-fixture-by-group.usecase';
 import { GetMarkersTableUsecase } from './usecases/get-markers-table/get-markers-table.usecase';
 import { GetPosibleTeamsToAddUsecase } from './usecases/get-posible-teams-to-add/get-posible-teams-to-add.usecase';
@@ -73,7 +76,7 @@ export class TournamentsModulesConfig {
     container.add({
       id: 'RegisteredTeamMapper',
       kind: RegisteredTeamMapper,
-      dependencies: ['TeamMapper', 'PlayerMapper'],
+      dependencies: ['TeamMapper', 'MemberMapper'],
       strategy: 'singleton',
     });
 
@@ -88,12 +91,7 @@ export class TournamentsModulesConfig {
       id: 'TournamentContract',
       kind: TournamentContract,
       override: TournamentRepository,
-      dependencies: [
-        'DataSource',
-        'TournamentMapper',
-        'FixtureStageMapper',
-        'FirebaseDatabase',
-      ],
+      dependencies: ['DataSource', 'TournamentMapper', 'FirebaseDatabase'],
       strategy: 'singleton',
     });
 
@@ -146,6 +144,38 @@ export class TournamentsModulesConfig {
       id: 'GetTournamentsUsecase',
       kind: GetTournamentsUsecase,
       dependencies: ['TournamentContract'],
+      strategy: 'singleton',
+    });
+
+    container.add({
+      id: 'AddMatchToGroupInsideTournamentUsecase',
+      kind: AddMatchToGroupInsideTournamentUsecase,
+      dependencies: [
+        'GetTournamentByIdUsecase',
+        'UpdateTournamentUsecase',
+        'GetTeamByIdUsecase',
+      ],
+      strategy: 'singleton',
+    });
+    container.add({
+      id: 'AddTeamToGroupInsideTournamentUsecase',
+      kind: AddTeamToGroupInsideTournamentUsecase,
+      dependencies: [
+        'GetTournamentByIdUsecase',
+        'GetTeamByIdUsecase',
+        'UpdateTournamentUsecase',
+      ],
+      strategy: 'singleton',
+    });
+    container.add({
+      id: 'AddTeamsToGroupInsideTournamentUsecase',
+      kind: AddTeamsToGroupInsideTournamentUsecase,
+      dependencies: [
+        'GetTournamentByIdUsecase',
+        'GetTeamByIdUsecase',
+        'UpdateTournamentUsecase',
+        'AddTeamToGroupInsideTournamentUsecase',
+      ],
       strategy: 'singleton',
     });
   }

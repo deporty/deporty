@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IPlayerModel } from '@deporty/entities/players';
 import { GetPlayersByTeamUsecase } from 'src/app/features/teams/usecases/get-players-by-team/get-players-by-team';
 import { RESOURCES_PERMISSIONS_IT } from 'src/app/init-app';
-import { IMatchModel } from '../../../models/match.model';
+import { IMatchModel } from '@deporty/entities/tournaments';
 import { EditMatchOfGroupUsecase } from '../../../usecases/edit-match-of-group/edit-match-of-group';
 
 @Component({
@@ -59,11 +59,11 @@ export class EditMatchComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((x) => {
       this.match = JSON.parse(x.match);
+      console.log(this.match, 'OOO');
 
       this.playersForm = this.match.playerForm || this.playersForm;
 
       this.stadistics = this.match.stadistics || this.stadistics;
-
 
       this.stageId = x.stageId;
 
@@ -73,13 +73,19 @@ export class EditMatchComponent implements OnInit {
 
       this.match.date = this.match.date ? new Date(this.match.date) : undefined;
 
-      this.getPlayersByTeamUsecase.call(this.match.teamA).subscribe((data) => {
-        this.playersA = data;
-      });
+      this.playersA = this.match.teamA.members?.map((x) => x.player) || [];
+      // this.getPlayersByTeamUsecase.call(this.match.teamA).subscribe((data) => {
+      //   this.playersA = data;
+      //   console.log('players a');
+      //   console.log(data);
+      // });
 
-      this.getPlayersByTeamUsecase.call(this.match.teamB).subscribe((data) => {
-        this.playersB = data;
-      });
+
+      this.playersB = this.match.teamB.members?.map((x) => x.player) || [];
+
+      // this.getPlayersByTeamUsecase.call(this.match.teamB).subscribe((data) => {
+      //   this.playersB = data;
+      // });
 
       const a = this.getDate(this.match.date);
       this.formGroup = new FormGroup({
@@ -141,7 +147,7 @@ export class EditMatchComponent implements OnInit {
     const hourWithMinute: string = this.formGroup.get('hour')?.value;
     const hour = hourWithMinute.split(':')[0];
     const minute = hourWithMinute.split(':')[1];
-    date.setHours(parseInt(hour), parseInt(minute));
+    date?.setHours(parseInt(hour), parseInt(minute));
     this.editMatchOfGroupUsecase
       .call({
         groupIndex: this.groupIndex,

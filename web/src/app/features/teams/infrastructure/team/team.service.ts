@@ -20,14 +20,12 @@ import { PlayerMapper } from 'src/app/features/players/player.mapper';
 import { firestore } from 'src/app/init-app';
 import { environment } from 'src/environments/environment';
 import { TeamAdapter } from '../../adapters/team.adapter';
-import { ITeamModel } from '../../models/team.model';
-import { TeamMapper } from './team.mapper';
+import { ITeamModel } from '@deporty/entities/teams';
 
 @Injectable()
 export class TeamService extends TeamAdapter {
   static collection = 'teams';
   constructor(
-    private teamMapper: TeamMapper,
     private playerMapper: PlayerMapper,
     private httpClient: HttpClient
   ) {
@@ -57,7 +55,7 @@ export class TeamService extends TeamAdapter {
 
   createTeam(team: ITeamModel): Observable<string> {
     const teamCollection = collection(firestore, TeamService.collection);
-    return from(addDoc(teamCollection, this.teamMapper.toJson(team))).pipe(
+    return from(addDoc(teamCollection, team)).pipe(
       map((data: DocumentReference<DocumentData>) => {
         return data.id;
       })
@@ -71,7 +69,7 @@ export class TeamService extends TeamAdapter {
 
   updateTeam(team: ITeamModel): Observable<void> {
     const teamCollection = doc(firestore, TeamService.collection, team.id);
-    const _team = this.teamMapper.toJson(team);
+    const _team = team;
     return from(setDoc(teamCollection, _team));
   }
 

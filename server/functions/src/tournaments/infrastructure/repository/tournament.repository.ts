@@ -3,31 +3,19 @@ import {
   IFixtureStageModel,
   IGroupModel,
   IMatchModel,
-  ITournamentModel,
+  ITournamentModel
 } from '@deporty/entities/tournaments';
-import {
-  DocumentData,
-  DocumentReference,
-  DocumentSnapshot,
-  Firestore,
-} from 'firebase-admin/firestore';
-import { from, Observable, of, zip } from 'rxjs';
+import { Observable, of, zip } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { DataSource, DataSourceFilter } from '../../../core/datasource';
-import { PlayerRepository } from '../../../players/infrastructure/repository/player.repository';
-import { TeamRepository } from '../../../teams/infrastructure/repository/team.repository';
 import { TournamentContract } from '../../tournament.contract';
-import { FixtureStageMapper } from '../fixture-stage.mapper';
 import { TournamentMapper } from '../tournament.mapper';
 
 export class TournamentRepository extends TournamentContract {
   static entity = 'tournaments';
   constructor(
     private dataSource: DataSource<any>,
-
-    private tournamentMapper: TournamentMapper,
-    private fixtureStageMapper: FixtureStageMapper,
-    private db: Firestore
+    private tournamentMapper: TournamentMapper
   ) {
     super();
 
@@ -67,83 +55,120 @@ export class TournamentRepository extends TournamentContract {
 
     return this.dataSource.getByIdPopulate(id, ['fixture-stages']).pipe(
       map((tournament) => {
-        if (tournament) {
-          tournament['fixture'] = {
-            'fixture-stages': tournament['fixture-stages'],
-          };
-
-          const $registeredTeams = !!tournament['registered-teams']
-            ? (tournament['registered-teams'] as []).map((register) => {
-                const $members =
-                  !!register['members'] &&
-                  (register['members'] as []).length > 0
-                    ? zip(
-                        ...(register['members'] as []).map(
-                          (x: DocumentReference) => {
-                            return from(x.get()).pipe(
-                              map(
-                                (snapshot: DocumentSnapshot<DocumentData>) => {
-                                  return {
-                                    ...snapshot.data(),
-                                    id: snapshot.id,
-                                  };
-                                }
-                              )
-                            );
-                          }
-                        )
-                      )
-                    : of([]);
-
-                const $team = from(
-                  (register['team'] as DocumentReference).get()
-                ).pipe(
-                  map((snapshot: DocumentSnapshot<DocumentData>) => {
-                    return {
-                      ...snapshot.data(),
-                      id: snapshot.id,
-                    };
-                  })
-                );
-
-                const $register = of(register);
-
-                return zip($register, $members, $team).pipe(
-                  map((x: any[]) => {
-                    return {
-                      'enrollment-date': x[0]['enrollment-date'],
-                      team: x[2],
-                      members: x[1],
-                    };
-                  })
-                );
-              })
-            : [];
-
-          if ($registeredTeams.length > 0) {
-            return zip(of(tournament), zip(...$registeredTeams));
-          }
-          return of(tournament);
-        }
-        return of(undefined);
+        return this.tournamentMapper.fromReferenceJson(tournament);
       }),
-
       mergeMap((x) => x),
-      map((x: any) => {
-        let t;
-        if (Array.isArray(x)) {
-          t = {
-            ...x[0],
-            'registered-teams': x[1],
-          };
-        } else {
-          t = {
-            ...x,
-            'registered-teams': [],
-          };
-        }
-        return this.tournamentMapper.fromJson(t);
+      map((x) => {
+        const temp = {
+          ...x,
+          fixture: {
+            'fixture-stages': (x as any)['fixture-stages'],
+          },
+        };
+        return this.tournamentMapper.fromJson(temp);
       })
+      // map((tournament) => {
+      //   const teams = tournament['fixture-stages'].map((fs: any) => {
+      //     return fs.groups.map((g: any) => {
+      //       return g.teams.map((t: DocumentReference) => {
+      //         return from(t.get()).pipe(
+      //           map((data) => {
+      //             return {
+      //               ...data.data(),
+      //               id: data.id,
+      //             };
+      //           })
+      //         );
+      //       });
+      //     });
+      //   });
+
+      //   return zip(teams, of(tournament));
+      // }),
+      // map((data: any) => {
+      //   const tournament = data;
+      //   if (tournament) {
+      //     tournament['fixture'] = {
+      //       'fixture-stages': tournament['fixture-stages'].map((x: any) => {
+      //         return {
+      //           ...x,
+      //           groups: x.groups.map((y: any) => {
+      //             return { ...y, teams: y.teams };
+      //           }),
+      //         };
+      //       }),
+      //     };
+
+      //     const $registeredTeams = !!tournament['registered-teams']
+      //       ? (tournament['registered-teams'] as []).map((register) => {
+      //           const $members =
+      //             !!register['members'] &&
+      //             (register['members'] as []).length > 0
+      //               ? zip(
+      //                   ...(register['members'] as []).map((x: any) => {
+      //                     return from(
+      //                       (x['player'] as DocumentReference).get()
+      //                     ).pipe(
+      //                       map((snapshot: DocumentSnapshot<DocumentData>) => {
+      //                         return {
+      //                           ...snapshot.data(),
+      //                           id: snapshot.id,
+      //                         };
+      //                       })
+      //                     );
+      //                   })
+      //                 )
+      //               : of([]);
+
+      //           const $team = from(
+      //             (register['team'] as DocumentReference).get()
+      //           ).pipe(
+      //             map((snapshot: DocumentSnapshot<DocumentData>) => {
+      //               return {
+      //                 ...snapshot.data(),
+      //                 id: snapshot.id,
+      //               };
+      //             })
+      //           );
+
+      //           const $register = of(register);
+
+      //           return zip($register, $members, $team).pipe(
+      //             map((x: any[]) => {
+      //               return {
+      //                 'enrollment-date': x[0]['enrollment-date'],
+      //                 team: x[2],
+      //                 members: x[1],
+      //               };
+      //             })
+      //           );
+      //         })
+      //       : [];
+
+      //     if ($registeredTeams.length > 0) {
+      //       return zip(of(tournament), zip(...$registeredTeams));
+      //     }
+      //     return of(tournament);
+      //   }
+      //   return of(undefined);
+      // }),
+
+      // mergeMap((x) => x),
+      // map((x: any) => {
+      //   let t;
+      //   if (Array.isArray(x)) {
+      //     t = {
+      //       ...x[0],
+      //       'registered-teams': x[1],
+      //     };
+      //   } else {
+      //     t = {
+      //       ...x,
+      //       'registered-teams': [],
+      //     };
+      //   }
+      //   return this.tournamentMapper.fromJson(t);
+      // })
     );
   }
   getByFilter(filters: DataSourceFilter[]): Observable<ITournamentModel[]> {
@@ -158,26 +183,21 @@ export class TournamentRepository extends TournamentContract {
 
   update(id: string, tournament: ITournamentModel): Observable<void> {
     this.dataSource.entity = TournamentRepository.entity;
+
+    // fs.writeFileSync('one-piece2.json', JSON.stringify(tournament, null, 2));
+    const mappedTournament = this.tournamentMapper.toJson(tournament);
+    // fs.writeFileSync(
+    //   'one-piece.json',
+    //   JSON.stringify(mappedTournament, null, 2)
+    // );
+
     const relations = {
       'fixture-stages': {
-        path: ['fixture', 'stages'],
-        items: tournament.fixture?.stages,
-        mapper: (x: any) => this.fixtureStageMapper.toJson(x),
+        path: ['fixture', 'fixture-stages'],
+        items: mappedTournament.fixture['fixture-stages'],
       },
     };
 
-    (tournament.registeredTeams as any) = tournament.registeredTeams.map(
-      (x) => {
-        return {
-          ...x,
-          team: this.db.collection(TeamRepository.entity).doc(x.team.id),
-          members: x.members.map((y) => {
-            return this.db.collection(PlayerRepository.entity).doc(y.id);
-          }),
-        };
-      }
-    );
-    const mappedTournament = this.tournamentMapper.toJson(tournament);
     return this.dataSource.update(id, mappedTournament, relations);
   }
 

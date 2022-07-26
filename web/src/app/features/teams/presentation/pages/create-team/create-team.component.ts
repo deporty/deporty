@@ -1,17 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormControl,
-  FormGroup
-} from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { IBaseResponse } from '@deporty/entities/general';
 import { IPlayerModel } from '@deporty/entities/players';
 import { Observable, Subscription } from 'rxjs';
 import { PlayerAdapter } from 'src/app/features/players/player.repository';
-import { ITeamModel } from '../../../models/team.model';
+import { IMemberModel, ITeamModel } from '@deporty/entities/teams';
 import { CreateTeamUsecase } from '../../../usecases/create-team/create-team.usecase';
-
 
 @Component({
   selector: 'app-create-team',
@@ -60,12 +56,15 @@ export class CreateTeamComponent implements OnInit {
     const value: ITeamModel = this.formGroup.value;
     value['members'] = this.selectedPlayers.map((x: IPlayerModel) => {
       return {
-        id: x.id,
-        document: x.document || '',
-        name: x.name,
-        lastName: x.lastName || '',
-        image: x.image || '',
-      };
+        initDate: new Date(),
+        player: {
+          id: x.id,
+          document: x.document || '',
+          name: x.name,
+          lastName: x.lastName || '',
+          image: x.image || '',
+        },
+      } as IMemberModel;
     });
     this.status = 'Pending';
     this.createTeamUsecase.call(value).subscribe((id) => {

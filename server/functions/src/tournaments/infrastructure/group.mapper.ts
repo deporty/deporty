@@ -24,9 +24,11 @@ export class GroupMapper {
     return {
       label: group.label,
       matches: !!group.matches
-        ? group.matches.map((x) => this.matchMapper.toWeakJson(x))
+        ? group.matches.map((x) => this.matchMapper.toJson(x))
         : [],
-      teams: group.teams.map((x) => this.teamMapper.toWeakJson(x)) || [],
+      teams: !!group.teams
+        ? group.teams.map((x) => this.teamMapper.toReferenceJson(x))
+        : [],
     };
   }
 }

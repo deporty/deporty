@@ -62,7 +62,7 @@
 
       <div *ngIf="team.members && team.members.length > 0" class="players">
         <app-players-summary-list
-          [players]="team.members"
+          [players]="ownPlayers"
         ></app-players-summary-list>
       </div>
     </div>

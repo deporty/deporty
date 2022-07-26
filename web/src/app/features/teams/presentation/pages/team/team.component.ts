@@ -7,7 +7,7 @@ import { PlayerAdapter } from 'src/app/features/players/player.repository';
 import { analytics } from 'src/app/init-app';
 import { environment } from 'src/environments/environment';
 import { TeamAdapter } from '../../../adapters/team.adapter';
-import { ITeamModel } from '../../../models/team.model';
+import { ITeamModel } from '@deporty/entities/teams';
 import { AddPlayerToTeamUsecase } from '../../../usecases/add-player-to-team/add-player-to-team';
 
 @Component({
@@ -27,6 +27,8 @@ export class TeamComponent implements OnInit {
   $players: any;
 
   availablePlayers: IPlayerModel[];
+
+  ownPlayers!: IPlayerModel[];
   constructor(
     private activatedRoute: ActivatedRoute,
 
@@ -43,6 +45,7 @@ export class TeamComponent implements OnInit {
     this.activatedRoute.params.subscribe((params: Params) => {
       this.teamService.getTeamById(params.id).subscribe((team) => {
         this.team = team.data;
+        this.ownPlayers = this.team.members?.map((x) => x.player) || [];
       });
     });
 

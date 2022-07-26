@@ -13,6 +13,7 @@ export class PlayersModulesConfig {
     container.add({
       id: 'PlayerMapper',
       kind: PlayerMapper,
+      dependencies: ['FirebaseDatabase'],
       strategy: 'singleton',
     });
 

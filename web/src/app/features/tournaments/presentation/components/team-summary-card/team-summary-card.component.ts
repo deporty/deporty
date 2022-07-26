@@ -18,6 +18,7 @@ export class TeamSummaryCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
     if (this.team.shield) {
       const imageRef = ref(storage, this.team.shield);
 

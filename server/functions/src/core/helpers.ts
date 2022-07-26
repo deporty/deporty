@@ -1,6 +1,8 @@
 export function getDateFromSeconds(seconds: number) {
-  const date = new Date(Date.UTC(1970, 0, 1)); // Epoch
-
-  date.setSeconds(seconds);
-  return date;
+  if (!isNaN(seconds) && typeof seconds === 'number' && seconds !== undefined) {
+    const date = new Date(Date.UTC(1970, 0, 1)); // Epoch
+    date.setSeconds(seconds);
+    return date;
+  }
+  return undefined;
 }

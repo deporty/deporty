@@ -19,19 +19,20 @@ export class TeamsModulesConfig {
       strategy: 'singleton',
       dependencies: ['PlayerMapper'],
     });
+    
 
     container.add({
       id: 'TeamMapper',
       kind: TeamMapper,
       strategy: 'singleton',
-      dependencies: ['MemberMapper'],
+      dependencies: ['MemberMapper', 'FirebaseDatabase'],
     });
 
     container.add({
       id: 'TeamContract',
       kind: TeamContract,
       override: TeamRepository,
-      dependencies: ['DataSource', 'TeamMapper', 'FirebaseDatabase'],
+      dependencies: ['DataSource', 'TeamMapper'],
       strategy: 'singleton',
     });
 

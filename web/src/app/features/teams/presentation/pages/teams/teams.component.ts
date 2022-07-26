@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { hasPermission } from 'src/app/core/helpers/permission.helper';
 import { RESOURCES_PERMISSIONS_IT } from 'src/app/init-app';
 import { TeamAdapter } from '../../../adapters/team.adapter';
-import { ITeamModel } from '../../../models/team.model';
+import { ITeamModel } from '@deporty/entities/teams';
 import { DeleteTeamUsecase } from '../../../usecases/delete-team/delete-team.usecase';
 
 @Component({

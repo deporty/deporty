@@ -22,8 +22,6 @@ container.add({
   dependencies: ['A'],
 });
 
-console.table(container.table);
-console.table(container.pending);
 
 container.add({
   id: 'C',
@@ -32,8 +30,6 @@ container.add({
   dependencies: ['B'],
 });
 
-console.table(container.table);
-console.table(container.pending);
 
 container.add({
   id: 'A',
@@ -42,8 +38,6 @@ container.add({
   dependencies: ['obj'],
 });
 
-console.table(container.table);
-console.table(container.pending);
 
 container.add({
   id: 'D',
@@ -52,8 +46,6 @@ container.add({
   dependencies: ['A'],
 });
 
-console.table(container.table);
-console.table(container.pending);
 
 const obj = { l: 213 };
 const obj2 = { l: 555 };

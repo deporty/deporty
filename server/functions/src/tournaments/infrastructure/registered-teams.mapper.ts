@@ -1,18 +1,18 @@
-import { TeamMapper } from '../../teams/infrastructure/team.mapper';
 import { IRegisteredTeamsModel } from '@deporty/entities/tournaments';
-import { PlayerMapper } from '../../players/infrastructure/player.mapper';
+import { MemberMapper } from '../../teams/infrastructure/member.mapper';
+import { TeamMapper } from '../../teams/infrastructure/team.mapper';
 
 export class RegisteredTeamMapper {
   constructor(
     private teamMapper: TeamMapper,
-    private playerMapper: PlayerMapper
+    private memberMapper: MemberMapper
   ) {}
   fromJson(obj: any): IRegisteredTeamsModel {
     return {
-      enrollmentDate: new Date(obj['enrollment-date'].seconds * 1000),
+      enrollmentDate: obj['enrollment-date'] as Date,
       members: !!obj['members']
         ? (obj['members'] as []).map((x) => {
-            return this.playerMapper.fromJson(x);
+            return this.memberMapper.fromJson(x);
           })
         : [],
       team: this.teamMapper.fromJson(obj['team']),
@@ -20,10 +20,15 @@ export class RegisteredTeamMapper {
   }
 
   toJson(registeredTeam: IRegisteredTeamsModel) {
-    return {
-      'enrollment-date': (registeredTeam.enrollmentDate as Date),
-      members: registeredTeam.members,
-      team: registeredTeam.team,
+    const registeredTeamTemp = {
+      'enrollment-date': registeredTeam.enrollmentDate,
+      members: !!registeredTeam.members
+        ? registeredTeam.members.map((x) => {
+            return this.memberMapper.toReferenceJson(x);
+          })
+        : [],
+      team: this.teamMapper.toReferenceJson(registeredTeam.team),
     };
+    return registeredTeamTemp;
   }
 }
