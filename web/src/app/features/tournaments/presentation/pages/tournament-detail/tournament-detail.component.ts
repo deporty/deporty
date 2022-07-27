@@ -7,7 +7,7 @@ import {
   IFixtureStageModel,
   IGroupModel,
   IMatchModel,
-  ITournamentModel
+  ITournamentModel,
 } from '@deporty/entities/tournaments';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { Observable, Subscription } from 'rxjs';
@@ -104,7 +104,6 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
               this.img = data;
             });
           }
-          // this.getFixtureStages();
           this.fixtureStages = !!this.tournament.fixture
             ? this.tournament.fixture?.stages
             : [];
@@ -206,7 +205,7 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
 
   onEditMatch(data: any) {
     this.router.navigate(
-      [TournamentsRoutingModule.route, EditMatchComponent.route],
+      [ EditMatchComponent.route],
       {
         queryParams: {
           match: JSON.stringify(data.match),
@@ -214,7 +213,7 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
           stageId: data.stageId,
           tournamentId: this.tournament.id,
         },
-        // relativeTo: this.activatedRoute
+        relativeTo: this.activatedRoute
       }
     );
 
@@ -389,7 +388,8 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
                 this.dialog.open(ModalComponent, {
                   data: {
                     kind: 'text',
-                    title: 'Error con el servidor. Comuníquese con el administrador de la plataforma.',
+                    title:
+                      'Error con el servidor. Comuníquese con el administrador de la plataforma.',
                   },
                 });
               }
@@ -441,17 +441,20 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
             return x.index == this.currentIndexGroup;
           })
           .pop();
+
+        console.log(result);
+
         if (group) {
-          this.editMatchOfGroupUsecase
-            .call({
-              match,
-              groupIndex: group.index,
-              stageIndex: this.stageId,
-              tournamentId: this.tournament.id,
-            })
-            .subscribe(() => {
-              this.getFixtureStages();
-            });
+          // this.editMatchOfGroupUsecase
+          //   .call({
+          //     match,
+          //     groupIndex: group.index,
+          //     stageIndex: this.stageId,
+          //     tournamentId: this.tournament.id,
+          //   })
+          //   .subscribe(() => {
+          //     this.getFixtureStages();
+          //   });
         }
       }
     });

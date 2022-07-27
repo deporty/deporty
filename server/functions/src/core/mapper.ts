@@ -15,78 +15,31 @@ export abstract class Mapper<T> {
   abstract toReferenceJson(obj: T): any;
   abstract fromReferenceJson(obj: any): any;
 
-  mapInsideReferences(jsonData: any): Observable<any> {
+  mapInsideReferences(jsonData: any, p = false): Observable<any> {
     const entries = Object.entries<any>(jsonData);
     const newObj = { ...jsonData };
-    const populatedAttributes = [];
+    const populatedAttributes: any[] = [];
     for (const entry of entries) {
       if (entry[1] instanceof DocumentReference) {
-        populatedAttributes.push(
-          this.fromReference(entry[1]).pipe(
-            map((value) => {
-              return {
-                attribute: entry[0],
-                value,
-              };
-            })
-          )
-        );
+        this.mapDocumentReferences(populatedAttributes, entry);
       } else if (entry[1] instanceof Timestamp) {
-        newObj[entry[0]] = getDateFromSeconds(entry[1].seconds);
+        this.mapDateReferences(newObj, entry);
       } else if (Array.isArray(entry[1])) {
-        const arrayProperties = [];
-        for (const element of entry[1]) {
-          if (element instanceof DocumentReference) {
-            arrayProperties.push(this.fromReference(element));
-          } else if (
-            typeof element === 'number' ||
-            typeof element === 'string' ||
-            typeof element === 'boolean'
-          ) {
-            arrayProperties.push(of(element));
-          } else if (element instanceof Object) {
-            arrayProperties.push(this.mapInsideReferences(element));
-          }
+        if (entry[0] == 'team-a') {
+          console.log('Musica clasica');
+          console.log(entry[0]);
+          console.log(entry[1]);
+          console.log();
         }
-        const temp =
-          arrayProperties.length > 0 ? zip(...arrayProperties) : of([]);
-
-        populatedAttributes.push(
-          temp.pipe(
-            map((value) => {
-              return {
-                attribute: entry[0],
-                value,
-              };
-            })
-          )
-        );
+        this.mapArrayReferences(entry, populatedAttributes);
       } else if (
         typeof entry[1] === 'number' ||
         typeof entry[1] === 'string' ||
         typeof entry[1] === 'boolean'
       ) {
-        populatedAttributes.push(
-          of(entry[1]).pipe(
-            map((value) => {
-              return {
-                attribute: entry[0],
-                value,
-              };
-            })
-          )
-        );
+        this.mapPrimitiveReferences(populatedAttributes, entry);
       } else if (entry[1] instanceof Object) {
-        populatedAttributes.push(
-          this.mapInsideReferences(entry[1]).pipe(
-            map((value) => {
-              return {
-                attribute: entry[0],
-                value,
-              };
-            })
-          )
-        );
+        this.mapObjectReferences(populatedAttributes, entry);
       }
     }
 
@@ -96,13 +49,101 @@ export abstract class Mapper<T> {
     return zip($obj, $populatedAttributes).pipe(
       map((data) => {
         const originalObj: any = data[0];
-        const modifiedAttributes = data[1];
+        const modifiedAttributes: any = data[1];
 
         for (const attr of modifiedAttributes) {
           originalObj[attr['attribute']] = attr['value'];
         }
         return originalObj;
       })
+    );
+  }
+
+  private mapDocumentReferences(
+    populatedAttributes: any[],
+    entry: [string, any]
+  ) {
+    populatedAttributes.push(
+      this.fromReference(entry[1]).pipe(
+        map((value) => {
+          if (entry[0] == 'player') {
+            console.log(value);
+          }
+          return {
+            attribute: entry[0],
+            value,
+          };
+        })
+      )
+    );
+  }
+
+  private mapDateReferences(newObj: any, entry: [string, any]) {
+    newObj[entry[0]] = getDateFromSeconds(entry[1].seconds);
+  }
+
+  private mapArrayReferences(entry: [string, any], populatedAttributes: any[]) {
+    const arrayProperties = [];
+    for (const element of entry[1]) {
+      if (element instanceof DocumentReference) {
+        arrayProperties.push(this.fromReference(element));
+      } else if (entry[1] instanceof Timestamp) {
+        arrayProperties.push(of(getDateFromSeconds(element.seconds)));
+      } else if (
+        typeof element === 'number' ||
+        typeof element === 'string' ||
+        typeof element === 'boolean'
+      ) {
+        arrayProperties.push(of(element));
+      } else if (element instanceof Object) {
+        const tempRes = this.mapInsideReferences(element);
+
+        arrayProperties.push(tempRes);
+      }
+    }
+    const temp = arrayProperties.length > 0 ? zip(...arrayProperties) : of([]);
+
+    populatedAttributes.push(
+      temp.pipe(
+        map((value) => {
+          return {
+            attribute: entry[0],
+            value,
+          };
+        })
+      )
+    );
+  }
+
+  private mapPrimitiveReferences(
+    populatedAttributes: any[],
+    entry: [string, any]
+  ) {
+    populatedAttributes.push(
+      of(entry[1]).pipe(
+        map((value) => {
+          return {
+            attribute: entry[0],
+            value,
+          };
+        })
+      )
+    );
+  }
+
+  private mapObjectReferences(
+    populatedAttributes: any[],
+    entry: [string, any]
+  ) {
+    populatedAttributes.push(
+      this.mapInsideReferences(entry[1]).pipe(
+        map((value) => {
+          return {
+            attribute: entry[0],
+            value,
+          };
+        })
+      )
     );
   }
 
@@ -114,7 +155,7 @@ export abstract class Mapper<T> {
           id: ob.id,
         };
       }),
-      map(x => this.mapInsideReferences(x)),
+      map((x) => this.mapInsideReferences(x)),
       mergeMap((x) => x)
     );
   }

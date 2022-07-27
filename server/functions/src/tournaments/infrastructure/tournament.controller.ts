@@ -8,6 +8,7 @@ import { AddMatchToGroupInsideTournamentUsecase } from '../usecases/add-match-to
 import { AddTeamToGroupInsideTournamentUsecase } from '../usecases/add-team-to-group-inside-tournament/add-team-to-group-inside-tournament.usecase';
 import { AddTeamToTournamentUsecase } from '../usecases/add-team-to-tournament/add-team-to-tournament.usecase';
 import { AddTeamsToGroupInsideTournamentUsecase } from '../usecases/add-teams-to-group-inside-tournament/add-teams-to-group-inside-tournament.usecase';
+import { EditMatchToGroupInsideTournamentUsecase } from '../usecases/edit-match-to-group-inside-tournament/edit-match-to-group-inside-tournament.usecase';
 import { GetMarkersTableUsecase } from '../usecases/get-markers-table/get-markers-table.usecase';
 import { GetPosibleTeamsToAddUsecase } from '../usecases/get-posible-teams-to-add/get-posible-teams-to-add.usecase';
 import { GetTournamentByIdUsecase } from '../usecases/get-tournament-by-id/get-tournament-by-id.usecase';
@@ -251,6 +252,41 @@ export class TournamentController extends BaseController {
       this.handlerController<AddTeamsToGroupInsideTournamentUsecase, any>(
         container,
         'AddTeamsToGroupInsideTournamentUsecase',
+        response,
+        config,
+        undefined,
+        params
+      );
+    });
+
+
+
+
+
+    app.put(`/edit-match-into-group`, (request: Request, response: Response) => {
+      const params = request.body;
+
+      const config: IMessagesConfiguration = {
+        exceptions: {
+          MatchDoesNotExist: 'MATCH-DOES-NOT-EXIST:ERROR',
+          StageDoesNotExist: 'STAGE-DOES-NOT-EXIST:ERROR',
+          GroupDoesNotExist: 'GROUP-DOES-NOT-EXIST:ERROR',
+        },
+        identifier: this.identifier,
+        errorCodes: {
+          'MATCH-DOES-NOT-EXIST:ERROR': '{message}',
+          'STAGE-DOES-NOT-EXIST:ERROR': '{message}',
+          'GROUP-DOES-NOT-EXIST:ERROR': '{message}',
+        },
+        successCode: 'MATCH-EDITED:SUCCESS',
+        extraData: {
+          ...params,
+        },
+      };
+
+      this.handlerController<EditMatchToGroupInsideTournamentUsecase, any>(
+        container,
+        'EditMatchToGroupInsideTournamentUsecase',
         response,
         config,
         undefined,

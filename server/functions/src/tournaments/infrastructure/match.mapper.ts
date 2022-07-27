@@ -12,6 +12,8 @@ export class MatchMapper {
     private playerFormMapper: PlayerFormMapper
   ) {}
   fromJson(obj: any): IMatchModel {
+
+    
     return {
       score: obj['score'] ? this.scoreMapper.fromJson(obj['score']) : undefined,
       teamA: this.teamMapper.fromJson(obj['team-a']),
@@ -22,7 +24,7 @@ export class MatchMapper {
         ? this.playerFormMapper.fromJson(obj['player-form'])
         : undefined,
 
-      stadistics: obj.stadistics
+      stadistics: !!obj.stadistics
         ? this.stadisticsMapper.fromJson(obj.stadistics)
         : undefined,
     };

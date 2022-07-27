@@ -11,29 +11,31 @@ const routes: Routes = [
     path: '',
     component: CurrentTournamentComponent,
     data: {
-      display: 'Torneos'
-    }
+      display: 'Torneos',
+    },
   },
   {
     path: CurrentTournamentComponent.route,
-    component: CurrentTournamentComponent
+    component: CurrentTournamentComponent,
   },
-  {
-    path: EditMatchComponent.route,
-    component: EditMatchComponent
-  },
-  {
-    path: CreateTournamentComponent.route,
-    component: CreateTournamentComponent
-  },
+
   {
     path: TournamentListComponent.route,
-    component: TournamentListComponent
+    component: TournamentListComponent,
   },
   {
     path: TournamentDetailComponent.route,
-    component: TournamentDetailComponent
-  }
+    component: TournamentDetailComponent,
+  },
+
+  {
+    path: `${TournamentDetailComponent.route}/${EditMatchComponent.route}`,
+    component: EditMatchComponent,
+  },
+  {
+    path: CreateTournamentComponent.route,
+    component: CreateTournamentComponent,
+  },
 ];
 
 @NgModule({
@@ -42,5 +44,5 @@ const routes: Routes = [
 })
 export class TournamentsRoutingModule {
   static route = 'tournaments';
-  static display = 'Torneos'
+  static display = 'Torneos';
 }

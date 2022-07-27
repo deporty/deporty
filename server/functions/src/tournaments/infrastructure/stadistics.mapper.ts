@@ -1,28 +1,31 @@
 import { IStadisticsModel } from '@deporty/entities/tournaments';
+import { PlayerMapper } from '../../players/infrastructure/player.mapper';
 
 export class StadisticsMapper {
+  constructor(private playerMapper: PlayerMapper) {}
   fromJson(obj: any): IStadisticsModel {
     const response: IStadisticsModel = {};
-    function transform(
+    const transform = (
       response: IStadisticsModel,
-      obj: any,
-      team: string,
-      teamObj: string
-    ) {
-      if (team in obj) {
-        (response as any)[teamObj] = {};
-        for (const id in obj[team]) {
-          if (Object.prototype.hasOwnProperty.call(obj[team], id)) {
-            const element = obj[team][id];
+      stadistic: any,
+      teamLabel: 'team-a' | 'team-b',
+      teamObj: 'teamA' | 'teamB'
+    ) => {
+      if (teamLabel in stadistic) {
+        response[teamObj] = [];
 
-            (response as any)[teamObj][id] = {
-              goals: [],
-              redCards: element['red-cards'],
-              yellowCards: element['yellow-cards'],
-            } as any;
-
-            for (const goal of element['goals']) {
-              (response as any)[teamObj][id]['goals'].push({
+        for (const playerStadistic of stadistic[teamLabel]) {
+          const tempObj: any = {
+            player: this.playerMapper.fromJson(playerStadistic.player),
+            goals: [],
+            totalGoals: playerStadistic['total-goals'] as number,
+            redCards: playerStadistic['red-cards'],
+            yellowCards: playerStadistic['yellow-cards'],
+          };
+          (response as any)[teamObj].push(tempObj);
+          if (!!playerStadistic['goals']) {
+            for (const goal of playerStadistic['goals']) {
+              tempObj['goals'].push({
                 kindGoal: goal['kind-goal'] as string,
                 minute: goal['minute'] as number,
               });
@@ -30,7 +33,7 @@ export class StadisticsMapper {
           }
         }
       }
-    }
+    };
 
     transform(response, obj, 'team-a', 'teamA');
     transform(response, obj, 'team-b', 'teamB');

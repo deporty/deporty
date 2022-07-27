@@ -13,3 +13,15 @@ export function existSMatchInList(
     }).length > 0
   );
 }
+
+export function findMatchInList(
+  match: IMatchModel,
+  matches: IMatchModel[]
+): number {
+  return matches.findIndex((m) => {
+    return (
+      (m.teamA.id === match.teamA.id && m.teamB.id === match.teamB.id) ||
+      (m.teamA.id === match.teamB.id && m.teamB.id === match.teamA.id)
+    );
+  });
+}

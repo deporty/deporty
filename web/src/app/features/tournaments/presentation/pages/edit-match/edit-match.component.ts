@@ -72,10 +72,8 @@ export class EditMatchComponent implements OnInit {
       this.match.date = this.match.date ? new Date(this.match.date) : undefined;
 
       this.playersA = this.match.teamA.members?.map((x) => x.player) || [];
-   
 
       this.playersB = this.match.teamB.members?.map((x) => x.player) || [];
-
 
       const a = this.getDate(this.match.date);
       this.formGroup = new FormGroup({
@@ -138,24 +136,37 @@ export class EditMatchComponent implements OnInit {
     const hour = hourWithMinute.split(':')[0];
     const minute = hourWithMinute.split(':')[1];
     date?.setHours(parseInt(hour), parseInt(minute));
-    this.editMatchOfGroupUsecase
-      .call({
-        groupIndex: this.groupIndex,
+    console.log({
+      groupIndex: this.groupIndex,
 
-        match: {
-          ...this.match,
-          date,
-          playground: this.formGroup.get('playground')?.value,
-          stadistics: this.stadistics,
-          playerForm: this.playersForm,
-        },
-        stageIndex: this.stageId,
-        tournamentId: this.tournamentId,
-      })
-      .subscribe((x) => {
-        this.router.navigate(['..'], {
-          relativeTo: this.activatedRoute,
-        });
-      });
+      match: {
+        ...this.match,
+        date,
+        playground: this.formGroup.get('playground')?.value,
+        stadistics: this.stadistics,
+        playerForm: this.playersForm,
+      },
+      stageIndex: this.stageId,
+      tournamentId: this.tournamentId,
+    });
+    // this.editMatchOfGroupUsecase
+    //   .call({
+    //     groupIndex: this.groupIndex,
+
+    //     match: {
+    //       ...this.match,
+    //       date,
+    //       playground: this.formGroup.get('playground')?.value,
+    //       stadistics: this.stadistics,
+    //       playerForm: this.playersForm,
+    //     },
+    //     stageIndex: this.stageId,
+    //     tournamentId: this.tournamentId,
+    //   })
+    //   .subscribe((x) => {
+    //     this.router.navigate(['..'], {
+    //       relativeTo: this.activatedRoute,
+    //     });
+    //   });
   }
 }

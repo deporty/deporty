@@ -90,7 +90,7 @@
           [players]="playersA"
           [players-form]="match.playerForm?.teamA"
           (emit-data)="updateTeamA($event)"
-          [stadistics]="match.stadistics?.teamA"
+          [stadistics]="match.stadistics?.teamA || []"
         >
         </app-player-form>
       </div>
@@ -103,7 +103,7 @@
           [players]="playersB"
           [players-form]="match.playerForm?.teamB"
           (emit-data)="updateTeamB($event)"
-          [stadistics]="match.stadistics?.teamB"
+          [stadistics]="match.stadistics?.teamB || []"
         >
         </app-player-form>
       </div>

@@ -15,6 +15,7 @@ import { AddTeamToGroupInsideTournamentUsecase } from './usecases/add-team-to-gr
 import { AddTeamToTournamentUsecase } from './usecases/add-team-to-tournament/add-team-to-tournament.usecase';
 import { AddTeamsToGroupInsideTournamentUsecase } from './usecases/add-teams-to-group-inside-tournament/add-teams-to-group-inside-tournament.usecase';
 import { CreateFixtureByGroupUsecase } from './usecases/create-fixture-by-group/create-fixture-by-group.usecase';
+import { EditMatchToGroupInsideTournamentUsecase } from './usecases/edit-match-to-group-inside-tournament/edit-match-to-group-inside-tournament.usecase';
 import { GetMarkersTableUsecase } from './usecases/get-markers-table/get-markers-table.usecase';
 import { GetPosibleTeamsToAddUsecase } from './usecases/get-posible-teams-to-add/get-posible-teams-to-add.usecase';
 import { GetTournamentByIdUsecase } from './usecases/get-tournament-by-id/get-tournament-by-id.usecase';
@@ -31,6 +32,7 @@ export class TournamentsModulesConfig {
     container.add({
       id: 'StadisticsMapper',
       kind: StadisticsMapper,
+      dependencies: ['PlayerMapper'],
       strategy: 'singleton',
     });
 
@@ -98,7 +100,7 @@ export class TournamentsModulesConfig {
     container.add({
       id: 'GetMarkersTableUsecase',
       kind: GetMarkersTableUsecase,
-      dependencies: ['GetPlayerByIdUsecase', 'TournamentContract'],
+      dependencies: [ 'TournamentContract'],
       strategy: 'singleton',
     });
 
@@ -176,6 +178,12 @@ export class TournamentsModulesConfig {
         'UpdateTournamentUsecase',
         'AddTeamToGroupInsideTournamentUsecase',
       ],
+      strategy: 'singleton',
+    });
+    container.add({
+      id: 'EditMatchToGroupInsideTournamentUsecase',
+      kind: EditMatchToGroupInsideTournamentUsecase,
+      dependencies: ['GetTournamentByIdUsecase', 'UpdateTournamentUsecase'],
       strategy: 'singleton',
     });
   }

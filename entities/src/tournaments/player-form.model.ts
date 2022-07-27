@@ -1,4 +1,6 @@
+import { IPlayerModel } from "../players";
+
 export interface IPlayerFormModel {
-    teamA: string[];
-    teamB: string[];
+    teamA: IPlayerModel[];
+    teamB: IPlayerModel[];
   }

@@ -1,17 +1,16 @@
-export interface IStadisticsModel {
-  teamA?: {
-    [index: string]: {
-      goals: any[];
-      redCards: number[];
-      yellowCards: number[];
-    };
-  };
+import { IPlayerModel } from '../players';
 
-  teamB?: {
-    [index: string]: {
-      goals: any[];
-      redCards: number[];
-      yellowCards: number[];
-    };
-  };
+export interface IStadisticSpecificationModel {
+  player: IPlayerModel;
+  goals?: any[];
+  totalGoals: number;
+  redCards: number[];
+  yellowCards: number[];
+}
+
+export interface IStadisticsModel {
+  teamA?: IStadisticSpecificationModel[];
+  teamB?: IStadisticSpecificationModel[];
+  globalStadisticsTeamA?: Omit<IStadisticSpecificationModel, 'player'>;
+  globalStadisticsTeamB?: Omit<IStadisticSpecificationModel, 'player'>;
 }
