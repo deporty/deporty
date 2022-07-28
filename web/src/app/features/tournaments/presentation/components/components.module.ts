@@ -26,6 +26,8 @@ import { ComponentsModule as PlayerComponentsModule } from '../../../players/pre
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { CardFormComponent } from './card-form/card-form.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 const COMPONENTS = [
   TournamentCardComponent,
@@ -41,11 +43,12 @@ const COMPONENTS = [
 ];
 
 @NgModule({
-  declarations: [...COMPONENTS],
+  declarations: [...COMPONENTS, CardFormComponent],
   exports: [...COMPONENTS],
   imports: [
     CommonModule,
     MatCardModule,
+    MatSlideToggleModule,
     MatButtonModule,
     MatIconModule,
     MatChipsModule,

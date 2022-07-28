@@ -50,6 +50,12 @@ export class PlayerFormComponent implements OnInit {
     return filtered.pop() as IStadisticSpecificationModel;
   }
 
+
+  onChangeData(data: any,data2: any){
+    console.log(data, data2);
+    
+
+  }
   addGoal(player: IPlayerModel) {
     const minute = this.minute;
     const kindGoal = this.selectedKindGoal;

@@ -1,11 +1,20 @@
 import { IPlayerModel } from '../players';
+export interface ICardSpecification {
+  minute: number;
+  description: string;
+}
 
 export interface IStadisticSpecificationModel {
   player: IPlayerModel;
+
   goals?: any[];
   totalGoals: number;
-  redCards: number[];
-  yellowCards: number[];
+
+  redCards: ICardSpecification[];
+  totalRedCards: number;
+
+  yellowCards: ICardSpecification[];
+  totalYellowCards: number;
 }
 
 export interface IStadisticsModel {
