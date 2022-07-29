@@ -11,10 +11,11 @@ import { FirebaseDataSource } from './core/firebase.datasource';
 import { DataSource } from './core/datasource';
 import { FileAdapter } from './core/file/file.adapter';
 import { FileRepository } from './core/file/file.repository';
+import { env } from './environments/env';
 
 const firebaseApp = initializeApp({
-  credential: cert('./deporty-dev-firebase-adminsdk.json'),
-  storageBucket: 'deporty-dev.appspot.com',
+  credential: cert(env.credentials),
+  storageBucket: env.bucketName,
 });
 
 const db: Firestore = getFirestore(firebaseApp);
