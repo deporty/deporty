@@ -16,6 +16,7 @@ import { env } from './environments/env';
 const firebaseApp = initializeApp({
   credential: cert(env.credentials),
   storageBucket: env.bucketName,
+  projectId: env.projectId
 });
 
 const db: Firestore = getFirestore(firebaseApp);

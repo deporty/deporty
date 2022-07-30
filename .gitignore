@@ -208,3 +208,7 @@ db/storage
 **/dist
 **/.angular
 .angular
+
+
+server/functions/src/environments/dev.ts
+server/functions/src/environments/pdn.ts
