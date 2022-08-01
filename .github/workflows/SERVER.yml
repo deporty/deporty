@@ -49,6 +49,8 @@ jobs:
       - name: DEPLOY DEV
         run: |
           cd server
+          echo "${{secrets.FIREBASE_ENV_CONFIG}}" > functions/src/env.ts
+          cat functions/src/env.ts
           firebase use dev --token "${{secrets.FIREBASE_TOKEN}}"
           firebase deploy --token "${{secrets.FIREBASE_TOKEN}}" --force
 
@@ -93,8 +95,6 @@ jobs:
       - name: DEPLOY PDN
         run: |
           cd server
-          echo "${{secrets.FIREBASE_ENV_CONFIG}}" > functions/src/env.ts
-          cat functions/src/env.ts
           firebase use pdn --token "${{secrets.FIREBASE_TOKEN}}"
           firebase deploy --token "${{secrets.FIREBASE_TOKEN}}" --force
 
