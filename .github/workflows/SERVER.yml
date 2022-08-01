@@ -93,7 +93,7 @@ jobs:
       - name: DEPLOY PDN
         run: |
           cd server
-          # echo "${{secrets.FIREBASE_ENV_CONFIG}}" > functions/src/env.ts
+          echo "${{secrets.FIREBASE_ENV_CONFIG}}" > functions/src/env.ts
           cat functions/src/env.ts
           firebase use pdn --token "${{secrets.FIREBASE_TOKEN}}"
           firebase deploy --token "${{secrets.FIREBASE_TOKEN}}" --force
