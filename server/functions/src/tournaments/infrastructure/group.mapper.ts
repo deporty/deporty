@@ -23,6 +23,8 @@ export class GroupMapper {
   toJson(group: IGroupModel) {
     return {
       label: group.label,
+      order: group.order,
+
       matches: !!group.matches
         ? group.matches.map((x) => this.matchMapper.toJson(x))
         : [],

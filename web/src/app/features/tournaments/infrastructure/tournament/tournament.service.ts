@@ -188,7 +188,7 @@ export class TournamentService extends TournamentAdapter {
     });
   }
 
-  //No Terminado
+  //Terminado
   addMatchToGroupInsideTournament(
     tournamentId: string,
     stageId: string,
@@ -209,7 +209,7 @@ export class TournamentService extends TournamentAdapter {
     });
   }
 
-  //No Terminado
+  //Terminado
   editMatchOfGroupInsideTournament(
     tournamentId: string,
     stageId: string,
