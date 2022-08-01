@@ -16,7 +16,10 @@ import { TeamIsAlreadyInTheGroup } from '../add-team-to-group-inside-tournament/
 import { AddTeamToGroupInsideTournamentUsecase } from '../add-team-to-group-inside-tournament/add-team-to-group-inside-tournament.usecase';
 import { GetTournamentByIdUsecase } from '../get-tournament-by-id/get-tournament-by-id.usecase';
 import { UpdateTournamentUsecase } from '../update-tournament/update-tournament.usecase';
-import { TeamDoesNotHaveMembers } from './add-team-to-group-inside-tournament.exceptions';
+import {
+  TeamDoesNotHaveMembers,
+  TeamIsAlreadyInOtherGroup,
+} from './add-team-to-group-inside-tournament.exceptions';
 // import { TeamDoesNotHaveMembers } from './add-team-to-group-inside-tournament.exceptions';
 
 export interface Param {
@@ -108,7 +111,6 @@ export class AddTeamsToGroupInsideTournamentUsecase extends Usecase<
         }
         const currentGroup: IGroupModel = group.pop() as IGroupModel;
 
-
         for (const team of data.newTeams) {
           const exists =
             currentGroup.teams.filter((x) => x.id === team.id).length > 0;
@@ -118,13 +120,24 @@ export class AddTeamsToGroupInsideTournamentUsecase extends Usecase<
             ).message;
             // return throwError(new TeamIsAlreadyInTheGroup(team.name));
           } else {
-            currentGroup.teams.push(team);
+            const otherGroup: IGroupModel[] = currentStage.groups.filter(
+              (g) => g.order != param.groupIndex
+            );
+            let isInAnotherGroup = false;
+            for (const g of otherGroup) {
+              isInAnotherGroup =
+                isInAnotherGroup ||
+                g.teams.filter((x) => x.id === team.id).length > 0;
+            }
 
-            data.teams[team.id] = 'SUCCESS'
+            if (isInAnotherGroup) {
+              data.teams[team.id] = new TeamIsAlreadyInOtherGroup(team.name);
+            } else {
+              currentGroup.teams.push(team);
+              data.teams[team.id] = 'SUCCESS';
+            }
           }
         }
-
-
 
         // return of({
         //   group: currentGroup,

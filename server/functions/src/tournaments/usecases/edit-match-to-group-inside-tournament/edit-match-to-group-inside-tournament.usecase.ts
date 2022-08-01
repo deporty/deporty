@@ -48,7 +48,7 @@ export class EditMatchToGroupInsideTournamentUsecase extends Usecase<
           stage.pop() as IFixtureStageModel;
 
         const group: IGroupModel[] = currentStage.groups.filter(
-          (g) => g.order === param.groupIndex
+          (g) => g.order == param.groupIndex
         );
 
         if (group.length === 0) {

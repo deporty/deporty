@@ -222,7 +222,10 @@ export class TournamentService extends TournamentAdapter {
       tournamentId,
       stageId,
       groupIndex,
-      match,
+      match: {
+        ...match,
+        date: !!match.date ? match.date?.getTime() / 1000 : undefined,
+      },
     });
   }
 }

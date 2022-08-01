@@ -111,7 +111,7 @@ export class EditMatchComponent implements OnInit {
   }
 
   calculateGoals() {
-    console.log(this.playersForm)
+    console.log(this.playersForm);
     function calc(stadistics: IStadisticsModel, team: 'teamA' | 'teamB') {
       let teamAGoals = 0;
       for (const playerStadistic of stadistics[team] || []) {
@@ -136,16 +136,21 @@ export class EditMatchComponent implements OnInit {
   saveData() {
     this.status = 'pending';
     const date: Date = this.formGroup.get('date')?.value;
-    const hourWithMinute: string = this.formGroup.get('hour')?.value;
+
+    let hourWithMinute: string = this.formGroup.get('hour')?.value;
+    if (!hourWithMinute) {
+      hourWithMinute = '12:00';
+    }
     const hour = hourWithMinute.split(':')[0];
     const minute = hourWithMinute.split(':')[1];
+
     date?.setHours(parseInt(hour), parseInt(minute));
 
     this.tournamentAdapter
       .editMatchOfGroupInsideTournament(
         this.tournamentId,
         this.stageId,
-        this.groupIndex,
+        this.groupIndex as number,
         {
           ...this.match,
           date,
@@ -156,28 +161,6 @@ export class EditMatchComponent implements OnInit {
       )
       .subscribe((x) => {
         this.location.back();
-        // this.router. navigate(['..'], {
-        //   relativeTo: this.activatedRoute,
-        // });
       });
-    // this.editMatchOfGroupUsecase
-    //   .call({
-    //     groupIndex: this.groupIndex,
-
-    //     match: {
-    //       ...this.match,
-    //       date,
-    //       playground: this.formGroup.get('playground')?.value,
-    //       stadistics: this.stadistics,
-    //       playerForm: this.playersForm,
-    //     },
-    //     stageIndex: this.stageId,
-    //     tournamentId: this.tournamentId,
-    //   })
-    //   .subscribe((x) => {
-    //     this.router.navigate(['..'], {
-    //       relativeTo: this.activatedRoute,
-    //     });
-    //   });
   }
 }

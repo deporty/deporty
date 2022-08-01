@@ -5,6 +5,13 @@ export class TeamWasAlreadyRegistered extends Error {
     this.name = 'TeamWasAlreadyRegistered';
   }
 }
+export class TeamIsAlreadyInOtherGroup extends Error {
+  constructor(name: string) {
+    super();
+    this.message = `The team "${name}" is already in other group`;
+    this.name = 'TeamIsAlreadyInOtherGroup';
+  }
+}
 
 export class TeamDoesNotHaveMembers extends Error {
   constructor(name: string) {

@@ -12,13 +12,12 @@ export class MatchMapper {
     private playerFormMapper: PlayerFormMapper
   ) {}
   fromJson(obj: any): IMatchModel {
-
     
     return {
       score: obj['score'] ? this.scoreMapper.fromJson(obj['score']) : undefined,
       teamA: this.teamMapper.fromJson(obj['team-a']),
       teamB: this.teamMapper.fromJson(obj['team-b']),
-      date: obj['date'] ? new Date(obj['date'].seconds * 1000) : undefined,
+      date: obj['date'] ,
       playground: obj['playground'],
       playerForm: obj['player-form']
         ? this.playerFormMapper.fromJson(obj['player-form'])

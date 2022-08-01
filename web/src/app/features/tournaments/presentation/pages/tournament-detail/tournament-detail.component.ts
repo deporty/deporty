@@ -202,21 +202,15 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
   }
 
   onEditMatch(data: any) {
-    this.router.navigate(
-      [ EditMatchComponent.route],
-      {
-        queryParams: {
-          match: JSON.stringify(data.match),
-          groupIndex: data.order,
-          stageId: data.stageId,
-          tournamentId: this.tournament.id,
-        },
-        relativeTo: this.activatedRoute
-      }
-    );
-
-  
-    
+    this.router.navigate([EditMatchComponent.route], {
+      queryParams: {
+        match: JSON.stringify(data.match),
+        groupIndex: parseInt(data.order),
+        stageId: data.stageId,
+        tournamentId: this.tournament.id,
+      },
+      relativeTo: this.activatedRoute,
+    });
   }
 
   onAddMatch(data: any) {
@@ -276,9 +270,11 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
               data: {
                 kind: 'text',
                 title: 'Equipos asignados adecuadamente',
-                text: Object.values(data.data.results).filter(
-                  (x) => x != 'SUCCESS'
-                ),
+                text: Object.values(data.data.results)
+                  .filter((x) => x != 'SUCCESS')
+                  .map((x: any) => {
+                    return x.message;
+                  }),
               },
             });
           }
@@ -380,7 +376,6 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
                 });
               }
             });
-
         }
       }
     });

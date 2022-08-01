@@ -16,6 +16,7 @@ import { GetTournamentByIdUsecase } from '../get-tournament-by-id/get-tournament
 import { UpdateTournamentUsecase } from '../update-tournament/update-tournament.usecase';
 import {
   TeamDoesNotHaveMembers,
+  TeamIsAlreadyInOtherGroup,
   TeamIsAlreadyInTheGroup,
 } from './add-team-to-group-inside-tournament.exceptions';
 
@@ -63,7 +64,11 @@ export class AddTeamToGroupInsideTournamentUsecase extends Usecase<
           stage.pop() as IFixtureStageModel;
 
         const group: IGroupModel[] = currentStage.groups.filter(
-          (g) => g.order === param.groupIndex
+          (g) => g.order == param.groupIndex
+        );
+
+        const otherGroup: IGroupModel[] = currentStage.groups.filter(
+          (g) => g.order != param.groupIndex
         );
 
         if (group.length === 0) {
@@ -76,6 +81,19 @@ export class AddTeamToGroupInsideTournamentUsecase extends Usecase<
         if (exists) {
           return throwError(new TeamIsAlreadyInTheGroup(team.name));
         }
+
+        let isInAnotherGroup = false;
+        for (const g of otherGroup) {
+          isInAnotherGroup =
+            isInAnotherGroup ||
+            g.teams.filter((x) => x.id === team.id).length > 0;
+        }
+
+        if (isInAnotherGroup) {
+          return throwError(new TeamIsAlreadyInOtherGroup(team.name));
+        }
+
+
         currentGroup.teams.push(team);
 
         return this.updateTournamentUsecase.call(tournament).pipe(

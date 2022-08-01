@@ -4,6 +4,7 @@ import {
   IMessagesConfiguration,
 } from '../../core/controller/controller';
 import { Container } from '../../core/DI';
+import { getDateFromSeconds } from '../../core/helpers';
 import { AddMatchToGroupInsideTournamentUsecase } from '../usecases/add-match-to-group-inside-tournament/add-match-to-group-inside-tournament.usecase';
 import { AddTeamToGroupInsideTournamentUsecase } from '../usecases/add-team-to-group-inside-tournament/add-team-to-group-inside-tournament.usecase';
 import { AddTeamToTournamentUsecase } from '../usecases/add-team-to-tournament/add-team-to-tournament.usecase';
@@ -197,19 +198,20 @@ export class TournamentController extends BaseController {
       );
     });
 
-
     app.put(`/add-team-into-group`, (request: Request, response: Response) => {
       const params = request.body;
 
       const config: IMessagesConfiguration = {
         exceptions: {
           TeamIsAlreadyInTheGroup: 'TEAM-IS-ALREADY-IN-THE-GROUP:ERROR',
+          TeamIsAlreadyInOtherGroup: 'TEAM-IS-ALREADY-IN-OTHER-GROUP:ERROR',
           StageDoesNotExist: 'STAGE-DOES-NOT-EXIST:ERROR',
           GroupDoesNotExist: 'GROUP-DOES-NOT-EXIST:ERROR',
         },
         identifier: this.identifier,
         errorCodes: {
           'TEAM-IS-ALREADY-IN-THE-GROUP:ERROR': '{message}',
+          'TEAM-IS-ALREADY-IN-OTHER-GROUP:ERROR': '{message}',
           'STAGE-DOES-NOT-EXIST:ERROR': '{message}',
           'GROUP-DOES-NOT-EXIST:ERROR': '{message}',
         },
@@ -259,40 +261,41 @@ export class TournamentController extends BaseController {
       );
     });
 
+    app.put(
+      `/edit-match-into-group`,
+      (request: Request, response: Response) => {
+        const params = request.body;
+        params.match.date = getDateFromSeconds(params.match.date);
+        console.log(params.match.date);
+        
 
+        const config: IMessagesConfiguration = {
+          exceptions: {
+            MatchDoesNotExist: 'MATCH-DOES-NOT-EXIST:ERROR',
+            StageDoesNotExist: 'STAGE-DOES-NOT-EXIST:ERROR',
+            GroupDoesNotExist: 'GROUP-DOES-NOT-EXIST:ERROR',
+          },
+          identifier: this.identifier,
+          errorCodes: {
+            'MATCH-DOES-NOT-EXIST:ERROR': '{message}',
+            'STAGE-DOES-NOT-EXIST:ERROR': '{message}',
+            'GROUP-DOES-NOT-EXIST:ERROR': '{message}',
+          },
+          successCode: 'MATCH-EDITED:SUCCESS',
+          extraData: {
+            ...params,
+          },
+        };
 
-
-
-    app.put(`/edit-match-into-group`, (request: Request, response: Response) => {
-      const params = request.body;
-
-      const config: IMessagesConfiguration = {
-        exceptions: {
-          MatchDoesNotExist: 'MATCH-DOES-NOT-EXIST:ERROR',
-          StageDoesNotExist: 'STAGE-DOES-NOT-EXIST:ERROR',
-          GroupDoesNotExist: 'GROUP-DOES-NOT-EXIST:ERROR',
-        },
-        identifier: this.identifier,
-        errorCodes: {
-          'MATCH-DOES-NOT-EXIST:ERROR': '{message}',
-          'STAGE-DOES-NOT-EXIST:ERROR': '{message}',
-          'GROUP-DOES-NOT-EXIST:ERROR': '{message}',
-        },
-        successCode: 'MATCH-EDITED:SUCCESS',
-        extraData: {
-          ...params,
-        },
-      };
-
-      this.handlerController<EditMatchToGroupInsideTournamentUsecase, any>(
-        container,
-        'EditMatchToGroupInsideTournamentUsecase',
-        response,
-        config,
-        undefined,
-        params
-      );
-    });
-
+        this.handlerController<EditMatchToGroupInsideTournamentUsecase, any>(
+          container,
+          'EditMatchToGroupInsideTournamentUsecase',
+          response,
+          config,
+          undefined,
+          params
+        );
+      }
+    );
   }
 }
