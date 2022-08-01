@@ -1,6 +1,6 @@
 import { ICreateTeamModel, ITeamModel } from '@deporty/entities/teams';
 import { Firestore } from 'firebase-admin/firestore';
-import { Observable, zip } from 'rxjs';
+import { Observable, of, zip } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Mapper } from '../../core/mapper';
 import { PLAYER_ENTITY } from '../../players/infrastructure/player.constants';
@@ -14,13 +14,11 @@ export class TeamMapper extends Mapper<ITeamModel> {
           return this.memberMapper.fromReferenceJson(item);
         })
       : [];
-    const x = zip(...g).pipe(
+    const x = (!!g.length ? zip(...g) : of([])).pipe(
       catchError((err) => {
-
         return [];
       }),
       map((data) => {
-
         let z = {
           name: obj['name'],
           id: obj['id'],
