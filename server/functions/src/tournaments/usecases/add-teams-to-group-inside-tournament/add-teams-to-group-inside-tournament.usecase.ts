@@ -101,15 +101,13 @@ export class AddTeamsToGroupInsideTournamentUsecase extends Usecase<
         const currentStage: IFixtureStageModel =
           stage.pop() as IFixtureStageModel;
         const group: IGroupModel[] = currentStage.groups.filter(
-          (g) => g.index === param.groupIndex
+          (g) => g.order === param.groupIndex
         );
         if (group.length === 0) {
           return throwError(new GroupDoesNotExist(param.groupIndex));
         }
         const currentGroup: IGroupModel = group.pop() as IGroupModel;
-        console.log(1);
-        console.log(data.newTeams);
-        console.log(1);
+
 
         for (const team of data.newTeams) {
           const exists =
@@ -126,13 +124,7 @@ export class AddTeamsToGroupInsideTournamentUsecase extends Usecase<
           }
         }
 
-        console.log(0);
-        console.log(data.teams);
-        console.log(0);
 
-        console.log(10);
-        console.log(tournament);
-        console.log(10);
 
         // return of({
         //   group: currentGroup,

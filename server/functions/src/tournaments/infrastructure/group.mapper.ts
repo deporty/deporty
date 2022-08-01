@@ -16,7 +16,7 @@ export class GroupMapper {
         ? (obj['teams'] as []).map((x) => this.teamMapper.fromJson(x))
         : [],
       label: obj['label'],
-      index: obj['index'],
+      order: obj['order'],
     };
   }
 

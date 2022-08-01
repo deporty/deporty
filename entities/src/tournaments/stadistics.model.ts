@@ -4,10 +4,15 @@ export interface ICardSpecification {
   description: string;
 }
 
+export interface IGoalSpecification {
+  minute: number;
+  kind: string;
+}
+
 export interface IStadisticSpecificationModel {
   player: IPlayerModel;
 
-  goals?: any[];
+  goals?: IGoalSpecification[];
   totalGoals: number;
 
   redCards: ICardSpecification[];

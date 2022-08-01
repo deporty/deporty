@@ -35,7 +35,7 @@ export class MemberMapper extends Mapper<IMemberModel> {
       retirementDate: !!obj['retirement-date']
         ? getDateFromSeconds(parseInt(obj['retirement-date']['_seconds']))
         : undefined,
-      player: this.playerMapper.fromJson(obj['player']),
+      player:   this.playerMapper.fromJson(obj['player']),
     };
   }
 

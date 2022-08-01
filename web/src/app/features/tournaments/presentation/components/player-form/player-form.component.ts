@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IPlayerModel } from '@deporty/entities/players';
 import { IStadisticSpecificationModel } from '@deporty/entities/tournaments';
+import { filter } from 'rxjs/operators';
+import { NewsComponent } from 'src/app/features/news/presentation/components/news/news.component';
 
 @Component({
   selector: 'app-player-form',
@@ -19,12 +21,13 @@ export class PlayerFormComponent implements OnInit {
 
   @Input() players!: IPlayerModel[];
 
-  @Input('players-form') playersForm!: any[] | undefined;
+  @Input('players-form') playersForm!: IPlayerModel[] | undefined;
   @Input() stadistics!: IStadisticSpecificationModel[];
+  @Input() indi!: string;
 
   @Output('emit-data') emitData: EventEmitter<any>;
 
-  selectedPlayers!: any[];
+  selectedPlayers!: IPlayerModel[];
   constructor() {
     this.playersForm = [];
     this.selectedPlayers = [];
@@ -35,33 +38,68 @@ export class PlayerFormComponent implements OnInit {
     if (this.playersForm) {
       this.selectedPlayers = this.playersForm;
     }
+    console.log('Los seleccionados son: ', this.selectedPlayers);
 
     if (!this.stadistics) {
       this.stadistics = [];
     }
-
-    console.log(this.stadistics);
-    console.log(this.players);
   }
-  getStadisticByPlayer(playerId: string): IStadisticSpecificationModel {
+
+  isSelected(player: IPlayerModel) {
+    return !!this.selectedPlayers.filter((x) => x.id === player.id).length;
+  }
+  getStadisticByPlayer(player: IPlayerModel): IStadisticSpecificationModel {
     const filtered = this.stadistics.filter((x) => {
-      return x.player.id === playerId;
+      return x.player.id === player.id;
     });
-    return filtered.pop() as IStadisticSpecificationModel;
+    if (!!filtered.length) {
+      return filtered.pop() as IStadisticSpecificationModel;
+    } else {
+      const newStadistic: IStadisticSpecificationModel = {
+        player,
+        redCards: [],
+        yellowCards: [],
+        totalGoals: 0,
+        totalRedCards: 0,
+        totalYellowCards: 0,
+      };
+      this.stadistics.push(newStadistic);
+      return newStadistic;
+    }
   }
 
+  onAddCard(
+    data: any,
+    player: IPlayerModel,
+    kindCard: 'redCards' | 'yellowCards'
+  ) {
+    const playerStadistic: IStadisticSpecificationModel =
+      this.getStadisticByPlayer(player);
 
-  onChangeData(data: any,data2: any){
-    console.log(data, data2);
-    
-
+    const total: 'totalRedCards' | 'totalYellowCards' =
+      kindCard == 'redCards' ? 'totalRedCards' : 'totalYellowCards';
+    playerStadistic[kindCard] = [...data.cards];
+    playerStadistic[total] = data.total as number;
+    console.log(this.stadistics);
+    this.emit();
   }
+
+  onAddGoal(data: any, player: IPlayerModel) {
+    const playerStadistic: IStadisticSpecificationModel =
+      this.getStadisticByPlayer(player);
+
+    playerStadistic.goals = [...data.goals];
+    playerStadistic.totalGoals = data.total as number;
+    console.log(this.stadistics);
+    this.emit();
+  }
+
   addGoal(player: IPlayerModel) {
     const minute = this.minute;
     const kindGoal = this.selectedKindGoal;
 
     this.setPlayerConfig(player);
-    const prev = this.getStadisticByPlayer(player.id);
+    const prev = this.getStadisticByPlayer(player);
 
     const existsPrev =
       !!prev && prev.goals
@@ -73,7 +111,7 @@ export class PlayerFormComponent implements OnInit {
       if (prev?.goals) {
         prev.goals.push({
           minute,
-          kindGoal: kindGoal,
+          kind: kindGoal,
         });
       }
     }
@@ -114,33 +152,30 @@ export class PlayerFormComponent implements OnInit {
   }
 
   selectPlayer(player: IPlayerModel) {
-    const index = this.selectedPlayers.indexOf(player);
+    const index = this.selectedPlayers.findIndex((x: IPlayerModel) => {
+     return x.id === player.id;
+    });
 
+    console.log(this.indi);
+    
+    console.log(JSON.stringify(this.selectedPlayers));
+    
+    console.log(player, index);
+    
     if (index >= 0) {
       (this.selectedPlayers as []).splice(index, 1);
     } else {
       this.selectedPlayers.push(player);
     }
+    console.log(JSON.stringify(this.selectedPlayers));
+    
+    this.emit();
+  }
 
+  emit() {
     this.emitData.emit({
       stadistics: this.stadistics,
       playersForm: this.selectedPlayers,
     });
-  }
-
-  deleteGoal(player: IPlayerModel, index: number) {
-    // (this.stadistics[player.id]['goals'] as []).splice(index, 1);
-    // this.emitData.emit({
-    //   stadistics: this.stadistics,
-    //   playersForm: this.selectedPlayers,
-    // });
-  }
-
-  deleteCard(player: IPlayerModel, index: number, kindCard: string) {
-    // (this.stadistics[player.id][kindCard] as []).splice(index, 1);
-    // this.emitData.emit({
-    //   stadistics: this.stadistics,
-    //   playersForm: this.selectedPlayers,
-    // });
   }
 }

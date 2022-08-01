@@ -5,7 +5,7 @@ import { TournamentAdapter } from '../../adapters/tournament.adapter';
 import { IGroupModel } from '@deporty/entities/tournaments';
 
 export interface Params {
-  group: Omit<IGroupModel, 'index'>;
+  group: Omit<IGroupModel, 'order'>;
   stageIndex: string;
   tournamentId: string;
 }

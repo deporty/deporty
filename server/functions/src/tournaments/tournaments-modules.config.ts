@@ -39,6 +39,7 @@ export class TournamentsModulesConfig {
     container.add({
       id: 'PlayerFormMapper',
       kind: PlayerFormMapper,
+      dependencies: ['PlayerMapper'],
       strategy: 'singleton',
     });
 

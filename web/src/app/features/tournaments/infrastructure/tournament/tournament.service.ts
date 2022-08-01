@@ -26,7 +26,11 @@ import { ITeamModel } from '@deporty/entities/teams';
 import { firestore } from 'src/app/init-app';
 import { environment } from 'src/environments/environment';
 import { TournamentAdapter } from '../../adapters/tournament.adapter';
-import { IMatchModel,IGroupModel, IFixtureStageModel } from '@deporty/entities/tournaments';
+import {
+  IMatchModel,
+  IGroupModel,
+  IFixtureStageModel,
+} from '@deporty/entities/tournaments';
 
 @Injectable()
 export class TournamentService extends TournamentAdapter {
@@ -201,7 +205,7 @@ export class TournamentService extends TournamentAdapter {
       groupIndex,
       teamAId,
       teamBId,
-      date: !!date ? date.getTime(): undefined,
+      date: !!date ? date.getTime() : undefined,
     });
   }
 
@@ -211,45 +215,14 @@ export class TournamentService extends TournamentAdapter {
     stageId: string,
     groupIndex: number,
     match: IMatchModel
-  ): Observable<void> {
-    const stageDoc = doc(
-      firestore,
-      TournamentService.collection,
+  ): Observable<IBaseResponse<IFixtureStageModel>> {
+    const path = `${environment.serverEndpoint}/${TournamentService.collection}/edit-match-into-group`;
+
+    return this.httpClient.put<IBaseResponse<IFixtureStageModel>>(path, {
       tournamentId,
-      'fixture-stages',
-      stageId
-    );
-
-    return new Observable((observer) => {
-      from(getDoc(stageDoc)).subscribe((data) => {
-        const docu = { ...data.data() };
-
-        const matchDB = match as IMatchModel;
-
-        if (!docu.groups[groupIndex].matches) {
-          docu.groups[groupIndex].matches = [];
-        }
-        let index = 0;
-        for (const _match of [...docu.groups[groupIndex].matches]) {
-          const isMatch =
-            (_match['team-a'].name == match.teamA.name &&
-              _match['team-b'].name == match.teamB.name) ||
-            (_match['team-a'].name == match.teamB.name &&
-              _match['team-b'].name == match.teamA.name);
-          index += 1;
-
-          if (isMatch) {
-            break;
-          }
-        }
-        index -= 1;
-
-        docu.groups[groupIndex].matches[index] = matchDB;
-        from(updateDoc(stageDoc, docu)).subscribe(() => {
-          observer.next();
-          observer.complete();
-        });
-      });
+      stageId,
+      groupIndex,
+      match,
     });
   }
 }

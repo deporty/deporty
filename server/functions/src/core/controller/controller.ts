@@ -129,7 +129,6 @@ export abstract class BaseController {
         response.send(resp);
       },
       complete: () => {
-        response.send();
       },
     });
   }

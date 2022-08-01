@@ -5,5 +5,5 @@ export interface IGroupModel {
   matches?: IMatchModel[];
   teams: ITeamModel[];
   label: string;
-  index: number;
+  order: number;
 }

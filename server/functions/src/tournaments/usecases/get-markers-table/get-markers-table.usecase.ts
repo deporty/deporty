@@ -60,7 +60,7 @@ export class GetMarkersTableUsecase extends Usecase<string, StadisticResume[]> {
     ) {
       if (!!stadisticsByTeam) {
         for (const playerStadistic of stadisticsByTeam) {
-          if (playerStadistic.goals) {
+          if (playerStadistic.totalGoals) {
             let stadistic = findStadisticInScores(scorers, playerStadistic);
             if (!stadistic) {
               stadistic = {

@@ -63,7 +63,7 @@ export class AddMatchToGroupInsideTournamentUsecase extends Usecase<
           stage.pop() as IFixtureStageModel;
 
         const group: IGroupModel[] = currentStage.groups.filter(
-          (g) => g.index === param.groupIndex
+          (g) => g.order === param.groupIndex
         );
 
         if (group.length === 0) {
@@ -72,7 +72,7 @@ export class AddMatchToGroupInsideTournamentUsecase extends Usecase<
 
         const currentGroup: IGroupModel = group.pop() as IGroupModel;
 
-        if (!!currentGroup.matches) {
+        if (!currentGroup.matches) {
           currentGroup.matches = [];
         }
 

@@ -43,7 +43,7 @@ export abstract class TournamentAdapter {
   abstract createGroupInsideTournament(
     tournamentId: string,
     stageId: string,
-    group: Omit<IGroupModel, 'index'>
+    group: Omit<IGroupModel, 'order'>
   ): Observable<void>;
 
   abstract addMatchToGroupInsideTournament(
@@ -65,5 +65,5 @@ export abstract class TournamentAdapter {
     stageId: string,
     groupIndex: number,
     match: IMatchModel
-  ): Observable<void>;
+  ): Observable<IBaseResponse<IFixtureStageModel>>;
 }

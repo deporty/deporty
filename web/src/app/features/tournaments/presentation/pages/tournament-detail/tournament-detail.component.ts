@@ -18,7 +18,6 @@ import { RESOURCES_PERMISSIONS_IT, storage } from 'src/app/init-app';
 import { TournamentAdapter } from '../../../adapters/tournament.adapter';
 import { TournamentsRoutingModule } from '../../../tournaments-routing.module';
 import { CreateGroupUsecase } from '../../../usecases/create-group/create-group.usecase';
-import { EditMatchOfGroupUsecase } from '../../../usecases/edit-match-of-group/edit-match-of-group';
 import { GetFixtureStagesUsecase } from '../../../usecases/get-fixture-stages/get-fixture-stages.usecase';
 import { AddTeamCardComponent } from '../../components/add-team-card/add-team-card.component';
 import { GROUP_LETTERS } from '../../components/components.constants';
@@ -59,7 +58,6 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private teamAdapter: TeamAdapter,
     private createGroupUsecase: CreateGroupUsecase,
-    private editMatchOfGroupUsecase: EditMatchOfGroupUsecase,
     private tournamentService: TournamentAdapter,
     @Inject(RESOURCES_PERMISSIONS_IT) private resourcesPermissions: string[]
   ) {
@@ -199,7 +197,7 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
 
   onAddTeam(data: any) {
     this.stageId = data.stageId;
-    this.currentIndexGroup = data.index;
+    this.currentIndexGroup = data.order;
     this.openAddTeamDialog();
   }
 
@@ -209,7 +207,7 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
       {
         queryParams: {
           match: JSON.stringify(data.match),
-          groupIndex: data.index,
+          groupIndex: data.order,
           stageId: data.stageId,
           tournamentId: this.tournament.id,
         },
@@ -217,25 +215,13 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
       }
     );
 
-    // this.stageId = data.stageId;
-    // this.currentIndexGroup = data.index;
-    // const teams =
-    //   this.fixtureStages
-    //     .filter((x) => {
-    //       return x.id == this.stageId;
-    //     })
-    //     .pop()
-    //     ?.groups.filter((x) => {
-    //       return x.index == this.currentIndexGroup;
-    //     })
-    //     .pop()?.teams || [];
-
-    // this.openEditMatchDialog(teams, data.match);
+  
+    
   }
 
   onAddMatch(data: any) {
     this.stageId = data.stageId;
-    this.currentIndexGroup = data.index;
+    this.currentIndexGroup = data.order;
     const teams =
       this.fixtureStages
         .filter((x) => {
@@ -243,7 +229,7 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
         })
         .pop()
         ?.groups.filter((x) => {
-          return x.index == this.currentIndexGroup;
+          return x.order == this.currentIndexGroup;
         })
         .pop()?.teams || [];
 
@@ -351,7 +337,7 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
           })
           .pop()
           ?.groups.filter((x) => {
-            return x.index == this.currentIndexGroup;
+            return x.order == this.currentIndexGroup;
           })
           .pop();
         if (group) {
@@ -365,7 +351,7 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
             .addMatchToGroupInsideTournament(
               this.tournament.id,
               this.stageId,
-              group.index,
+              group.order,
               match.teamA.id,
               match.teamB.id,
               match.date
@@ -395,16 +381,6 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
               }
             });
 
-          // this.addMatchToGroupUsecase
-          //   .call({
-          //     match,
-          //     groupIndex: group.index,
-          //     stageIndex: this.stageId,
-          //     tournamentId: this.tournament.id,
-          //   })
-          //   .subscribe(() => {
-          //     this.getFixtureStages();
-          //   });
         }
       }
     });
@@ -438,7 +414,7 @@ export class TournamentDetailComponent implements OnInit, OnDestroy {
           })
           .pop()
           ?.groups.filter((x) => {
-            return x.index == this.currentIndexGroup;
+            return x.order == this.currentIndexGroup;
           })
           .pop();
 

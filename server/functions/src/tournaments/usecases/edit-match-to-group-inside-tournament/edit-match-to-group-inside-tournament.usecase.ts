@@ -48,7 +48,7 @@ export class EditMatchToGroupInsideTournamentUsecase extends Usecase<
           stage.pop() as IFixtureStageModel;
 
         const group: IGroupModel[] = currentStage.groups.filter(
-          (g) => g.index === param.groupIndex
+          (g) => g.order === param.groupIndex
         );
 
         if (group.length === 0) {
@@ -57,10 +57,22 @@ export class EditMatchToGroupInsideTournamentUsecase extends Usecase<
 
         const currentGroup: IGroupModel = group.pop() as IGroupModel;
 
-        if (!!currentGroup.matches) {
+        console.log('El current group es ');
+        console.log(currentGroup);
+        
+        
+        if (!currentGroup.matches) {
           currentGroup.matches = [];
         }
 
+
+        console.log('...');
+        console.log(param.match);
+        console.log('...');
+        console.log(currentGroup.matches);
+        
+        console.log('...');
+        
         const exist = existSMatchInList(
           param.match,
           currentGroup.matches as IMatchModel[]
@@ -74,6 +86,15 @@ export class EditMatchToGroupInsideTournamentUsecase extends Usecase<
           );
           (currentGroup.matches as IMatchModel[])[index] = param.match;
         }
+
+
+        console.log();
+        console.log();
+        console.log('Final');
+        console.log(currentGroup.matches);
+        console.log();
+        console.log();
+        
         return this.updateTournamentUsecase.call(tournament).pipe(
           map((t) => {
             return currentStage;

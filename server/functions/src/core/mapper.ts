@@ -25,12 +25,7 @@ export abstract class Mapper<T> {
       } else if (entry[1] instanceof Timestamp) {
         this.mapDateReferences(newObj, entry);
       } else if (Array.isArray(entry[1])) {
-        if (entry[0] == 'team-a') {
-          console.log('Musica clasica');
-          console.log(entry[0]);
-          console.log(entry[1]);
-          console.log();
-        }
+       
         this.mapArrayReferences(entry, populatedAttributes);
       } else if (
         typeof entry[1] === 'number' ||
@@ -66,9 +61,7 @@ export abstract class Mapper<T> {
     populatedAttributes.push(
       this.fromReference(entry[1]).pipe(
         map((value) => {
-          if (entry[0] == 'player') {
-            console.log(value);
-          }
+         
           return {
             attribute: entry[0],
             value,

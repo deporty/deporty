@@ -1,4 +1,7 @@
-import { IStadisticsModel } from '@deporty/entities/tournaments';
+import {
+  IStadisticsModel,
+  IStadisticSpecificationModel,
+} from '@deporty/entities/tournaments';
 import { PlayerMapper } from '../../players/infrastructure/player.mapper';
 
 export class StadisticsMapper {
@@ -15,18 +18,20 @@ export class StadisticsMapper {
         response[teamObj] = [];
 
         for (const playerStadistic of stadistic[teamLabel]) {
-          const tempObj: any = {
+          const tempObj: IStadisticSpecificationModel = {
             player: this.playerMapper.fromJson(playerStadistic.player),
             goals: [],
             totalGoals: playerStadistic['total-goals'] as number,
             redCards: playerStadistic['red-cards'],
             yellowCards: playerStadistic['yellow-cards'],
+            totalYellowCards: playerStadistic['total-yellow-cards'],
+            totalRedCards: playerStadistic['total-red-cards'],
           };
           (response as any)[teamObj].push(tempObj);
           if (!!playerStadistic['goals']) {
             for (const goal of playerStadistic['goals']) {
-              tempObj['goals'].push({
-                kindGoal: goal['kind-goal'] as string,
+              (tempObj as any)['goals'].push({
+                kind: goal['kind'] as string,
                 minute: goal['minute'] as number,
               });
             }
@@ -43,32 +48,36 @@ export class StadisticsMapper {
   toJson(stadistics: IStadisticsModel) {
     let response: any = {};
 
-    function transform(data: any) {
-      let response: any = {};
+    const transform = (data: IStadisticSpecificationModel[]) => {
+      let res: any[] = [];
 
-      for (const id in data) {
-        if (Object.prototype.hasOwnProperty.call(data, id)) {
-          const element = data[id];
+      for (const specification of data) {
+        const temp: any = {
+          goals: [],
+          'red-cards': specification.redCards,
+          'yellow-cards': specification.yellowCards,
+          'total-goals': specification.totalGoals,
+          'total-red-cards': specification.totalRedCards,
+          'total-yellow-cards': specification.totalYellowCards,
+          player: this.playerMapper.toReferenceJson(specification.player),
+        };
 
-          response[id] = {
-            goals: [],
-            'red-cards': element['redCards'],
-            'yellow-cards': element['yellowCards'],
-          };
-
-          for (const goal of element['goals']) {
-            response[id]['goals'].push({
-              'kind-goal': goal['kindGoal'],
-              minute: goal['minute'],
-            });
-          }
+        if (!specification['goals']) {
+          specification['goals'] = [];
         }
+        for (const goal of specification['goals']) {
+          temp['goals'].push({
+            kind: goal.kind,
+            minute: goal.minute,
+          });
+        }
+        res.push(temp);
       }
-      return response;
-    }
+      return res;
+    };
 
-    response['team-a'] = transform(stadistics.teamA || {});
-    response['team-b'] = transform(stadistics.teamB || {});
+    response['team-a'] = transform(stadistics.teamA || []);
+    response['team-b'] = transform(stadistics.teamB || []);
 
     return response;
   }

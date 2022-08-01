@@ -1,10 +1,15 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IPlayerModel } from '@deporty/entities/players';
 import { RESOURCES_PERMISSIONS_IT } from 'src/app/init-app';
-import { IMatchModel } from '@deporty/entities/tournaments';
-import { EditMatchOfGroupUsecase } from '../../../usecases/edit-match-of-group/edit-match-of-group';
+import {
+  IMatchModel,
+  IPlayerFormModel,
+  IStadisticsModel,
+} from '@deporty/entities/tournaments';
+import { TournamentAdapter } from '../../../adapters/tournament.adapter';
 
 @Component({
   selector: 'app-edit-match',
@@ -28,19 +33,20 @@ export class EditMatchComponent implements OnInit {
 
   selectedKindGoal!: string;
 
-  stadistics: any;
+  stadistics: IStadisticsModel;
 
-  playersForm!: any;
-  stageId: any;
-  groupIndex: any;
-  tournamentId: any;
+  playersForm!: IPlayerFormModel;
+  stageId!: string;
+  groupIndex!: number;
+  tournamentId!: string;
 
   status: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private editMatchOfGroupUsecase: EditMatchOfGroupUsecase,
+    private tournamentAdapter: TournamentAdapter,
+    private location: Location,
     @Inject(RESOURCES_PERMISSIONS_IT) private resourcesPermissions: string[]
   ) {
     this.status = '';
@@ -57,7 +63,6 @@ export class EditMatchComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((x) => {
       this.match = JSON.parse(x.match);
-      console.log(this.match, 'OOO');
 
       this.playersForm = this.match.playerForm || this.playersForm;
 
@@ -75,7 +80,6 @@ export class EditMatchComponent implements OnInit {
 
       this.playersB = this.match.teamB.members?.map((x) => x.player) || [];
 
-      const a = this.getDate(this.match.date);
       this.formGroup = new FormGroup({
         date: new FormControl(this.match.date),
         hour: new FormControl(this.getHour(this.match.date)),
@@ -107,15 +111,11 @@ export class EditMatchComponent implements OnInit {
   }
 
   calculateGoals() {
-    function calc(stadistics: any, team: string) {
+    console.log(this.playersForm)
+    function calc(stadistics: IStadisticsModel, team: 'teamA' | 'teamB') {
       let teamAGoals = 0;
-      for (const player in stadistics[team]) {
-        if (Object.prototype.hasOwnProperty.call(stadistics[team], player)) {
-          const element = stadistics[team][player];
-          if ('goals' in element) {
-            teamAGoals += element['goals'].length;
-          }
-        }
+      for (const playerStadistic of stadistics[team] || []) {
+        teamAGoals += playerStadistic.totalGoals || 0;
       }
       return teamAGoals;
     }
@@ -123,10 +123,14 @@ export class EditMatchComponent implements OnInit {
     const teamAGoals = calc(this.stadistics, 'teamA');
     const teamBGoals = calc(this.stadistics, 'teamB');
 
-    if (this.match.score) {
-      this.match.score.teamA = teamAGoals;
-      this.match.score.teamB = teamBGoals;
+    if (!this.match.score) {
+      this.match.score = {
+        teamA: 0,
+        teamB: 0,
+      };
     }
+    this.match.score.teamA = teamAGoals;
+    this.match.score.teamB = teamBGoals;
   }
 
   saveData() {
@@ -136,19 +140,26 @@ export class EditMatchComponent implements OnInit {
     const hour = hourWithMinute.split(':')[0];
     const minute = hourWithMinute.split(':')[1];
     date?.setHours(parseInt(hour), parseInt(minute));
-    console.log({
-      groupIndex: this.groupIndex,
 
-      match: {
-        ...this.match,
-        date,
-        playground: this.formGroup.get('playground')?.value,
-        stadistics: this.stadistics,
-        playerForm: this.playersForm,
-      },
-      stageIndex: this.stageId,
-      tournamentId: this.tournamentId,
-    });
+    this.tournamentAdapter
+      .editMatchOfGroupInsideTournament(
+        this.tournamentId,
+        this.stageId,
+        this.groupIndex,
+        {
+          ...this.match,
+          date,
+          playground: this.formGroup.get('playground')?.value,
+          stadistics: this.stadistics,
+          playerForm: this.playersForm,
+        }
+      )
+      .subscribe((x) => {
+        this.location.back();
+        // this.router. navigate(['..'], {
+        //   relativeTo: this.activatedRoute,
+        // });
+      });
     // this.editMatchOfGroupUsecase
     //   .call({
     //     groupIndex: this.groupIndex,

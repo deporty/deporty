@@ -7,7 +7,7 @@
       >Equipos
       <button
         mat-button
-        (click)="onAddTeam.emit({ index: group.index, stageId: stageId })"
+        (click)="onAddTeam.emit({ order: group.order, stageId: stageId })"
       >
         <mat-icon #addTeam *ngIf="addTeamFlag" color="primary"
           >add_circle</mat-icon
@@ -30,7 +30,7 @@
       >Partidos
       <button
         mat-button
-        (click)="onAddMatch.emit({ index: group.index, stageId: stageId })"
+        (click)="onAddMatch.emit({ order: group.order, stageId: stageId })"
       >
         <mat-icon #addMatch *ngIf="addMatchFlag" color="primary"
           >add_circle</mat-icon
@@ -43,7 +43,7 @@
         *ngFor="let match of group.matches"
         [match]="match"
         [edit-flag]="editMatchFlag"
-        (on-edit-match)="onEditMatch.emit({ index: group.index, stageId: stageId, match: match })"
+        (on-edit-match)="onEditMatch.emit({ order: group.order, stageId: stageId, match: match })"
       >
       </app-match-summary-card>
     </section>

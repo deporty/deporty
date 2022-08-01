@@ -5,7 +5,7 @@ export function existSMatchInList(
   matches: IMatchModel[]
 ): boolean {
   return (
-    matches.filter((m) => {
+    matches.filter((m: IMatchModel) => {
       return (
         (m.teamA.id === match.teamA.id && m.teamB.id === match.teamB.id) ||
         (m.teamA.id === match.teamB.id && m.teamB.id === match.teamA.id)
