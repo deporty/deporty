@@ -75,75 +75,9 @@
       </mat-toolbar>
 
       <mat-tab-group>
-        <mat-tab label="General">
-          <section class="my-5" *ngIf="markersTable && markersTable.length > 0">
-            <div>
-              <h2>Estadísticas</h2>
-            </div>
-            <mat-tab-group mat-align-tabs="center" animationDuration="10ms">
-              <mat-tab label="Goleadores">
-                <mat-card class="mx-2" *ngFor="let row of markersTable">
-                  <div class="row">
-                    <div class="col-9">
-                      <div class="row d-flex align-items-center">
-                        <div class="col-12 col-sm-6 d-flex align-items-center">
-                          <figure>
-                            <img
-                              [src]="'assets/default-player-profile.png'"
-                              alt=""
-                              srcset=""
-                              class="w-100 rounded-circle"
-                            />
-                          </figure>
-                          <span>
-                            {{ row.player.name }} {{ row.player.lastName }}
-                          </span>
-                        </div>
-                        <div class="col-12 col-sm-6 d-flex align-items-center">
-                          <figure>
-                            <img
-                              [src]="row.badge || 'assets/badge-team.png'"
-                              alt=""
-                              srcset=""
-                              class="w-100"
-                            />
-                          </figure>
-                          <span>
-                            {{ row.team }}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
 
-                    <div
-                      class="col-2 text-center flex-column d-flex align-items-center justify-content-center"
-                    >
-                      <span>
-                        <strong class="text-danger display-6">
-                          {{ row.goals }}
-                        </strong>
-                      </span>
-                      <span> Goles </span>
-                    </div>
-                  </div>
-                </mat-card>
-              </mat-tab>
-              <mat-tab label="Valla menos vencida">
-                <div class="d-flex justify-content-center">
-                  <div class="col-8 col-sm-6 col-md-6 col-lg-4 col-xl-3 my-2">
-                    <app-comming-soon> </app-comming-soon>
-                  </div>
-                </div>
-              </mat-tab>
-              <mat-tab label="Tarjetas Amarillas">
-                <div class="d-flex justify-content-center">
-                  <div class="col-8 col-sm-6 col-md-6 col-lg-4 col-xl-3 my-2">
-                    <app-comming-soon> </app-comming-soon>
-                  </div>
-                </div>
-              </mat-tab>
-            </mat-tab-group>
-          </section>
+        <mat-tab label="General">
+         
 
           <section class="my-5" *ngIf="fixtureStages">
             <section *ngFor="let stage of fixtureStages">
@@ -203,6 +137,78 @@
             ></app-no-content>
           </div>
         </mat-tab>
+        <mat-tab label="Estadísticas">
+
+      
+          <mat-tab-group mat-align-tabs="center" animationDuration="10ms">
+            <mat-tab label="Goleadores">
+              <mat-card class="mx-2" *ngFor="let row of markersTable">
+                <div class="row">
+                  <div class="col-9">
+                    <div class="row d-flex align-items-center">
+                      <div class="col-12 col-sm-6 d-flex align-items-center">
+                        <figure>
+                          <img
+                            [src]="'assets/default-player-profile.png'"
+                            alt=""
+                            srcset=""
+                            class="w-100 rounded-circle"
+                          />
+                        </figure>
+                        <span>
+                          {{ row.player.name }} {{ row.player.lastName }}
+                        </span>
+                      </div>
+                      <div class="col-12 col-sm-6 d-flex align-items-center">
+                        <figure>
+                          <img
+                            [src]="row.badge || 'assets/badge-team.png'"
+                            alt=""
+                            srcset=""
+                            class="w-100"
+                          />
+                        </figure>
+                        <span>
+                          {{ row.team }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    class="col-2 text-center flex-column d-flex align-items-center justify-content-center"
+                  >
+                    <span>
+                      <strong class="text-danger display-6">
+                        {{ row.goals }}
+                      </strong>
+                    </span>
+                    <span> Goles </span>
+                  </div>
+                </div>
+              </mat-card>
+            </mat-tab>
+            <mat-tab label="Valla menos vencida">
+              <div class="d-flex justify-content-center">
+                <div class="col-8 col-sm-6 col-md-6 col-lg-4 col-xl-3 my-2">
+                  <app-comming-soon> </app-comming-soon>
+                </div>
+              </div>
+            </mat-tab>
+            <mat-tab label="Tarjetas Amarillas">
+              <div class="d-flex justify-content-center">
+                <div class="col-8 col-sm-6 col-md-6 col-lg-4 col-xl-3 my-2">
+                  <app-comming-soon> </app-comming-soon>
+                </div>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+
+
+
+        </mat-tab>
+
+      
         <mat-tab label="Equipos Registrados">
           <div class="w-100 px-3 h-100 d-flex flex-wrap justify-content-start row pt-3">
             <div

@@ -9,8 +9,8 @@ export const environment = {
   firebaseConfig: {
     apiKey: "AIzaSyCmfXDNcDTHtWgc8DnieEk0MS6KUogR-Rc",
     authDomain: "deporty-app.firebaseapp.com",
-    projectId: "deporty-dev",
-    storageBucket: "deporty-dev.appspot.com",
+    projectId: "deporty-app",
+    storageBucket: "deporty-app.appspot.com",
     messagingSenderId: "861456172435",
     appId: "1:861456172435:web:edaf5251b6866e8fe8d466",
     measurementId: "G-NLEM82Z201"
