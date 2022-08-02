@@ -1,9 +1,10 @@
 :host {
  min-height: 100%;
   display: flex;
+  padding: 0;
+  align-self: center;
   flex-wrap: wrap;
   .players {
-    height: 60%;
   }
 
 }

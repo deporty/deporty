@@ -1,81 +1,87 @@
 <ng-container *ngIf="!!team">
-  <div class=" pt-3 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
-    <app-team-card [team]="team"> </app-team-card>
-  </div>
-
-  <div
-    class="h-100 d-flex flex-column px-3 pt-2 col-12 col-sm-8 col-md-8 col-lg-8 col-xl-10"
-  >
-    <div class="d-flex col-12 mx-3 mt-3 justify-content-between">
-      <h2>Jugadores</h2>
-    </div>
-
-    <div
-      appIsAllowed
-      identifier="teams:add-player-to-team:ui"
-      class="d-flex col-12"
+  <div class="row mt-3 w-100 d-flex justify-content-center">
+    <app-team-card
+      class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3"
+      [team]="team"
     >
-      <app-items-filter
-        (on-filter)="onChangeForm($event)"
-        [items]="availablePlayers"
-        [filters]="filters"
-      ></app-items-filter>
-    </div>
+    </app-team-card>
 
-    <div
-      appIsAllowed
-      identifier="teams:add-player-to-team:ui"
-      class="d-flex w-100 mb-3"
-    >
-      <div class="py-3 px-2 col-xl-10 col-lg-10 col-md-10 col-sm-10 col-10">
-        <mat-form-field
-          class="w-100 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
-          appearance="fill"
-        >
-          <mat-label>Miembro</mat-label>
-          <input
-            type="text"
-            placeholder="Pick one"
-            aria-label="Number"
-            matInput
-            [formControl]="membersFormControl"
-            [matAutocomplete]="auto"
-          />
-          <br />
-          <mat-autocomplete class="my-3 col-4" #auto="matAutocomplete">
-            <mat-option
-              *ngFor="let player of filteredPlayers"
-              [value]="player.name + ' ' + player.lastName"
-              (click)="optionSelected(player)"
-            >
-              <app-player-summary-card [player]="player">
-              </app-player-summary-card>
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-
-        <mat-chip-list aria-label="Fish selection">
-          <mat-chip
-            *ngFor="let player of selectedPlayers"
-            (click)="remove(player)"
-            >{{ player.name + " " + player.lastName }}
-          </mat-chip>
-        </mat-chip-list>
+    <div class="pt-3 col-12 col-sm-12 col-md-8 col-lg-8 col-xl-9">
+      <div class="d-flex col-12 mx-3 mt-3 justify-content-between">
+        <h2>Jugadores</h2>
       </div>
 
       <div
-        class="justify-content-center d-flex py-3 col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2"
+        appIsAllowed
+        identifier="teams:add-player-to-team:ui"
+        class="d-flex col-12"
       >
-        <button (click)="addPlayers()" mat-raised-button color="primary">
-          <mat-icon> add </mat-icon>
-        </button>
+        <app-items-filter
+          (on-filter)="onChangeForm($event)"
+          [items]="availablePlayers"
+          [filters]="filters"
+        ></app-items-filter>
+      </div>
+
+      <div
+        appIsAllowed
+        identifier="teams:add-player-to-team:ui"
+        class="d-flex w-100 mb-3"
+      >
+        <div class="py-3 px-2 col-xl-10 col-lg-10 col-md-10 col-sm-10 col-10">
+          <mat-form-field
+            class="w-100 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
+            appearance="fill"
+          >
+            <mat-label>Miembro</mat-label>
+            <input
+              type="text"
+              placeholder="Pick one"
+              aria-label="Number"
+              matInput
+              [formControl]="membersFormControl"
+              [matAutocomplete]="auto"
+            />
+            <br />
+            <mat-autocomplete class="my-3 col-4" #auto="matAutocomplete">
+              <mat-option
+                *ngFor="let player of filteredPlayers"
+                [value]="player.name + ' ' + player.lastName"
+                (click)="optionSelected(player)"
+              >
+                <app-player-summary-card [player]="player">
+                </app-player-summary-card>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-chip-list aria-label="Fish selection">
+            <mat-chip
+              *ngFor="let player of selectedPlayers"
+              (click)="remove(player)"
+              >{{ player.name + " " + player.lastName }}
+            </mat-chip>
+          </mat-chip-list>
+        </div>
+
+        <div
+          class="justify-content-center d-flex py-3 col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2"
+        >
+          <button (click)="addPlayers()" mat-raised-button color="primary">
+            <mat-icon> add </mat-icon>
+          </button>
+        </div>
       </div>
     </div>
-
-    <div *ngIf="team.members && !!team.members.length" class="players">
-      <app-players-summary-list
-        [players]="ownPlayers"
-      ></app-players-summary-list>
+  </div>
+  <div class="row mb-5 pb-2 w-100">
+    <div class="h-100 d-flex flex-column px-3 pt-2 col-12">
+      <div *ngIf="team.members && !!team.members.length" class="players">
+        <app-players-summary-list
+          [players]="ownPlayers"
+        ></app-players-summary-list>
+      </div>
     </div>
   </div>
+
 </ng-container>
