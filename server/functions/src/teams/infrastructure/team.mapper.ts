@@ -75,7 +75,7 @@ export class TeamMapper extends Mapper<ITeamModel> {
     const $members = !!team.members
       ? team.members.map((member) => {
           return {
-            initDate: member.initDate,
+            'init-date': member.initDate,
             role: member.role,
             player: this.db
               .collection(PLAYER_ENTITY)

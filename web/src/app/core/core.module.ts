@@ -16,29 +16,39 @@ import { DefaultLoadingComponent } from './presentation/components/default-loadi
 import { CommingSoonComponent } from './presentation/components/comming-soon/comming-soon.component';
 import { ModalComponent } from './presentation/components/modal/modal.component';
 import { NoContentComponent } from './presentation/components/no-content/no-content.component';
+import { ItemsFilterComponent } from './presentation/components/items-filter/items-filter.component';
 
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatInputModule } from '@angular/material/input';
+
+const COMPONENTS = [
+  UploadFileComponent,
+  TimestampPipe,
+  BreadcrumbComponent,
+  LoggedInContainerComponent,
+  DefaultLoadingComponent,
+  CommingSoonComponent,
+  ModalComponent,
+  NoContentComponent,
+  ItemsFilterComponent,
+];
 @NgModule({
-  declarations: [
-    UploadFileComponent,
-    TimestampPipe,
-    BreadcrumbComponent,
-    LoggedInContainerComponent,
-    DefaultLoadingComponent,
-    CommingSoonComponent,
-    ModalComponent,
-    NoContentComponent,
-  ],
-  imports: [CommonModule, MatButtonModule, DirectivesModule],
-  exports: [
-    UploadFileComponent,
-    TimestampPipe,
-    BreadcrumbComponent,
+  declarations: [...COMPONENTS],
+  imports: [
+    CommonModule,
+    MatButtonModule,
     DirectivesModule,
-    DefaultLoadingComponent,
-    CommingSoonComponent,
-    ModalComponent,
-    NoContentComponent
+    MatIconModule,
+    MatFormFieldModule,
+    FormsModule,
+    MatInputModule,
+    MatExpansionModule,
+    ReactiveFormsModule
   ],
+  exports: [...COMPONENTS],
   providers: [
     TokenService,
     IsLoggedInGuard,

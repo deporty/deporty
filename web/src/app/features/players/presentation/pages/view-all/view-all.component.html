@@ -14,33 +14,9 @@
     </button>
   </section>
   <section *ngIf="players && players.length > 0" class="col-12">
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title> Filtros </mat-panel-title>
-      </mat-expansion-panel-header>
 
-      <form [formGroup]="formGroup">
-        <div class="row">
-          <mat-form-field class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
-            <mat-label>Nombre</mat-label>
-            <mat-icon matSuffix>person</mat-icon>
-            <input matInput (input)="onChangeForm()" formControlName="name" />
-          </mat-form-field>
+    <app-items-filter (on-filter)="onChangeForm($event)" [items]="players" [filters]="filters" ></app-items-filter>
 
-          <mat-form-field class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
-            <mat-label>Apellidos</mat-label>
-            <mat-icon matSuffix>short_text</mat-icon>
-            <input matInput (input)="onChangeForm()" formControlName="lastName" />
-          </mat-form-field>
-
-          <mat-form-field class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
-            <mat-label>Cédula</mat-label>
-            <mat-icon matSuffix>fingerprint</mat-icon>
-            <input matInput (input)="onChangeForm()" formControlName="document" />
-          </mat-form-field>
-        </div>
-      </form>
-    </mat-expansion-panel>
   </section>
 </header>
 

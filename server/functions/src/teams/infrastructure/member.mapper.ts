@@ -29,9 +29,7 @@ export class MemberMapper extends Mapper<IMemberModel> {
     return {
       role: obj['role'],
 
-      initDate: !!obj['init-date']
-        ? getDateFromSeconds(parseInt(obj['init-date']['_seconds']))
-        : undefined,
+      initDate: obj['init-date'],
       retirementDate: !!obj['retirement-date']
         ? getDateFromSeconds(parseInt(obj['retirement-date']['_seconds']))
         : undefined,

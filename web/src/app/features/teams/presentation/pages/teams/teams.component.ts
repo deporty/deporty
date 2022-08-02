@@ -7,6 +7,7 @@ import { RESOURCES_PERMISSIONS_IT } from 'src/app/init-app';
 import { TeamAdapter } from '../../../adapters/team.adapter';
 import { ITeamModel } from '@deporty/entities/teams';
 import { DeleteTeamUsecase } from '../../../usecases/delete-team/delete-team.usecase';
+import { ItemsFilter } from 'src/app/core/presentation/components/items-filter/items-filter.component';
 
 @Component({
   selector: 'app-teams',
@@ -19,6 +20,8 @@ export class TeamsComponent implements OnInit {
   routes: any;
   $teams!: Observable<IBaseResponse<ITeamModel[]>>;
   teams: ITeamModel[];
+  filteredTeams: ITeamModel[];
+  filters: ItemsFilter[];
   constructor(
     private teamAdapter: TeamAdapter,
     private deleteTeamUsecase: DeleteTeamUsecase,
@@ -27,6 +30,13 @@ export class TeamsComponent implements OnInit {
     @Inject(RESOURCES_PERMISSIONS_IT) private resourcesPermissions: string[]
   ) {
     this.teams = [];
+    this.filteredTeams = [];
+    this.filters = [
+      {
+        display: 'Nombre',
+        property: 'name',
+      },
+    ];
     this.routes = {
       zoom_in: (team: ITeamModel) => {
         this.router.navigate(['./team', team.id], {
@@ -46,6 +56,9 @@ export class TeamsComponent implements OnInit {
 
     this.options = Object.keys(this.routes);
   }
+  onChangeForm(data: ITeamModel[]) {
+    this.filteredTeams = data;
+  }
 
   isAllowedToDeleteTeam() {
     const identifier = 'tournaments:delete-team:ui';
@@ -55,6 +68,7 @@ export class TeamsComponent implements OnInit {
     this.$teams = this.teamAdapter.getTeams();
     this.$teams.subscribe((x) => {
       this.teams = x.data;
+      this.filteredTeams = this.teams;
     });
   }
 

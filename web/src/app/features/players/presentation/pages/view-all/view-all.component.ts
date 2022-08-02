@@ -6,6 +6,7 @@ import { IBaseResponse } from '@deporty/entities/general';
 import { IPlayerModel } from '@deporty/entities/players';
 import { Observable, Subscription } from 'rxjs';
 import { hasPermission } from 'src/app/core/helpers/permission.helper';
+import { ItemsFilter } from 'src/app/core/presentation/components/items-filter/items-filter.component';
 import { RESOURCES_PERMISSIONS_IT } from 'src/app/init-app';
 import { PlayerAdapter } from '../../../player.repository';
 import { PlayerCardComponent } from '../../components/player-card/player-card.component';
@@ -27,6 +28,8 @@ export class ViewAllComponent implements OnInit {
   filterPlayers: IPlayerModel[];
   actions: any[];
 
+  filters: ItemsFilter[];
+
   constructor(
     private playerService: PlayerAdapter,
     private router: Router,
@@ -34,6 +37,23 @@ export class ViewAllComponent implements OnInit {
     public dialog: MatDialog,
     @Inject(RESOURCES_PERMISSIONS_IT) private resourcesPermissions: string[]
   ) {
+    this.filters = [
+      {
+        display: 'Nombre',
+        property: 'name',
+        icon: 'person'
+      },
+      {
+        display: 'Apellidos',
+        property: 'lastName',
+        icon: 'short_text'
+      },
+      {
+        display: 'Cédula',
+        property: 'document',
+        icon: 'fingerprint'
+      },
+    ];
     this.players = [];
     this.actions = [];
     this.filterPlayers = [];
@@ -83,33 +103,7 @@ export class ViewAllComponent implements OnInit {
       maxWidth: '500px',
     });
   }
-  onChangeForm() {
-    const value = this.formGroup.value;
-
-    this.filterPlayers = [...this.players];
-
-    if (!!value['name']) {
-      this.filterPlayers = this.players.filter((item) => {
-        return item.name.toUpperCase().includes(value['name'].toUpperCase());
-      });
-    }
-
-    if (!!value['lastName']) {
-      this.filterPlayers = this.filterPlayers.filter((item) => {
-        return item.lastName
-          .toUpperCase()
-          .includes(value['lastName'].toUpperCase());
-      });
-    }
-
-    if (!!value['document']) {
-      this.filterPlayers = this.filterPlayers.filter((item) => {
-        return item.document
-          ? item.document
-              .toUpperCase()
-              .includes(value['document'].toUpperCase())
-          : false;
-      });
-    }
+  onChangeForm(dataFiltered: IPlayerModel[]) {
+    this.filterPlayers = dataFiltered;
   }
 }

@@ -3,7 +3,7 @@ const http = require("https");
 const querystring = require("querystring");
 
 const playersData = "players.json";
-const apiUrl = "us-central1-deporty-dev.cloudfunctions.net";
+const apiUrl = "us-central1-deporty-app.cloudfunctions.net";
 
 const players = JSON.parse(fs.readFileSync(playersData));
 
@@ -22,6 +22,7 @@ const options = {
 
 for (const player of players) {
   upload(player);
+  break
 }
 Promise.all(promises).then(() => {
   fs.writeFileSync("players-status.json", JSON.stringify(results, null, 2));
@@ -52,7 +53,7 @@ function upload(player) {
         });
       });
 
-      req.write(JSON.stringify(player));
+      req.write(JSON.stringify(player.player));
       req.end();
     })
   );

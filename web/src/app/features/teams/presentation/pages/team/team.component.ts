@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 import { TeamAdapter } from '../../../adapters/team.adapter';
 import { ITeamModel } from '@deporty/entities/teams';
 import { AddPlayerToTeamUsecase } from '../../../usecases/add-player-to-team/add-player-to-team';
+import { ItemsFilter } from 'src/app/core/presentation/components/items-filter/items-filter.component';
 
 @Component({
   selector: 'app-team',
@@ -17,6 +18,7 @@ import { AddPlayerToTeamUsecase } from '../../../usecases/add-player-to-team/add
 })
 export class TeamComponent implements OnInit {
   static route = 'team';
+
   selectedMember: any;
 
   selectedPlayers: IPlayerModel[];
@@ -29,6 +31,11 @@ export class TeamComponent implements OnInit {
   availablePlayers: IPlayerModel[];
 
   ownPlayers!: IPlayerModel[];
+
+  filters: ItemsFilter[];
+
+  filteredPlayers: IPlayerModel[];
+
   constructor(
     private activatedRoute: ActivatedRoute,
 
@@ -38,7 +45,30 @@ export class TeamComponent implements OnInit {
   ) {
     this.membersFormControl = new FormControl();
     this.selectedPlayers = [];
+    this.filteredPlayers = [];
     this.availablePlayers = [];
+
+    this.filters = [
+      {
+        display: 'Nombre',
+        property: 'name',
+        icon: 'person',
+      },
+      {
+        display: 'Apellidos',
+        property: 'lastName',
+        icon: 'short_text',
+      },
+      {
+        display: 'Cédula',
+        property: 'document',
+        icon: 'fingerprint',
+      },
+    ];
+  }
+
+  onChangeForm(dataFiltered: IPlayerModel[]) {
+    this.filteredPlayers = dataFiltered;
   }
 
   ngOnInit(): void {
@@ -51,6 +81,7 @@ export class TeamComponent implements OnInit {
 
     this.playerService.getAllSummaryPlayers().subscribe((p) => {
       this.availablePlayers = p.data;
+      this.filteredPlayers = this.availablePlayers;
     });
 
     if (environment.analytics) {
@@ -72,6 +103,7 @@ export class TeamComponent implements OnInit {
         .subscribe((data) => {
           if (data.meta.code == 'TEAM-PLAYER-ASSIGNED:SUCCESS') {
             this.team.members?.push(data.data);
+            this.ownPlayers = this.team.members?.map((x) => x.player) || [];
           }
         });
     }

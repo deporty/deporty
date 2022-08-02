@@ -58,6 +58,16 @@ const extractDateOdBirth = (player) => {
   return "";
 };
 
+const extractInitDate = (player) => {
+  const date = player[3];
+  if (date) {
+    const today = moment("01-01-1900", "DD-MM-YYYY");
+    const bornDate = today.add(date - 2, "days");
+    return bornDate.valueOf() / 1000;
+  }
+  return "";
+};
+
 const PLAYERS_SHEET = getSheet(BOOK, "JUGADORES");
 for (let row = 1; row < PLAYERS_SHEET.length; row++) {
   const player = PLAYERS_SHEET[row];
@@ -65,19 +75,20 @@ for (let row = 1; row < PLAYERS_SHEET.length; row++) {
   const name = extractName(player);
   const team = extractTeam(player);
   const dateOfBirth = extractDateOdBirth(player);
+  const initDate = extractInitDate(player);
 
-
-  const formattedPlayer = {
+  let formattedPlayer = {
     ...name,
     document: id,
     alias: "",
     number: "",
-    role: "",
     image: "",
     email: "",
     phone: "",
     "date-of-birth": dateOfBirth,
   };
+  formattedPlayer = { player: formattedPlayer, initDate: initDate, role: "" };
+
   PLAYERS.push(formattedPlayer);
   if (team) {
     const index = Object.keys(TEAMS).indexOf(team);
