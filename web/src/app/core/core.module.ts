@@ -46,9 +46,9 @@ const COMPONENTS = [
     FormsModule,
     MatInputModule,
     MatExpansionModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  exports: [...COMPONENTS],
+  exports: [...COMPONENTS, DirectivesModule],
   providers: [
     TokenService,
     IsLoggedInGuard,

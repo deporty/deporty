@@ -1,5 +1,5 @@
 <ng-container *ngIf="!!team">
-  <div class="h-100 pt-3 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
+  <div class=" pt-3 col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
     <app-team-card [team]="team"> </app-team-card>
   </div>
 
@@ -25,9 +25,9 @@
     <div
       appIsAllowed
       identifier="teams:add-player-to-team:ui"
-      class="d-flex col-12 mb-3"
+      class="d-flex w-100 mb-3"
     >
-      <div class="py-3 px-2 col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12">
+      <div class="py-3 px-2 col-xl-10 col-lg-10 col-md-10 col-sm-10 col-10">
         <mat-form-field
           class="w-100 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
           appearance="fill"
@@ -64,7 +64,7 @@
       </div>
 
       <div
-        class="justify-content-center d-flex py-3 col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12"
+        class="justify-content-center d-flex py-3 col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2"
       >
         <button (click)="addPlayers()" mat-raised-button color="primary">
           <mat-icon> add </mat-icon>

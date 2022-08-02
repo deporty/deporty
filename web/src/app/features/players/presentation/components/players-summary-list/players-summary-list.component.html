@@ -23,7 +23,7 @@
   class="border col-6 col-sm-7 col-md-8 col-lg-7 col-xl-8 d-flex justify-content-center align-items-center"
   *ngIf="selectedPlayer; else notSelected"
 >
-  <app-player-card class="w-50" [player]="selectedPlayer"> </app-player-card>
+  <app-player-card  class=" col-12 " [player]="selectedPlayer"> </app-player-card>
 </section>
 <ng-template #notSelected>
   <div

@@ -42,7 +42,7 @@
     height: $header-height;
   }
   .app-container {
-    height: calc(100% - #{$header-height});
+    min-height: calc(100% - #{$header-height});
     width: 100%;
 
     overflow-x: hidden;
