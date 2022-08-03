@@ -5,7 +5,7 @@ import {
   IMatchModel,
   ITournamentModel
 } from '@deporty/entities/tournaments';
-import { Observable, of, zip } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { DataSource, DataSourceFilter } from '../../../core/datasource';
 import { TournamentContract } from '../../tournament.contract';
