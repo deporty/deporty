@@ -8,9 +8,10 @@
       class="iso"
     />
     <div
+    *ngIf="!!user"
       class="w-100 subheader border-bottom d-flex align-items-center justify-content-center"
     >
-      <small class="align-text-bottom" *ngIf="user">{{ user.email }}</small>
+      <small class="align-text-bottom" >{{ user.email }}</small>
     </div>
 
     <mat-list class="menu" role="list">
@@ -42,6 +43,7 @@
       color="primary"
       class="menu-footer app-item align-text-center border-top d-flex pl-3 pl-md-3 pl-lg-3"
       (click)="closeSession()"
+      *ngIf="!!user"
     >
       <div> Cerrar Sesión </div>
     </section>

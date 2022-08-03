@@ -26,16 +26,16 @@ export class TournamentRepository extends TournamentContract {
     this.dataSource.entity = TournamentRepository.entity;
 
     return this.dataSource.getByFilter([]).pipe(
-      map((docs) => {
-        const response = docs.map((x) => {
-          return this.getByIdPopulate(x.id);
-        });
-        return !!response && response.length > 0 ? zip(...response) : of([]);
-      }),
-      mergeMap((x) => x),
-      map((docs) => {
-        return docs as ITournamentModel[];
-      })
+      // map((docs) => {
+      //   const response = docs.map((x) => {
+      //     return this.getByIdPopulate(x.id);
+      //   });
+      //   return !!response && response.length > 0 ? zip(...response) : of([]);
+      // }),
+      // mergeMap((x) => x),
+      // map((docs) => {
+      //   return docs as ITournamentModel[];
+      // })
     );
   }
   getById(id: string): Observable<ITournamentModel | undefined> {
