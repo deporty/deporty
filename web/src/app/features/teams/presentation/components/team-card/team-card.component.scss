@@ -1,6 +1,9 @@
 :host {
   mat-card-title {
-    // font-size: 12px;
+    @media screen and (max-width: 576px) {
+      font-size: 15px;
+      height: 40px;
+    }
   }
   mat-card-subtitle {
     font-size: 10px;
